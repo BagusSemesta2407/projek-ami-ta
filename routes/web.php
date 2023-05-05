@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryUnitController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,6 +15,36 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+
+Route::group(['middleware' => 'prevent-back-history'],function()
+{
+    Route::get('/', function()
+    {
+        return view('auth.login');
+    });
+    
+    Auth::routes();
+    Route::middleware('role:superadmin')->get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
+    // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+
+    Route::middleware('auth')->group(function()
+    {
+        Route::group(
+            [
+                'as'    =>  'admin.',
+                'prefix'=>  'admin'
+            ],
+
+            function() {
+                Route::resource('category-unit', CategoryUnitController::class);
+            }
+        );
+    });
 });
+
+// Route::get('/', function () {
+//     return view('layouts.base');
+// });
+
+
