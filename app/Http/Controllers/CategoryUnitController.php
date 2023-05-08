@@ -12,9 +12,12 @@ class CategoryUnitController extends Controller
      */
     public function index()
     {
-        $categoryUnit=CategoryUnit::all();
-        return view('admin.categoryUnit.index',[
-            'categoryUnit'  =>  $categoryUnit
+        $title = 'Unit Kerja';
+
+        $categoryUnit = CategoryUnit::all();
+        return view('admin.categoryUnit.index', [
+            'categoryUnit'  =>  $categoryUnit,
+            'title'     =>  $title,
         ]);
     }
 
@@ -23,7 +26,11 @@ class CategoryUnitController extends Controller
      */
     public function create()
     {
-        return view('admin.categoryUnit.index');
+        $title = 'Form Data Unit Kerja';
+        return view('admin.categoryUnit.form', [
+            'title' =>  $title,
+
+        ]);
     }
 
     /**
@@ -35,9 +42,8 @@ class CategoryUnitController extends Controller
             'name'  => $request->name,
         ]);
 
-        return dd($request->all());
-
-        return redirect()->route('admin.category-unit.index')->with('succes','Data Berhasil Ditambahkan');
+        // return dd($request->all());
+        return redirect()->route('admin.category-unit.index')->with('success', 'Data Berhasil Ditambahkan!');
     }
 
     /**
@@ -51,24 +57,41 @@ class CategoryUnitController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(CategoryUnit $categoryUnit)
+    public function edit($id)
     {
-        //
+        $title = 'Form Data Unit Kerja';
+        $categoryUnit = CategoryUnit::find($id);
+
+        return view('admin.categoryUnit.form', [
+            'categoryUnit'  => $categoryUnit,
+            'title'     =>  $title
+        ]);
+
+        // return response()->json($categoryUnit);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CategoryUnit $categoryUnit)
+    public function update(Request $request, $id)
     {
-        //
+        $data = [
+            'name' => $request->name,
+        ];
+
+        CategoryUnit::where('id', $id)->update($data);
+
+        return redirect()->route('admin.category-unit.index')->with('success', 'Data Berhasil Diubah!');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CategoryUnit $categoryUnit)
+    public function destroy($id)
     {
-        //
+        $categoryUnit=CategoryUnit::find($id);
+
+        $categoryUnit->delete();
+        return response()->json(['status'   =>  'Data Berhasil Diubah']);
     }
 }

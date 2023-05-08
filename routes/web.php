@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryUnitController;
+use App\Http\Controllers\InstrumentController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -38,6 +39,7 @@ Route::group(['middleware' => 'prevent-back-history'],function()
 
             function() {
                 Route::resource('category-unit', CategoryUnitController::class);
+                Route::resource('instrument', InstrumentController::class);
             }
         );
     });

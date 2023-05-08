@@ -27,6 +27,13 @@
             </ul>
         </li>
 
+        <li class="sidebar-item {{ request()->is('admin/instrument*') ? 'active' : '' }} ">
+            <a href="{{ route('admin.instrument.index') }}" class='sidebar-link'>
+                <i class="bi bi-ui-checks"></i>
+                <span>Instrument</span>
+            </a>
+        </li>
+
         <li class="sidebar-item  has-sub">
             <a href="#" class='sidebar-link'>
                 <i class="bi bi-collection-fill"></i>

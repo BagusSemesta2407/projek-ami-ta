@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class CategoryUnit extends Model
+class Instrument extends Model
 {
     use HasFactory;
 
@@ -13,7 +13,7 @@ class CategoryUnit extends Model
         'id'
     ];
 
-    public function instrument(){
-        return $this->hasMany(Instrument::class);
+    public function categotyUnit(){
+        return $this->belongsTo(CategoryUnit::class);
     }
 }
