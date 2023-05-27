@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Auditee;
-use App\Models\Auditor;
 use App\Models\CategoryUnit;
 use App\Models\DataInstrument;
 use App\Models\Instrument;
@@ -18,14 +16,13 @@ class DataInstrumentController extends Controller
     public function index()
     {
         $title = 'Data Instrument';
-        $dataInstrument=DataInstrument::with(['auditor','auditee','categoryUnit'])->get();
+        $dataInstrument = DataInstrument::with(['auditor', 'auditee', 'categoryUnit'])->get();
 
-        return view('admin.instrumentData.index',[
-            'title' =>  $title,
-            'dataInstrument'    =>  $dataInstrument
-        ]);  
+        return view('admin.instrumentData.index', [
+            'title' => $title,
+            'dataInstrument' => $dataInstrument,
+        ]);
     }
-
 
     /**
      * Show the form for creating a new resource.
@@ -34,18 +31,18 @@ class DataInstrumentController extends Controller
     {
         $title = 'Form Tambah Data Instrument';
 
-        $userAuditor=User::whereHas('roles', function($q){
+        $userAuditor = User::whereHas('roles', function ($q) {
             $q->whereIn('name', ['auditor']);
         })
-        ->get();
+            ->get();
 
-        $userAuditee=User::whereHas('roles', function($q){
+        $userAuditee = User::whereHas('roles', function ($q) {
             $q->whereIn('name', ['auditee']);
         })->get();
 
-        $categoryUnit=CategoryUnit::all();
+        $categoryUnit = CategoryUnit::all();
 
-        $instrument =Instrument::all();
+        $instrument = Instrument::all();
 
         // $filter = (object) [
         //     'category_unit_id' => $categoryUnit,
@@ -53,12 +50,12 @@ class DataInstrumentController extends Controller
 
         // $instrument = Instrument::filter($filter);
 
-        return view('admin.instrumentData.form',[
-            'title' =>$title,
-            'categoryUnit'  =>  $categoryUnit,
-            'userAuditor'   =>  $userAuditor,
-            'userAuditee'   =>  $userAuditee,
-            'instrument'    =>  $instrument
+        return view('admin.instrumentData.form', [
+            'title' => $title,
+            'categoryUnit' => $categoryUnit,
+            'userAuditor' => $userAuditor,
+            'userAuditee' => $userAuditee,
+            'instrument' => $instrument,
         ]);
     }
 
@@ -69,15 +66,15 @@ class DataInstrumentController extends Controller
     {
 
         DataInstrument::create([
-            'auditor_id'    =>  $request->auditor_id,
-            'auditee_id'    =>  $request->auditee_id,
-            'category_unit_id'  => $request->category_unit_id,
-            'status'    =>  'Menunggu Validasi',
-            'year'      =>  $request->year
+            'auditor_id' => $request->auditor_id,
+            'auditee_id' => $request->auditee_id,
+            'category_unit_id' => $request->category_unit_id,
+            'status' => 'Menunggu Validasi',
+            'year' => $request->year,
         ]);
 
         return redirect()->route('admin.data-instruments.index');
-        
+
     }
 
     /**

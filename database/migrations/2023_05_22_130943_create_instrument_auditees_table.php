@@ -14,13 +14,13 @@ return new class extends Migration
         Schema::create('instrument_auditees', function (Blueprint $table) {
             $table->id();
             $table->foreignId('instrument_id')->nullable()
-            ->constrained()
-            ->cascadeOnDelete()
-            ->cascadeOnUpdate();
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->foreignId('data_instrument_id')->nullable()
-            ->constrained()
-            ->cascadeOnDelete()
-            ->cascadeOnUpdate();
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->enum('answer', ['ya', 'tidak'])->comment('jawaban dari auditee')->nullable();
             $table->string('reason')->comment('alasan')->nullable();
             $table->string('proof')->comment('bukti')->nullable();

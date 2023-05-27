@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Requests\UserRequest;
 use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
@@ -19,10 +17,10 @@ class UserController extends Controller
         $title = 'User';
 
         $user = User::all();
-        
-        return view('admin.user.index',[
-            'title'  =>  $title,
-            'user'    =>    $user,
+
+        return view('admin.user.index', [
+            'title' => $title,
+            'user' => $user,
         ]);
     }
 
@@ -34,9 +32,9 @@ class UserController extends Controller
         $title = 'Form Tambah User';
         $roles = Role::all();
 
-        return view('admin.user.form',[
+        return view('admin.user.form', [
             'title' => $title,
-            'roles'  =>  $roles
+            'roles' => $roles,
         ]);
     }
 
@@ -47,10 +45,10 @@ class UserController extends Controller
     {
         $roles = Role::findOrFail($request->roles);
 
-        $user=User::create([
-            'name'  =>  $request->name,
+        $user = User::create([
+            'name' => $request->name,
             'email' => $request->email,
-            'password'  =>  bcrypt('12345678')
+            'password' => bcrypt('12345678'),
         ]);
 
         $user->assignRole($roles);
@@ -73,12 +71,12 @@ class UserController extends Controller
     {
         $title = 'Form Edit User';
         $user = User::find($id);
-        $roles=Role::oldest('name')->get();
+        $roles = Role::oldest('name')->get();
 
-        return view('admin.user.form',[
-            'user'  =>  $user,
-            'title' =>  $title,
-            'roles' =>  $roles
+        return view('admin.user.form', [
+            'user' => $user,
+            'title' => $title,
+            'roles' => $roles,
         ]);
     }
 
@@ -90,7 +88,7 @@ class UserController extends Controller
         $roles = Role::findOrFail($request->roles);
 
         $data = [
-            'name'  => $request->name,
+            'name' => $request->name,
             'email' => $request->email,
         ];
 

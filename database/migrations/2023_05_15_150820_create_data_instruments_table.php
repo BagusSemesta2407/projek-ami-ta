@@ -14,20 +14,20 @@ return new class extends Migration
         Schema::create('data_instruments', function (Blueprint $table) {
             $table->id();
             $table->foreignId('auditor_id')
-            ->nullable()
-            ->constrained("users")
-            ->cascadeOnDelete()
-            ->cascadeOnUpdate();
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->foreignId('auditee_id')
-            ->nullable()
-            ->constrained("users")
-            ->cascadeOnDelete()
-            ->cascadeOnUpdate();
+                ->nullable()
+                ->constrained('users')
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->foreignId('category_unit_id')
-            ->nullable()
-            ->constrained()
-            ->cascadeOnDelete()
-            ->cascadeOnUpdate();
+                ->nullable()
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
             $table->enum('status', ['Menunggu Validasi', 'Mendapat Jawaban', 'Sudah Divalidasi Auditor']);
             $table->year('year')->nullable();
             $table->timestamps();

@@ -16,9 +16,9 @@ class AuditorController extends Controller
         $title = 'Auditor';
         $user = User::role('auditor')->get();
 
-        return view('admin.auditor.index',[
-            'user'  =>$user,
-            'title' =>  $title,
+        return view('admin.auditor.index', [
+            'user' => $user,
+            'title' => $title,
         ]);
     }
 

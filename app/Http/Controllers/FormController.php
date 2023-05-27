@@ -15,9 +15,10 @@ class FormController extends Controller
     {
         $title = 'Master Data From';
         $form = Instrument::all();
-        return view('admin.form.index',[
-            'title' =>  $title,
-            'form'  =>  $form
+
+        return view('admin.form.index', [
+            'title' => $title,
+            'form' => $form,
         ]);
     }
 
@@ -27,10 +28,11 @@ class FormController extends Controller
     public function create()
     {
         $title = 'Pertanyaan';
-        $categoryUnit=CategoryUnit::all();
-        return view('admin.form.form',[
-            'categoryUnit'  =>  $categoryUnit,
-            'title'          =>  $title
+        $categoryUnit = CategoryUnit::all();
+
+        return view('admin.form.form', [
+            'categoryUnit' => $categoryUnit,
+            'title' => $title,
         ]);
     }
 
@@ -40,9 +42,9 @@ class FormController extends Controller
     public function store(Request $request)
     {
         Instrument::create([
-            'category_unit_id'  =>  $request->category_unit_id,
-            'name'  =>  $request->name,
-            'status_standar'    =>  $request->status_standar
+            'category_unit_id' => $request->category_unit_id,
+            'name' => $request->name,
+            'status_standar' => $request->status_standar,
         ]);
 
         return redirect()->route('admin.form.index');
@@ -61,10 +63,10 @@ class FormController extends Controller
      */
     public function edit(Instrument $instrument, $id)
     {
-        $form=Instrument::find($id);
+        $form = Instrument::find($id);
 
-        return view('admin.form.form',[
-            'form'  =>  $form
+        return view('admin.form.form', [
+            'form' => $form,
         ]);
     }
 
@@ -74,9 +76,9 @@ class FormController extends Controller
     public function update(Request $request, $id)
     {
         $data = [
-            'category_unit_id'  =>  $request->category_unit_id,
-            'name'  =>  $request->name,
-            'status_standar'    =>  $request->status_standar
+            'category_unit_id' => $request->category_unit_id,
+            'name' => $request->name,
+            'status_standar' => $request->status_standar,
         ];
 
         Instrument::where('id', $id)->update($data);

@@ -6,11 +6,9 @@ use App\Http\Requests\InstrumentRequest;
 use App\Models\CategoryUnit;
 use App\Models\Instrument;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Collection;
 
 class InstrumentController extends Controller
 {
-    
     /**
      * Display a listing of the resource.
      */
@@ -18,9 +16,10 @@ class InstrumentController extends Controller
     {
         $title = 'Instrument';
         $instrument = Instrument::with(['categoryUnit'])->get();
-        return view('admin.instrument.index',[
-            'title' =>  $title,
-            'instrument'  =>  $instrument
+
+        return view('admin.instrument.index', [
+            'title' => $title,
+            'instrument' => $instrument,
         ]);
     }
 
@@ -30,10 +29,11 @@ class InstrumentController extends Controller
     public function create()
     {
         $title = 'Pertanyaan';
-        $categoryUnit=CategoryUnit::all();
-        return view('admin.instrument.form',[
-            'categoryUnit'  =>  $categoryUnit,
-            'title'          =>  $title
+        $categoryUnit = CategoryUnit::all();
+
+        return view('admin.instrument.form', [
+            'categoryUnit' => $categoryUnit,
+            'title' => $title,
         ]);
     }
 
@@ -43,9 +43,9 @@ class InstrumentController extends Controller
     public function store(InstrumentRequest $request)
     {
         Instrument::create([
-            'category_unit_id'  =>  $request->category_unit_id,
-            'name'  =>  $request->name,
-            'status_standar'    =>  $request->status_standar
+            'category_unit_id' => $request->category_unit_id,
+            'name' => $request->name,
+            'status_standar' => $request->status_standar,
         ]);
 
         return redirect()->route('admin.instrument.index')->with('success', 'Data Instrument Berhasil Ditambahkan');
@@ -65,13 +65,13 @@ class InstrumentController extends Controller
     public function edit($id)
     {
         $title = 'Form Edit Instrument';
-        $instrument=Instrument::find($id);
-        $categoryUnit=CategoryUnit::oldest('name')->get();
+        $instrument = Instrument::find($id);
+        $categoryUnit = CategoryUnit::oldest('name')->get();
 
-        return view('admin.instrument.form',[
-            'instrument'  =>  $instrument,
+        return view('admin.instrument.form', [
+            'instrument' => $instrument,
             'categoryUnit' => $categoryUnit,
-            'title' =>  $title
+            'title' => $title,
         ]);
     }
 
@@ -81,9 +81,9 @@ class InstrumentController extends Controller
     public function update(Request $request, $id)
     {
         $data = [
-            'category_unit_id'  =>  $request->category_unit_id,
-            'name'  =>  $request->name,
-            'status_standar'    =>  $request->status_standar
+            'category_unit_id' => $request->category_unit_id,
+            'name' => $request->name,
+            'status_standar' => $request->status_standar,
         ];
 
         Instrument::where('id', $id)->update($data);
@@ -120,7 +120,7 @@ class InstrumentController extends Controller
 
     // /**
     //  * Display a listing of the resource.
-    //  * 
+    //  *
     //  */
     // public function indexStandarInstrument($id, $status_standar = null)
     // {
@@ -134,7 +134,7 @@ class InstrumentController extends Controller
 
     //     $instrument = Instrument::filter($filter)
     //     ->get();
-        
+
     //     return view('admin.instrument.standarInstrument.index', [
     //         'title' => $title,
     //         'instrument' => $instrument,

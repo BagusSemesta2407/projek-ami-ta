@@ -10,17 +10,18 @@ class Instrument extends Model
     use HasFactory;
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 
-    public function categoryUnit(){
+    public function categoryUnit()
+    {
         return $this->belongsTo(CategoryUnit::class);
     }
 
-    public function instrumentAuditee(){
+    public function instrumentAuditee()
+    {
         return $this->hasMany(InstrumentAuditee::class);
     }
-
 
     /**
      * Scope Filter.
@@ -32,10 +33,8 @@ class Instrument extends Model
         // $query->when($param->status_standar ?? false, fn ($q, $status_standar) => $q->where('status_standar', $status_standar));
         // return dd($filter);
 
-        $query->when($filter->category_unit_id ?? false, fn ($query, $categoryUnit) 
-                => $query->where('category_unit_id', $categoryUnit));
-        
-        $query->when($filter->status_standar ?? false, fn ($query, $status_standar) 
-                => $query->where('status_standar', $status_standar));
+        $query->when($filter->category_unit_id ?? false, fn ($query, $categoryUnit) => $query->where('category_unit_id', $categoryUnit));
+
+        $query->when($filter->status_standar ?? false, fn ($query, $status_standar) => $query->where('status_standar', $status_standar));
     }
 }

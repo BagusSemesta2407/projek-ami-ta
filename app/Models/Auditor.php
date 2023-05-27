@@ -10,7 +10,7 @@ class Auditor extends Model
     use HasFactory;
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 
     public function user()

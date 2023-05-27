@@ -24,8 +24,8 @@ class UserUpdateRequest extends FormRequest
         // dd($this->user);
         $rules = [
             'name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $this->user->id,
-            'roles' =>  'required'
+            'email' => 'required|email|unique:users,email,'.$this->user->id,
+            'roles' => 'required',
         ];
 
         return $rules;
@@ -39,7 +39,7 @@ class UserUpdateRequest extends FormRequest
             'email.required' => 'Email Wajib Diisi',
             'email.email' => 'Email Harus Valid',
             'email.unique' => 'Email Sudah Terdaftar',
-            'roles.required' => 'Role Wajib Diisi'
+            'roles.required' => 'Role Wajib Diisi',
         ];
     }
 }

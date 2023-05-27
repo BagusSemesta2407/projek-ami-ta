@@ -10,13 +10,16 @@ class CategoryUnit extends Model
     use HasFactory;
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 
-    public function instrument(){
+    public function instrument()
+    {
         return $this->hasMany(Instrument::class);
     }
-    public function dataInstrument(){
+
+    public function dataInstrument()
+    {
         return $this->hasMany(DataInstrument::class);
     }
 
@@ -30,8 +33,7 @@ class CategoryUnit extends Model
         // $query->when($param->status_standar ?? false, fn ($q, $status_standar) => $q->where('status_standar', $status_standar));
         // return dd($filter);
 
-        $query->when($filter->category_unit_id ?? false, fn ($query, $categoryUnit) 
-                => $query->where('category_unit_id', $categoryUnit));
-        
+        $query->when($filter->category_unit_id ?? false, fn ($query, $categoryUnit) => $query->where('category_unit_id', $categoryUnit));
+
     }
 }

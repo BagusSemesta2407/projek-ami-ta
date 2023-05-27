@@ -22,9 +22,9 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name'  =>  'required',
-            'email' =>  'required|email|unique:users,email',
-            'roles'  =>  'required'
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'roles' => 'required',
         ];
 
         return $rules;
@@ -37,7 +37,7 @@ class UserRequest extends FormRequest
             'email.required' => 'Email Wajib Diisi',
             'email.email' => 'Email Tidak Valid',
             'email.unique' => 'Email Sudah Terdaftar',
-            'roles.required' =>  'Role User Wajib Diisi'
+            'roles.required' => 'Role User Wajib Diisi',
         ];
     }
 }

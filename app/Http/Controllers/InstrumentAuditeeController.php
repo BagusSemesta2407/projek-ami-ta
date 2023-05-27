@@ -21,7 +21,7 @@ class InstrumentAuditeeController extends Controller
 
         return view('admin.instrumentAuditee.index', [
             'title' => $title,
-            'dataInstrument' => $dataInstrument
+            'dataInstrument' => $dataInstrument,
         ]);
     }
 
@@ -34,7 +34,7 @@ class InstrumentAuditeeController extends Controller
 
         $filter = (object) [
             'category_unit_id' => $dataInstrument->id,
-            'status_standar'    => $status_standar
+            'status_standar' => $status_standar,
         ];
 
         $instrument = Instrument::filter($filter)
@@ -46,7 +46,7 @@ class InstrumentAuditeeController extends Controller
             'title' => $title,
             'dataInstrument' => $dataInstrument,
             'instrument' => $instrument,
-            'status_standar'    =>  $status_standar
+            'status_standar' => $status_standar,
         ]);
     }
 
@@ -56,19 +56,19 @@ class InstrumentAuditeeController extends Controller
     public function store(Request $request, $id)
     {
 
-        $proof=InstrumentAuditee::saveProof($request);
+        $proof = InstrumentAuditee::saveProof($request);
         // $instrument_id=$request->instrument_id;
-        $answer=$request->answer;
-        $reason=$request->reason;
-        $data_instrument_id=$id;
-        $proof=$proof;
+        $answer = $request->answer;
+        $reason = $request->reason;
+        $data_instrument_id = $id;
+        $proof = $proof;
 
-        for ($i=0; $i < count($answer); $i++) { 
+        for ($i = 0; $i < count($answer); $i++) {
             $dataSave = [
                 // 'instrument_id' => $instrument_id[$i],
                 'data_instrument_id' => $data_instrument_id,
-                'answer'    =>  $answer[$i],
-                'reason'    =>  $reason[$i],
+                'answer' => $answer[$i],
+                'reason' => $reason[$i],
                 // 'proof'     =>  $proof[$i]
             ];
             DB::table('instrument_auditees')->insert($dataSave);

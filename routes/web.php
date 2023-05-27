@@ -4,11 +4,9 @@ use App\Http\Controllers\AuditeeController;
 use App\Http\Controllers\AuditorController;
 use App\Http\Controllers\CategoryUnitController;
 use App\Http\Controllers\DataInstrumentController;
-use App\Http\Controllers\FormController;
 use App\Http\Controllers\InstrumentAuditeeController;
 use App\Http\Controllers\InstrumentController;
 use App\Http\Controllers\UserController;
-use App\Models\InstrumentAuditee;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -23,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
 Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::get('/', function () {
         return view('auth.login');
@@ -33,12 +30,11 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     Route::middleware('role:admin')->get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
     // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-
     Route::middleware('auth')->group(function () {
         Route::group(
             [
-                'as'    =>  'admin.',
-                'prefix' =>  'admin'
+                'as' => 'admin.',
+                'prefix' => 'admin',
             ],
 
             function () {
@@ -52,20 +48,19 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 //data-instrument
                 Route::resource('data-instruments', DataInstrumentController::class);
                 Route::get('getDataInstrumentId/{id}', [DataInstrumentController::class, 'getDataInstrumentId'])->name('get-data-instrument-id');
-                
+
                 //instrument-auditee
                 Route::resource('instruments-auditee', InstrumentAuditeeController::class);
                 Route::group(
                     [
                         'as' => 'instrument-auditee.',
-                        'prefix'    =>  'instrument-auditee'
+                        'prefix' => 'instrument-auditee',
                     ],
 
                     function () {
                         //for instrument detail
-                        Route::get('form-instrument-auditee/{dataInstrument}',[InstrumentAuditeeController::class, 'create'])->name('create-form-instrument-auditee');
-                        Route::post('form-instrument-auditee/{dataInstrument}',[InstrumentAuditeeController::class, 'store'])->name('store-form-instrument-auditee');
-
+                        Route::get('form-instrument-auditee/{dataInstrument}', [InstrumentAuditeeController::class, 'create'])->name('create-form-instrument-auditee');
+                        Route::post('form-instrument-auditee/{dataInstrument}', [InstrumentAuditeeController::class, 'store'])->name('store-form-instrument-auditee');
 
                         Route::get('list-instrument-standard/{dataInstrument}/{status_standar?}', [InstrumentAuditeeController::class, 'create'])->name('status-standar');
                         // Route::get('create-form-instrument/{categoryUnit}', [InstrumentController::class, 'createFormInstrument'])->name('create-form-instrument');

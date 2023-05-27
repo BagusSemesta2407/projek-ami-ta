@@ -22,9 +22,9 @@ class InstrumentRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'category_unit_id'  =>  'required',
-            'name'              =>  'required',
-            'status_standar'    =>  'required'
+            'category_unit_id' => 'required',
+            'name' => 'required',
+            'status_standar' => 'required',
         ];
 
         return $rules;
@@ -34,8 +34,8 @@ class InstrumentRequest extends FormRequest
     {
         return [
             'category_unit_id.required' => 'Kategori Unit wajib diisi',
-            'name.required'             => 'Pertanyaan Instrument wajib diisi',
-            'status_standar.required'   => 'Status Standar wajib diisi'
+            'name.required' => 'Pertanyaan Instrument wajib diisi',
+            'status_standar.required' => 'Status Standar wajib diisi',
         ];
     }
 }

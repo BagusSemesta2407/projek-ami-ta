@@ -14,11 +14,11 @@ class AuditeeController extends Controller
     public function index()
     {
         $title = 'Auditee';
-        $user=User::role('auditee')->get();
+        $user = User::role('auditee')->get();
 
-        return view('admin.auditee.index',[
-            'user'  =>  $user,
-            'title' =>  $title
+        return view('admin.auditee.index', [
+            'user' => $user,
+            'title' => $title,
         ]);
     }
 

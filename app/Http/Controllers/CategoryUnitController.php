@@ -16,9 +16,10 @@ class CategoryUnitController extends Controller
         $title = 'Unit Kerja';
 
         $categoryUnit = CategoryUnit::all();
+
         return view('admin.categoryUnit.index', [
-            'categoryUnit'  =>  $categoryUnit,
-            'title'     =>  $title,
+            'categoryUnit' => $categoryUnit,
+            'title' => $title,
         ]);
     }
 
@@ -28,8 +29,9 @@ class CategoryUnitController extends Controller
     public function create()
     {
         $title = 'Form Data Unit Kerja';
+
         return view('admin.categoryUnit.form', [
-            'title' =>  $title,
+            'title' => $title,
 
         ]);
     }
@@ -39,8 +41,8 @@ class CategoryUnitController extends Controller
      */
     public function store(CategoryUnitRequest $request)
     {
-         CategoryUnit::create([
-            'name'  => $request->name,
+        CategoryUnit::create([
+            'name' => $request->name,
         ]);
 
         // return dd($request->all());
@@ -64,8 +66,8 @@ class CategoryUnitController extends Controller
         $categoryUnit = CategoryUnit::find($id);
 
         return view('admin.categoryUnit.form', [
-            'categoryUnit'  => $categoryUnit,
-            'title'     =>  $title
+            'categoryUnit' => $categoryUnit,
+            'title' => $title,
         ]);
 
         // return response()->json($categoryUnit);
@@ -90,9 +92,10 @@ class CategoryUnitController extends Controller
      */
     public function destroy($id)
     {
-        $categoryUnit=CategoryUnit::find($id);
+        $categoryUnit = CategoryUnit::find($id);
 
         $categoryUnit->delete();
+
         return redirect()->back();
     }
 }

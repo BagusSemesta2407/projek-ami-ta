@@ -22,7 +22,7 @@ class CategoryUnitRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name'  =>  'required'
+            'name' => 'required',
         ];
 
         return $rules;
@@ -31,7 +31,7 @@ class CategoryUnitRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Nama Kategori Unit Wajib Diisi'
+            'name.required' => 'Nama Kategori Unit Wajib Diisi',
         ];
     }
 }

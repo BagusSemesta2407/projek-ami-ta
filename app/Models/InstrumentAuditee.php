@@ -11,14 +11,16 @@ class InstrumentAuditee extends Model
     use HasFactory;
 
     protected $guarded = [
-        'id'
+        'id',
     ];
 
-    public function dataInstrument(){
+    public function dataInstrument()
+    {
         return $this->belongsTo(DataInstrument::class);
     }
 
-    public function instrument(){
+    public function instrument()
+    {
         return $this->belongsTo(Instrument::class);
     }
 
@@ -32,7 +34,6 @@ class InstrumentAuditee extends Model
     /**
      * Save proof Owner.
      *
-     * @param  $request
      * @return string
      */
     public static function saveProof($request)
@@ -44,7 +45,7 @@ class InstrumentAuditee extends Model
 
             foreach ($file as $key) {
                 $ext = $key->getClientOriginalExtension();
-                $filename = date('YmdHis') . uniqid() . '.' . $ext;
+                $filename = date('YmdHis').uniqid().'.'.$ext;
                 // $filename = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
                 $file->storeAs('public/instrumentAuditee/proof/', $filename);
             }
@@ -61,7 +62,7 @@ class InstrumentAuditee extends Model
     public function getProofUrlAttribute()
     {
         if ($this->proof) {
-            return asset('storage/public/instrumentAuditee/proof/' . $this->proof);
+            return asset('storage/public/instrumentAuditee/proof/'.$this->proof);
         }
 
         return null;
@@ -70,16 +71,15 @@ class InstrumentAuditee extends Model
     /**
      * Delete proof.
      *
-     * @param  $id
      * @return void
      */
     public static function deleteProof($id)
     {
         $instrumentAuditee = InstrumentAuditee::firstWhere('id', $id);
         if ($instrumentAuditee->proof != null) {
-            $path = 'public/instrumentAuditee/proof/' . $instrumentAuditee->proof;
+            $path = 'public/instrumentAuditee/proof/'.$instrumentAuditee->proof;
             if (Storage::exists($path)) {
-                Storage::delete('public/instrumentAuditee/proof/' . $instrumentAuditee->proof);
+                Storage::delete('public/instrumentAuditee/proof/'.$instrumentAuditee->proof);
             }
         }
     }
