@@ -13,6 +13,11 @@ return new class extends Migration
     {
         Schema::create('auditors', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')
+            ->nullable()
+            ->constrained()
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
             $table->timestamps();
         });
     }

@@ -49,6 +49,15 @@ class User extends Authenticatable
 
     public function auditee()
     {
-        return $this->belongsTo(Auditee::class);
+        return $this->hasMany(Auditee::class);
+    }
+
+    public function auditor()
+    {
+        return $this->hasMany(Auditee::class);
+    }
+    public function dataInstrument()
+    {
+        return $this->hasMany(DataInstrument::class);
     }
 }

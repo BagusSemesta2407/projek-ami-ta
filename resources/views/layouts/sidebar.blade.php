@@ -9,77 +9,46 @@
             </a>
         </li>
 
-        <li class="sidebar-item has-sub {{ request()->is('admin/category-unit*') ? 'active' : '' }}">
+        <li
+            class="sidebar-item has-sub 
+            {{ request()->is('admin/category-unit*') ? 'active' : '' }} || 
+            {{ request()->is('admin/instrument*') ? 'active' : '' }} || 
+            {{ request()->is('admin/user*') ? 'active' : '' }} ||
+            {{ request()->is('admin/auditor*') ? 'active' : '' }} ||
+            {{ request()->is('admin/auditee*') ? 'active' : '' }}">
             <a href="#" class='sidebar-link'>
                 <i class="bi bi-stack"></i>
                 <span>Master Data</span>
             </a>
             <ul class="submenu ">
-                <li class="submenu-item ">
-                    <a href="component-alert.html">Auditee</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="component-badge.html">Auditor</a>
+                <li class="submenu-item {{ request()->is('admin/user*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.user.index') }}">User</a>
                 </li>
                 <li class="submenu-item {{ request()->is('admin/category-unit*') ? 'active' : '' }}">
                     <a href="{{ route('admin.category-unit.index') }}">Unit Kerja</a>
                 </li>
+                <li class="submenu-item {{ request()->is('admin/instrument*') ? 'active' : '' }}">
+                    <a href="{{ route('admin.instrument.index') }}" class="sidebar-link">
+                        Instrument
+                    </a>
+                </li>
             </ul>
         </li>
 
-        <li class="sidebar-item {{ request()->is('admin/instrument*') ? 'active' : '' }} ">
-            <a href="{{ route('admin.instrument.index') }}" class='sidebar-link'>
+        <li class="sidebar-item 
+        {{ request()->is('admin/data-instruments*') ? 'active' : '' }}">
+            <a href="{{ route('admin.data-instruments.index') }}" class='sidebar-link'>
                 <i class="bi bi-ui-checks"></i>
-                <span>Instrument</span>
+                <span>Data Instrument</span>
             </a>
         </li>
 
-        <li class="sidebar-item  has-sub">
-            <a href="#" class='sidebar-link'>
-                <i class="bi bi-collection-fill"></i>
-                <span>Extra Components</span>
+        <li class="sidebar-item 
+        {{ request()->is('admin/instruments-auditee*') ? 'active' : '' }}">
+            <a href="{{ route('admin.instruments-auditee.index') }}" class='sidebar-link'>
+                <i class="bi bi-ui-checks"></i>
+                <span>Instrument Auditee</span>
             </a>
-            <ul class="submenu ">
-                <li class="submenu-item ">
-                    <a href="extra-component-avatar.html">Avatar</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="extra-component-sweetalert.html">Sweet Alert</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="extra-component-toastify.html">Toastify</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="extra-component-rating.html">Rating</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="extra-component-divider.html">Divider</a>
-                </li>
-            </ul>
-        </li>
-
-        <li class="sidebar-item  has-sub">
-            <a href="#" class='sidebar-link'>
-                <i class="bi bi-grid-1x2-fill"></i>
-                <span>Layouts</span>
-            </a>
-            <ul class="submenu ">
-                <li class="submenu-item ">
-                    <a href="layout-default.html">Default Layout</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="layout-vertical-1-column.html">1 Column</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="layout-vertical-navbar.html">Vertical Navbar</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="layout-rtl.html">RTL Layout</a>
-                </li>
-                <li class="submenu-item ">
-                    <a href="layout-horizontal.html">Horizontal Menu</a>
-                </li>
-            </ul>
         </li>
     </ul>
 </div>

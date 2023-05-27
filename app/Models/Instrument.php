@@ -13,7 +13,29 @@ class Instrument extends Model
         'id'
     ];
 
-    public function categotyUnit(){
+    public function categoryUnit(){
         return $this->belongsTo(CategoryUnit::class);
+    }
+
+    public function instrumentAuditee(){
+        return $this->hasMany(InstrumentAuditee::class);
+    }
+
+
+    /**
+     * Scope Filter.
+     *
+     * @return scope
+     */
+    public function scopeFilter($query, $filter)
+    {
+        // $query->when($param->status_standar ?? false, fn ($q, $status_standar) => $q->where('status_standar', $status_standar));
+        // return dd($filter);
+
+        $query->when($filter->category_unit_id ?? false, fn ($query, $categoryUnit) 
+                => $query->where('category_unit_id', $categoryUnit));
+        
+        $query->when($filter->status_standar ?? false, fn ($query, $status_standar) 
+                => $query->where('status_standar', $status_standar));
     }
 }

@@ -7,7 +7,7 @@
             <div class="card-header">
                 Data Unit Kerja
 
-                <a href="{{ route('admin.instrument.create') }}" class="btn btn-outline-primary block float-end">
+                <a href="{{ route('admin.data-instruments.create') }}" class="btn btn-outline-primary block float-end">
                     Tambah
                 </a>
 
@@ -18,48 +18,54 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Standar Instrument</th>
+                            <th>Auditee</th>
+                            <th>Auditor</th>
                             <th>Unit</th>
-                            <th>Pertanyaan</th>
+                            <th>Status</th>
+                            <th>Tahun</th>
                             <th>Action</th>
                         </tr>
                     </thead>
 
                     <tbody>
-                        @foreach ($instrument as $item)
+                        @foreach (@$dataInstrument as $item)
                             <tr>
                                 <td>
                                     {{ $loop->iteration }}
                                 </td>
 
                                 <td>
-                                    {{ $item->status_standar }}
+                                    {{ @$item->auditor->name }}
+                                </td>
+                                <td>
+                                    {{ @$item->auditee->name }}
+                                </td>
+                                <td>
+                                    {{ @$item->categoryUnit->name }}
+                                </td>
+                                <td>
+                                    {{ $item->status }}
                                 </td>
 
                                 <td>
-                                    {{ $item->categoryUnit->name }}
+                                    {{ $item->year }}
                                 </td>
 
                                 <td>
-                                    {{ $item->name }}
-                                </td>
-
-                                <td>
-                                    <div class="d-flex ">
-                                        <a href="{{ route('admin.instrument.edit', $item->id) }}"
+                                    {{-- <div class="d-flex ">
+                                        <a href="{{ route('admin.category-unit.edit', $item->id) }}"
                                             class="btn btn-sm btn-outline-warning">
                                             <i class="bi bi-pen"></i>
                                         </a>
                                         &nbsp;
-                                        <form method="POST" action="{{ route('admin.instrument.destroy', $item->id) }}">
+                                        <form method="POST" action="{{ route('admin.category-unit.destroy', $item->id) }}">
                                             @csrf
                                             <input name="_method" type="hidden" value="DELETE">
                                             <button type="submit" class="btn btn-sm btn-outline-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>
                                                 <i class="bi bi-trash3"></i>
                                             </button>
                                         </form>
-
-                                    </div>
+                                    </div> --}}
                                 </td>
                             </tr>
                         @endforeach

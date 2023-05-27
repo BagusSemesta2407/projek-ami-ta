@@ -5,12 +5,7 @@
         <section class="row">
             <div class="card">
                 <div class="card-header">
-                    Data Unit Kerja
-
-                    <a href="{{ route('admin.category-unit.create') }}" class="btn btn-outline-primary block float-end">
-                        Tambah
-                    </a>
-
+                    Data Auditor
                 </div>
 
                 <div class="card-body">
@@ -18,13 +13,13 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Unit</th>
+                                <th>Nama Auditor</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach ($categoryUnit as $item)
+                            @foreach ($user as $item)
                                 <tr>
                                     <td>
                                         {{ $loop->iteration }}
@@ -35,21 +30,7 @@
                                     </td>
 
                                     <td>
-                                        <div class="d-flex ">
-                                            <a href="{{ route('admin.category-unit.edit', $item->id) }}"
-                                                class="btn btn-sm btn-outline-warning">
-                                                <i class="bi bi-pen"></i>
-                                            </a>
-                                            &nbsp;
-                                            <form method="POST" action="{{ route('admin.category-unit.destroy', $item->id) }}">
-                                                @csrf
-                                                <input name="_method" type="hidden" value="DELETE">
-                                                <button type="submit" class="btn btn-sm btn-outline-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>
-                                                    <i class="bi bi-trash3"></i>
-                                                </button>
-                                            </form>
-
-                                        </div>
+                                        
                                     </td>
                                 </tr>
                             @endforeach

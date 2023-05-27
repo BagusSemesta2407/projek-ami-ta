@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CategoryUnitRequest;
 use App\Models\CategoryUnit;
 use Illuminate\Http\Request;
 
@@ -36,9 +37,9 @@ class CategoryUnitController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryUnitRequest $request)
     {
-        CategoryUnit::create([
+         CategoryUnit::create([
             'name'  => $request->name,
         ]);
 
@@ -92,6 +93,6 @@ class CategoryUnitController extends Controller
         $categoryUnit=CategoryUnit::find($id);
 
         $categoryUnit->delete();
-        return response()->json(['status'   =>  'Data Berhasil Diubah']);
+        return redirect()->back();
     }
 }
