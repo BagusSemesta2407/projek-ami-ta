@@ -44,7 +44,7 @@
                                             <div class="col-md-12">
                                                 <div class="input-group">
                                                     <select name="category_unit_id"
-                                                        class="form-control select2 @error('category_unit_id') is-invalid @enderror">
+                                                        class="choices form-select @error('category_unit_id') is-invalid @enderror">
                                                         <option value="" selected="" disabled="">
                                                             Pilih Kategori Artikel
                                                         </option>
@@ -63,7 +63,7 @@
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="first-name-vertical">Nama</label>
+                                            <label for="first-name-vertical">Pertanyaan</label>
                                             <input type="text" id="first-name-vertical"
                                                 class="form-control @error('name')
                                                 is-invalid
@@ -77,7 +77,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="first-name-vertical">Standar AMI</label>
-                                            <select class="form-control" name="status_standar" id="status_standar">
+                                            <select class="choices form-select" name="status_standar" id="status_standar">
                                                 <option value="" selected="" disabled="">Masukkan Standar</option>
                                                 <option value="Pendidikan" {{ old('Pendidikan', @$instrument->status_standar) == 'Pendidikan' ? 'selected' : ''}}>Pendidikan</option>
                                                 <option value="Penelitian" {{ old('Penelitian', @$instrument->status_standar) == 'Penelitian' ? 'selected' : ''}}>Penelitian</option>

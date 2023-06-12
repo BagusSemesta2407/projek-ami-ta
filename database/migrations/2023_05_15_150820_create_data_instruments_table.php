@@ -28,8 +28,9 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->enum('status', ['Menunggu Validasi', 'Mendapat Jawaban', 'Sudah Divalidasi Auditor']);
+            $table->enum('status', ['Menunggu Konfirmasi Kepala P4MP','Ditolak Kepala P4MP','On Progress', 'Sudah Di Jawab Auditee', 'Sudah Divalidasi Auditor']);
             $table->year('year')->nullable();
+            $table->json('documentStandard')->nullable();
             $table->timestamps();
         });
     }

@@ -1,6 +1,11 @@
 @extends('layouts.base')
 
 @section('content')
+    {{-- <head>
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+</head> --}}
     <section id="basic-vertical-layouts">
         <div class="row match-height">
             <div class="col-md-12 col-12">
@@ -259,15 +264,36 @@
                                             <div class="col-md-12">
                                                 <div class="input-group">
                                                     <input type="number" name="year" class="form-control"
-                                                        id="datepicker">
+                                                        id="input-year" value="{{ old('year', @$dataInstrument->year) }}">
                                                 </div>
                                             </div>
                                         </div>
 
+                                        <div class="form-group list-group">
+                                            <label for="" class="col-sm-3 col-form-label">
+                                                Pilih Document Standard
+                                            </label>
+                                            <ul class="list-group">
+                                                @forelse (@$documentStandard as $item)
+                                                    <li class="list-group-item">
+                                                        @if ($item->media)
+                                                        <input class="form-check-input" type="checkbox"
+                                                            value="{{ $item->getFirstMediaUrl('documentStandard') }}"
+                                                            aria-label="..." name="documentStandard[]">
+                                                            {{ @$item->getFirstMedia('documentStandard')->file_name }}
+                                                        @endif
+                                                    </li>
+                                                @empty
+                                                    <i>
+                                                        Data Document Standard Tidak Ada
+                                                    </i>    
+                                                @endforelse
+                                            </ul>
+                                        </div>
+
                                         {{-- form-question --}}
-                                        <div class="border p-4 rounded mt-4"
-                                            id="section-question">
-                                            
+                                        <div class="border p-4 rounded mt-4" id="section-question">
+
                                         </div>
                                     </div>
                                 </div>
@@ -293,14 +319,6 @@
 @endsection
 
 @section('script')
-    {{-- <script type="text/javascript">
-        $(function() {
-            $("#datepicker").datepicker({
-                dateFormat: 'yy'
-            });
-        });​
-    </script> --}}
-
     <script type="text/javascript">
         $('#select-unit').on('change', function() {
             // console.log('sukses');
@@ -310,51 +328,58 @@
             $.ajax({
                 type: "GET",
                 url: "/admin/getDataInstrumentId/" + unitId,
-                dataType:'json',
-                success:function(data){
-                    console.log(data);
-                    
+                dataType: 'json',
+                success: function(response) {
+                    console.log(response);
+
+                    var sectionQuetion = $('#section-question');
+                    var table = $('<table class="table table-hover table-secondary   table-bordered">');
+                    var headerRow = $('<tr>');
+
+                    sectionQuetion.html('');
+
+                    headerRow.append($('<th>').text('No'));
+                    headerRow.append($('<th>').text('Pertanyaan'));
+
+                    table.append(headerRow);
+                    sectionQuetion.append('<h5>List Instrument</h5>');
+
+                    if (response.length > 0) {
+                        response.forEach(function(data, index) {
+                            console.log(data);
+
+                            var dataRow = $('<tr>');
+                            dataRow.append('<td>' + (index + 1) + '</td>');
+                            dataRow.append('<td>' + data.name + '</td>');
+
+                            table.append(dataRow);
+                        });
+                        sectionQuetion.append(table);
+                    } else {
+                        sectionQuetion.append('Tidak Ada Data Instrument');
+                    }
+
                 },
-                error:function(error){
+                error: function(error) {
                     console.log(error);
                 }
             })
-
-            $('#section-question').html('');
-
-            $('#section-question').append(
-                `<div>
-                    <h4>Form Instrument</h4>
-                    <div class="tab-content" id="myTabContent">
-                        <div class="tab-pane fade show active" id="home" role="tabpanel"
-                            aria-labelledby="home-tab">
-                            <table class="table table-hover table-secondary table-bordered-1">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Pertanyaan</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach (@$instrument as $item)
-                                    <tr>
-                                        <td>
-                                            {{ $loop->iteration }}
-                                        </td>
-
-                                        <td>
-                                            {{ $item->name }}
-                                        </td>
-
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                `
-            )
         })
     </script>
+
+    {{-- <script>
+        $(document).ready(function() {
+            // Inisialisasi datepicker
+            $('#input-year').datepicker({
+                dateFormat: 'yy',
+                changeYear: true,
+                showButtonPanel: true,
+                yearRange: '1900:2099',
+                onClose: function(dateText, inst) {
+                    var year = $(this).datepicker('getDate').getFullYear();
+                    $(this).val(year);
+                }
+            });
+        });
+    </script> --}}
 @endsection

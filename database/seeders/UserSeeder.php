@@ -43,5 +43,13 @@ class UserSeeder extends Seeder
         ]);
 
         $user->assignRole('auditor');
+
+        $user = User::create([
+            'name' => 'Kepala P4MP',
+            'email' => 'kepala@polsub.com',
+            'password' => bcrypt('12345678'),
+        ]);
+
+        $user->assignRole('kepala_p4mp');
     }
 }

@@ -24,63 +24,79 @@ class InstrumentAuditee extends Model
         return $this->belongsTo(Instrument::class);
     }
 
-    /**
-     * The accessors to append to the model's array form.
-     *
-     * @var array
-     */
-    protected $appends = ['proof_url'];
-
-    /**
-     * Save proof Owner.
-     *
-     * @return string
-     */
-    public static function saveProof($request)
+    public function proof()
     {
-        $filename = null;
-
-        if ($request->proof) {
-            $file = $request->proof;
-
-            foreach ($file as $key) {
-                $ext = $key->getClientOriginalExtension();
-                $filename = date('YmdHis').uniqid().'.'.$ext;
-                // $filename = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
-                $file->storeAs('public/instrumentAuditee/proof/', $filename);
-            }
-        }
-
-        return $filename;
+        return $this->belongsTo(Proof::class);
     }
 
     /**
-     * Get the file proof.
+     * Scope Filter.
      *
-     * @return string
+     * @return scope
      */
-    public function getProofUrlAttribute()
+    public function scopeFilter($query, $filter)
     {
-        if ($this->proof) {
-            return asset('storage/public/instrumentAuditee/proof/'.$this->proof);
-        }
+        $query->when($filter->data_instrument_id ?? false, fn ($query, $dataInstrument) => $query->where('data_instrument_id', $dataInstrument));
 
-        return null;
     }
 
-    /**
-     * Delete proof.
-     *
-     * @return void
-     */
-    public static function deleteProof($id)
-    {
-        $instrumentAuditee = InstrumentAuditee::firstWhere('id', $id);
-        if ($instrumentAuditee->proof != null) {
-            $path = 'public/instrumentAuditee/proof/'.$instrumentAuditee->proof;
-            if (Storage::exists($path)) {
-                Storage::delete('public/instrumentAuditee/proof/'.$instrumentAuditee->proof);
-            }
-        }
-    }
+    // /**
+    //  * The accessors to append to the model's array form.
+    //  *
+    //  * @var array
+    //  */
+    // protected $appends = ['proof_url'];
+
+    // /**
+    //  * Save proof Owner.
+    //  *
+    //  * @return string
+    //  */
+    // public static function saveProof($request)
+    // {
+    //     $filename = null;
+
+    //     if ($request->proof) {
+    //         $file = $request->proof;
+
+    //         foreach ($file as $key) {
+    //             $ext = $key->getClientOriginalExtension();
+    //             $filename = date('YmdHis').uniqid().'.'.$ext;
+    //             // $filename = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
+    //             $file->storeAs('public/instrumentAuditee/proof/', $filename);
+    //         }
+    //     }
+
+    //     return $filename;
+    // }
+
+    // /**
+    //  * Get the file proof.
+    //  *
+    //  * @return string
+    //  */
+    // public function getProofUrlAttribute()
+    // {
+    //     if ($this->proof) {
+    //         return asset('storage/public/instrumentAuditee/proof/'.$this->proof);
+    //     }
+
+    //     return null;
+    // }
+
+    // /**
+    //  * Delete proof.
+    //  *
+    //  * @return void
+    //  */
+    // public static function deleteProof($id)
+    // {
+    //     $instrumentAuditee = InstrumentAuditee::firstWhere('id', $id);
+    //     if ($instrumentAuditee->proof != null) {
+    //         $path = 'public/instrumentAuditee/proof/'.$instrumentAuditee->proof;
+    //         if (Storage::exists($path)) {
+    //             Storage::delete('public/instrumentAuditee/proof/'.$instrumentAuditee->proof);
+    //         }
+    //     }
+    // }
 }

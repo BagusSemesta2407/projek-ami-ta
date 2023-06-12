@@ -21,9 +21,18 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+            $table->foreignId('proof_id')->nullable()
+                ->constrained()
+                ->cascadeOnDelete()
+                ->cascadeOnUpdate();
+            $table->string('nama_instrument')->nullable();
+            $table->string('nama_auditor')->nullable();
+            $table->string('nama_auditee')->nullable();
+            $table->string('nama_unit')->nullable();
+            $table->string('tahun_instrument')->nullable();
             $table->enum('answer', ['ya', 'tidak'])->comment('jawaban dari auditee')->nullable();
+            $table->enum('status', ['Valid', 'Tidak Valid'])->nullable()->comment('For Auditor');
             $table->string('reason')->comment('alasan')->nullable();
-            $table->string('proof')->comment('bukti')->nullable();
             $table->timestamps();
         });
     }

@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\DataInstrument;
 use App\Models\Instrument;
 use App\Models\InstrumentAuditee;
+use App\Models\Proof;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class InstrumentAuditeeController extends Controller
@@ -16,10 +18,13 @@ class InstrumentAuditeeController extends Controller
     public function index()
     {
         $title = 'Instrument Auditee';
+        $userId=Auth::id();
 
-        $dataInstrument = DataInstrument::with(['categoryUnit'])->get();
+        $dataInstrument = DataInstrument::with(['categoryUnit'])
+        ->where('auditee_id', $userId)
+        ->get();
 
-        return view('admin.instrumentAuditee.index', [
+        return view('auditee.instrumentAuditee.index', [
             'title' => $title,
             'dataInstrument' => $dataInstrument,
         ]);
@@ -38,11 +43,14 @@ class InstrumentAuditeeController extends Controller
         ];
 
         $instrument = Instrument::filter($filter)
+            // ->whereHas('instrumentAuditee', function($q){
+            //     $q->where('status','On Progress');
+            // })
             ->get();
 
         $title = 'Form Data Instrument';
 
-        return view('admin.instrumentAuditee.standarInstrument.index', [
+        return view('auditee.instrumentAuditee.standarInstrument.index', [
             'title' => $title,
             'dataInstrument' => $dataInstrument,
             'instrument' => $instrument,
@@ -55,36 +63,115 @@ class InstrumentAuditeeController extends Controller
      */
     public function store(Request $request, $id)
     {
+        foreach ($request->data as $key => $value)
+        {
+            $instrument=Instrument::find($key);
+            $auditor=DataInstrument::find($id);
+            $auditee=DataInstrument::find($id);
+            $categoryUnit=DataInstrument::find($id);
+            $dataInstrument=DataInstrument::find($id);
 
-        $proof = InstrumentAuditee::saveProof($request);
-        // $instrument_id=$request->instrument_id;
-        $answer = $request->answer;
-        $reason = $request->reason;
-        $data_instrument_id = $id;
-        $proof = $proof;
-
-        for ($i = 0; $i < count($answer); $i++) {
-            $dataSave = [
-                // 'instrument_id' => $instrument_id[$i],
-                'data_instrument_id' => $data_instrument_id,
-                'answer' => $answer[$i],
-                'reason' => $reason[$i],
-                // 'proof'     =>  $proof[$i]
-            ];
-            DB::table('instrument_auditees')->insert($dataSave);
+            InstrumentAuditee::create([
+                'data_instrument_id' => $id,
+                'instrument_id'=> $key,
+                'answer'    => $value['answer'],
+                'reason'    => $value['reason'],
+                'nama_instrument'   => $instrument->name,
+                'nama_auditor'  => $auditor->auditor->name,
+                'nama_auditee'  => $auditee->auditee->name,
+                'nama_unit'     => $categoryUnit->categoryUnit->name,
+                'tahun_instrument'  => $dataInstrument->year
+            ]);
         }
 
-        dd($request->all());
+        DataInstrument::where('id', $id)->update([
+            'status'    =>  'Sudah Di Jawab Auditee'
+        ]);
 
-        return redirect()->back();
+        return redirect()->route('menu-auditee.instruments-auditee.index');
+    }
+
+
+    /**
+     * Display the specified resource.
+     */
+    public function detailInstrumentAuditee($id)
+    {
+        $title = 'Rekap Instrument';
+
+        $dataInstrument = DataInstrument::find($id);
+
+        $instrumentAuditee = InstrumentAuditee::where('data_instrument_id', $id)
+        ->whereHas('dataInstrument', function ($q) {
+            $q->whereIn('status', ['Sudah Di Jawab Auditee']);
+        })
+            ->get();
+
+        return view('auditee.instrumentAuditee.detailInstrumentAuditee',[
+            'title' =>  $title,
+            'instrumentAuditee' => $instrumentAuditee,
+            'dataInstrument' => $dataInstrument
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(InstrumentAuditee $instrumentAuditee)
+    public function indexAuditor()
     {
-        //
+        $title = 'Instrument Auditee';
+        $userId=Auth::id();
+
+        $dataInstrument = DataInstrument::with(['categoryUnit'])
+        ->where('auditor_id', $userId)
+        ->get();
+
+        return view('auditor.index', [
+            'title' => $title,
+            'dataInstrument' => $dataInstrument,
+        ]);
+    }
+    /**
+     * Display the specified resource.
+     */
+    public function createAuditor($id)
+    {
+        $title = 'Validasi Data Instrument';
+
+        $dataInstrument = DataInstrument::find($id); 
+        $instrumentAuditee = InstrumentAuditee::where('data_instrument_id', $id)->get();
+        return view('auditor.form', [
+            'title' => $title,
+            'dataInstrument' => $dataInstrument,
+            'instrumentAuditee' => $instrumentAuditee
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function confirmValidateAuditor(Request $request, $id)
+    {
+        foreach($request->data as $value)
+        {
+            InstrumentAuditee::where('data_instrument_id', $id)->update([
+                'status'    => $value['status']
+            ]);
+        }
+
+        // DataInstrument::where('id', $id)->update([
+        //     'status'    =>  'Sudah Divalidasi Auditor'
+        // ]);
+
+        return redirect()->route('menu-auditor.index-instrument-auditor');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function show()
+    {
+        
     }
 
     /**

@@ -27,5 +27,10 @@ class RoleSeeder extends Seeder
             'name' => 'auditor',
             'guard_name' => 'web',
         ]);
+
+        Role::create([
+            'name' => 'kepala_p4mp',
+            'guard_name' => 'web',
+        ]);
     }
 }

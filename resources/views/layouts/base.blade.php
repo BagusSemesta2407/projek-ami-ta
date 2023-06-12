@@ -19,7 +19,6 @@
     {{-- data-table.html --}}
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    {{-- <link rel="stylesheet" href="assets/css/bootstrap.css"> --}}
 
     <link rel="stylesheet" href="{{ asset('assets/extensions/simple-datatables/style.css') }}">
 
@@ -32,29 +31,9 @@
     {{-- file uploader --}}
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 
-
-    {{-- <link rel="stylesheet" href="{{ asset('assets/extensions/sweetalert2/sweetalert2.min.css') }}"> --}}
-
-
-    {{-- fontawesome --}}
-    {{-- <link rel="stylesheet" href="{{ asset('assets/extensions/fontawesome/fontawesome-free/all.min.css') }}">
-    <style>
-        .fontawesome-icons {
-            text-align: center;
-        }
-
-        article dl {
-            background-color: rgba(0, 0, 0, .02);
-            padding: 20px;
-        }
-
-        .fontawesome-icons .the-icon svg {
-            font-size: 24px;
-        }
-    </style> --}}
-
+    {{-- choices --}}
     {{-- Toast --}}
-    <link rel="stylesheet" href="{{ asset('assets/extensions/toastify-js/src/toastify.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/extensions/toastify-js/src/toastify.css') }}"> --}}
 
 
 </head>
@@ -203,6 +182,8 @@
             </div>
 
             @yield('content')
+
+            @yield('modal')
         </div>
     </div>
 
@@ -211,7 +192,7 @@
     <script src="{{ asset('assets/js/app.js') }}"></script>
 
     <!-- Need: Apexcharts -->
-    <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/extensions/apexcharts/apexcharts.min.js') }}"></script> --}}
     <script src="{{ asset('assets/js/pages/dashboard.js') }}"></script>
 
     {{-- datatables --}}
@@ -224,14 +205,20 @@
 
     {{-- toastify --}}
 
-    <script src="{{ asset('assets/extensions/toastify-js/src/toastify.js') }}"></script>
-    <script src="{{ asset('assets/js/extensions/toastify.js') }}"></script>
+    {{-- <script src="{{ asset('assets/extensions/toastify-js/src/toastify.js') }}"></script>
+    <script src="{{ asset('assets/js/extensions/toastify.js') }}"></script> --}}
 
     {{-- file uploader --}}
     <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
     <script src="https://unpkg.com/filepond-plugin-file-validate-type/dist/filepond-plugin-file-validate-type.js"></script>
 
     <script src="https://unpkg.com/filepond/dist/filepond.js"></script>
+
+    {{-- choices --}}
+    <link rel="stylesheet" href="{{ asset('assets/extensions/choices.js/public/assets/styles/choices.min.css') }}" />
+
+    <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+
     <script>
         // register desired plugins...
         FilePond.registerPlugin(
@@ -267,9 +254,12 @@
     </script>
 
     <script>
-        // Simple Datatable
-        let table1 = document.querySelector('#table1');
-        let dataTable = new simpleDatatables.DataTable(table1);
+        if ($('#table1').length)
+        {
+            // Simple Datatable
+            let table1 = document.querySelector('#table1');
+            let dataTable = new simpleDatatables.DataTable(table1);
+        }
     </script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
@@ -323,12 +313,5 @@
     </script>
 
     @yield('script')
-
-    {{-- <script src="assets/js/main.js"></script> --}}
-
-
-
-
 </body>
-
 </html>

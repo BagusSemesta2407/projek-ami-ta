@@ -4,10 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\HasMedia;
+use Spatie\MediaLibrary\InteractsWithMedia;
 
-class DataInstrument extends Model
+class DataInstrument extends Model implements HasMedia
 {
     use HasFactory;
+    use InteractsWithMedia;
 
     protected $guarded = [
         'id',
@@ -39,4 +42,8 @@ class DataInstrument extends Model
     {
         return $this->hasMany(InstrumentAuditee::class);
     }
+
+    protected $casts = [
+        'documentStandard' => 'array'
+    ];
 }

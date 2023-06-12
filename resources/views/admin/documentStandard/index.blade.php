@@ -5,85 +5,60 @@
         <section class="row">
             <div class="card">
                 <div class="card-header">
-                    Data Unit/Program Studi/Jurusan
-
-                    <a href="{{ route('admin.category-unit.create') }}" class="btn btn-outline-primary block float-end">
+                    Data Document Standard AMI
+                    <a href="{{ route('admin.document-standard.create') }}" class="btn btn-outline-primary block float-end">
                         Tambah
                     </a>
-
                 </div>
-
                 <div class="card-body">
                     <table class="table" id="table1">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Unit</th>
+                                <th>File</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach ($categoryUnit as $item)
+                            @foreach ($documentStandard as $item)
                                 <tr>
                                     <td>
                                         {{ $loop->iteration }}
                                     </td>
-
                                     <td>
-                                        {{ $item->name }}
+                                        @if ($item->media)
+                                            <a href="{{ $item->getFirstMediaUrl('documentStandard') }}" download title="Unduh">
+                                                {{-- {{ $item->'download' }} --}}
+                                                {{ @$item->getFirstMedia('documentStandard')->file_name }}
+                                            </a>
+                                        @endif
                                     </td>
-
                                     <td>
+                                        {{-- {{ $ }} --}}
                                         <div class="d-flex">
-                                            <a href="{{ route('admin.category-unit.edit', $item->id) }}"
-                                                class="btn btn-sm btn-outline-warning">
+                                            <a href="{{ route('admin.document-standard.edit', $item->id) }}" class="btn btn-sm btn-outline-warning">
                                                 <i class="bi bi-pen"></i>
                                             </a>
                                             &nbsp;
-                                            <form method="POST" action="{{ route('admin.category-unit.destroy', $item->id) }}">
+
+                                            <form action="{{ route('admin.document-standard.destroy', $item->id) }}" method="POST">
+                                                {{-- {{ csrf_field() }} --}}
                                                 @csrf
                                                 <input name="_method" type="hidden" value="DELETE">
                                                 <button type="submit" class="btn btn-sm btn-outline-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>
                                                     <i class="bi bi-trash3"></i>
                                                 </button>
                                             </form>
-
                                         </div>
                                     </td>
                                 </tr>
                             @endforeach
                         </tbody>
                     </table>
-
                 </div>
             </div>
+
         </section>
     </div>
 @endsection
-
-{{-- @section('script')
-    
-@endsection --}}
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-<script type="text/javascript">
- 
-     $('.show_confirm').click(function(event) {
-          var form =  $(this).closest("form");
-          var name = $(this).data("name");
-          event.preventDefault();
-          swal({
-              title: `Are you sure you want to delete this record?`,
-              text: "If you delete this, it will be gone forever.",
-              icon: "warning",
-              buttons: true,
-              dangerMode: true,
-          })
-          .then((willDelete) => {
-            if (willDelete) {
-              form.submit();
-            }
-          });
-      });
-  
-</script> --}}
