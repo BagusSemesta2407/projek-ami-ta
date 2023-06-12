@@ -138,9 +138,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                     ],
                     function()
                     {
-                        Route::get('approve-data-ami/{dataInstrument}', [DataInstrumentController::class, ''])
+                        Route::get('approve-data-ami/{dataInstrument}', [DataInstrumentController::class, '']);
                     }
-                )
+                );
             }
         );
     });
