@@ -263,8 +263,8 @@
 
                                             <div class="col-md-12">
                                                 <div class="input-group">
-                                                    <input type="number" name="year" class="form-control"
-                                                        id="input-year" value="{{ old('year', @$dataInstrument->year) }}">
+                                                    <input type="date" name="tanggal_audit" class="form-control"
+                                                        id="input-year" value="{{ old('tanggal_audit', @$dataInstrument->tanggal_audit) }}">
                                                 </div>
                                             </div>
                                         </div>

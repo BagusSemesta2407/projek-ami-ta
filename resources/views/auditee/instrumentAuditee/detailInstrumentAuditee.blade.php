@@ -102,7 +102,7 @@
                                         </td>
 
                                         <td>
-                                            @if ($item->answer == 'tidak')
+                                            @if ($item->status_ketercapaian == 'Tidak Tercapai')
                                                 {{-- <span class="badge badge-success">Ya</span> --}}
                                                 Tidak
                                             @else
@@ -113,7 +113,7 @@
                                         </td>
 
                                         <td>
-                                            {{ $item->reason }}
+                                            {{ $item->desrkripsi_ketercapaian }}
                                         </td>
 
                                         <td>

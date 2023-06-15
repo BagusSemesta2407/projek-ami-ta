@@ -76,6 +76,19 @@
                                             @endif
                                         </div>
                                         <div class="form-group">
+                                            <label for="first-name-vertical">Indikator dan Target</label>
+                                            <input type="text" id="first-name-vertical"
+                                                class="form-control @error('target')
+                                                is-invalid
+                                            @enderror"
+                                                name="target" placeholder="Masukkan Nama Kategori Unit Kerja"
+                                                value="{{ old('target', @$instrument->target) }}">
+
+                                            @if ($errors->has('target'))
+                                                <span class="text-danger">{{ $errors->first('target') }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group">
                                             <label for="first-name-vertical">Standar AMI</label>
                                             <select class="choices form-select" name="status_standar" id="status_standar">
                                                 <option value="" selected="" disabled="">Masukkan Standar</option>

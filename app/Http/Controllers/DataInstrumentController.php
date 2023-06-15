@@ -70,7 +70,7 @@ class DataInstrumentController extends Controller
             'auditee_id' => $request->auditee_id,
             'category_unit_id' => $request->category_unit_id,
             'status' => 'Menunggu Konfirmasi Kepala P4MP',
-            'year' => $request->year,
+            'tanggal_audit' => $request->tanggal_audit,
             'documentStandard'  => $request->documentStandard
         ]);
         // dd($request->all());
@@ -139,7 +139,7 @@ class DataInstrumentController extends Controller
     {
         $title = 'Konfirmasi Data Penetapan AMI';
         $dataInstrument=DataInstrument::with(['categoryUnit'])
-        ->where('status', 'Menunggu Konfirmasi Kepala P4MP')
+        // ->where('status', 'Menunggu Konfirmasi Kepala P4MP')
         ->get();
 
         return view('kepalaP4mp.index', [
@@ -151,9 +151,30 @@ class DataInstrumentController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function indexApproveKepalaP4mp(DataInstrument $dataInstrument)
+    public function ApproveKepalaP4mp($id)
     {
-        //
+        $title = 'Konfirmasi Data Penetapan AMI';
+        $dataInstrument=DataInstrument::find($id);
+        // dd($dataInstrument);
+
+        return view('kepalaP4mp.approve',[
+            'dataInstrument'    =>  $dataInstrument,
+            'title' => $title
+        ]);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function updateStatusDataInstrument(Request $request, $id)
+    {
+        $data =[
+            'status'    => $request->status,
+        ];
+
+        DataInstrument::where('id', $id)->update($data);
+
+        return redirect()->route('menu-kepala-p4mp.approval-data-ami');
     }
 
     public function getDataInstrumentId($id)

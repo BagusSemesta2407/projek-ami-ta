@@ -18,6 +18,8 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+            $table->enum('jabatan', ['ketua', 'sekretaris', 'anggota'])->nullable();
+            $table->string('tugas')->nullable();
             $table->timestamps();
         });
     }

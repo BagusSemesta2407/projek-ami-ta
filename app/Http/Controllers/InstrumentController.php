@@ -45,6 +45,7 @@ class InstrumentController extends Controller
         Instrument::create([
             'category_unit_id' => $request->category_unit_id,
             'name' => $request->name,
+            'target' => $request->target,
             'status_standar' => $request->status_standar,
         ]);
 
@@ -83,6 +84,7 @@ class InstrumentController extends Controller
         $data = [
             'category_unit_id' => $request->category_unit_id,
             'name' => $request->name,
+            'target' => $request->target,
             'status_standar' => $request->status_standar,
         ];
 

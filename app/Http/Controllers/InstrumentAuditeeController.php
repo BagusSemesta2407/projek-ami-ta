@@ -22,6 +22,7 @@ class InstrumentAuditeeController extends Controller
 
         $dataInstrument = DataInstrument::with(['categoryUnit'])
         ->where('auditee_id', $userId)
+        // ->where('status', 'On Progress')
         ->get();
 
         return view('auditee.instrumentAuditee.index', [
@@ -44,7 +45,9 @@ class InstrumentAuditeeController extends Controller
 
         $instrument = Instrument::filter($filter)
             // ->whereHas('instrumentAuditee', function($q){
-            //     $q->where('status','On Progress');
+            //     $q->whereHas('dataInstrument',function($y){
+            //         $y->where('status', 'On Progress');
+            //     }); 
             // })
             ->get();
 
@@ -65,22 +68,23 @@ class InstrumentAuditeeController extends Controller
     {
         foreach ($request->data as $key => $value)
         {
+            // $auditor=DataInstrument::find($id);
+            // $auditee=DataInstrument::find($id);
+            // $categoryUnit=DataInstrument::find($id);
             $instrument=Instrument::find($key);
-            $auditor=DataInstrument::find($id);
-            $auditee=DataInstrument::find($id);
-            $categoryUnit=DataInstrument::find($id);
             $dataInstrument=DataInstrument::find($id);
 
             InstrumentAuditee::create([
                 'data_instrument_id' => $id,
                 'instrument_id'=> $key,
-                'answer'    => $value['answer'],
-                'reason'    => $value['reason'],
-                'nama_instrument'   => $instrument->name,
-                'nama_auditor'  => $auditor->auditor->name,
-                'nama_auditee'  => $auditee->auditee->name,
-                'nama_unit'     => $categoryUnit->categoryUnit->name,
-                'tahun_instrument'  => $dataInstrument->year
+                'status_ketercapaian'    => $value['status_ketercapaian'],
+                'desrkripsi_ketercapaian'    => $value['desrkripsi_ketercapaian'],
+                
+                // 'nama_instrument'   => $instrument->name,
+                // 'nama_auditor'  => $auditor->auditor->name,
+                // 'nama_auditee'  => $auditee->auditee->name,
+                // 'nama_unit'     => $categoryUnit->categoryUnit->name,
+                // 'tahun_instrument'  => $dataInstrument->year
             ]);
         }
 
@@ -139,7 +143,11 @@ class InstrumentAuditeeController extends Controller
         $title = 'Validasi Data Instrument';
 
         $dataInstrument = DataInstrument::find($id); 
-        $instrumentAuditee = InstrumentAuditee::where('data_instrument_id', $id)->get();
+        $instrumentAuditee = InstrumentAuditee::where('data_instrument_id', $id)
+        ->whereHas('dataInstrument', function ($q) {
+            $q->whereIn('status', ['Sudah Di Jawab Auditee']);
+        })
+        ->get();
         return view('auditor.form', [
             'title' => $title,
             'dataInstrument' => $dataInstrument,
@@ -155,15 +163,56 @@ class InstrumentAuditeeController extends Controller
         foreach($request->data as $value)
         {
             InstrumentAuditee::where('data_instrument_id', $id)->update([
-                'status'    => $value['status']
+                'status_temuan_audit'    => $value['status']
             ]);
         }
 
-        // DataInstrument::where('id', $id)->update([
-        //     'status'    =>  'Sudah Divalidasi Auditor'
-        // ]);
+        DataInstrument::where('id', $id)->update([
+            'status'    =>  'Sudah Divalidasi Auditor'
+        ]);
 
         return redirect()->route('menu-auditor.index-instrument-auditor');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function indexAuditDokumen()
+    {
+        $title = 'Audit Document';
+        $instrumentAuditee=InstrumentAuditee::all();
+        return view('auditor.indexAuditDokumen',[
+            'title' => $title,
+            'instrumentAuditee'=>$instrumentAuditee
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function inputHasilAuditDokumen($id)
+    {
+        $title = 'Audit Dokumen';
+        $instrumentAuditee=InstrumentAuditee::find($id);
+
+        return view('auditor.inputHasilAuditDokumen',[
+            'title' => $title,
+            'instrumentAuditee'=> $instrumentAuditee
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function createHasilAuditDokumen(Request $request,$id)
+    {
+        $data = [
+            'hasil_audit_dokumen'   =>  $request->hasil_audit_dokumen
+        ];
+
+        InstrumentAuditee::where('id', $id)->update($data);
+
+        return redirect()->route('menu-auditor.index-audit-dokumen');
     }
 
     /**

@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-{{-- <form enctype="multipart/form-data" method="POST" action="{{ route('admin.instrument.store') }}"> --}}
+    {{-- <form enctype="multipart/form-data" method="POST" action="{{ route('admin.instrument.store') }}"> --}}
 
     <div class="col-12 col-xl-12">
         <div class="card">
@@ -25,22 +25,26 @@
                                                 Drop left
                                             </button> --}}
                                             <a href="#" data-bs-toggle="dropdown" aria-haspopup="true"
-                                            aria-expanded="false" >
-                                            <i class="bi bi-three-dots-vertical"></i>
+                                                aria-expanded="false">
+                                                <i class="bi bi-three-dots-vertical"></i>
                                             </a>
                                             <div class="dropdown-menu">
-                                                <a href="{{ route('menu-auditee.instruments-auditee.detail-instrument-auditee', $item->id) }}" class="dropdown-item">
+                                                <a href="{{ route('menu-auditee.instruments-auditee.detail-instrument-auditee', $item->id) }}"
+                                                    class="dropdown-item">
                                                     Detail
                                                 </a>
-                                                <a href="{{ route('menu-auditee.instruments-auditee.create-form-instrument-auditee', $item->id) }}" class="dropdown-item">
-                                                    Input Instrument
-                                                </a>
+                                                @if ($item->status == 'On Progress')
+                                                    <a href="{{ route('menu-auditee.instruments-auditee.create-form-instrument-auditee', $item->id) }}"
+                                                        class="dropdown-item">
+                                                        Input Instrument
+                                                    </a>
+                                                @endif
                                             </div>
                                         </div>
                                     </td>
                                 </tr>
                             @empty
-                                <td class="text-center col-12"> 
+                                <td class="text-center col-12">
                                     <img src="{{ asset('empty.svg') }}" alt="" class="m-5">
                                     <p>
                                         Belum Ada Data Kategori Unit Kerja
@@ -54,6 +58,5 @@
             </div>
         </div>
     </div>
-{{-- </form> --}}
-
+    {{-- </form> --}}
 @endsection

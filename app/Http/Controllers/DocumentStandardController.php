@@ -41,8 +41,10 @@ class DocumentStandardController extends Controller
         $documentStandard->save();
 
         if ($request->hasFile('file')) {
-            $documentStandard->addMediaFromRequest('file')->toMediaCollection('documentStandard');
+            $documentStandard->addMediaFromRequest('file')
+            ->toMediaCollection('documentStandard');
         }
+
 
         return redirect()->route('admin.document-standard.index');
     }

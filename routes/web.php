@@ -118,7 +118,22 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         // Route::post('store-form-instrument/{categoryUnit}', [InstrumentController::class, 'storeFormInstrument'])->name('store-form-instrument');
                     }
                 );
+
+                Route::get('index-audit-dokumen', [InstrumentAuditeeController::class, 'indexAuditDokumen'])->name('index-audit-dokumen');
+
+                Route::group(
+                    [
+                        'as'=>'index-audit-dokumen.',
+                        'prefix'=>'index-audit-dokumen'
+                    ],
+
+                    function(){
+                        Route::get('input-hasil-audit-dokumen/{instrumentAuditee}', [InstrumentAuditeeController::class , 'inputHasilAuditDokumen'])->name('input-hasil-audit-dokumen');
+                    }
+                );
             }
+
+            
         );
 
         Route::group(
@@ -138,7 +153,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                     ],
                     function()
                     {
-                        Route::get('approve-data-ami/{dataInstrument}', [DataInstrumentController::class, '']);
+                        Route::get('approve-data-ami/{dataInstrument}', [DataInstrumentController::class, 'ApproveKepalaP4mp'])->name('approve-data-ami');
+                        Route::post('approve-data-ami/{dataInstrument}', [DataInstrumentController::class, 'updateStatusDataInstrument'])->name('update-status-data-instrument');
                     }
                 );
             }

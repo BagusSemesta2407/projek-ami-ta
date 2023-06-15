@@ -28,6 +28,11 @@
                             User
                         </a>
                     </li>
+                    <li class="submenu-item {{ request()->is('admin/auditor*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.auditor.index') }}">
+                            Auditor
+                        </a>
+                    </li>
                     <li class="submenu-item {{ request()->is('admin/category-unit*') ? 'active' : '' }}">
                         <a href="{{ route('admin.category-unit.index') }}">
                             Unit/ ProgramStudi/ Jurusan
@@ -56,6 +61,8 @@
         @endrole
 
         @role('auditee')
+        <li class="sidebar-title">Pelaksanaan</li>
+
             <li class="sidebar-item 
         {{ request()->is('menu-auditee/instruments-auditee*') ? 'active' : '' }}">
                 <a href="{{ route('menu-auditee.instruments-auditee.index') }}" class='sidebar-link'>
@@ -66,6 +73,16 @@
         @endrole
 
         @role('auditor')
+        <li class="sidebar-title">Pelaksanaan AMI</li>
+
+            <li
+                class="sidebar-item 
+        {{ request()->is('menu-auditor/index-audit-dokumen*') ? 'active' : '' }}">
+                <a href="{{ route('menu-auditor.index-audit-dokumen') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Audit Dokumen</span>
+                </a>
+            </li>
             <li
                 class="sidebar-item 
         {{ request()->is('menu-auditor/index-instrument-auditor*') ? 'active' : '' }}">

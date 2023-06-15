@@ -56,7 +56,9 @@
                                     Tahun
                                 </b>
                             </label>
-                            <div class="col-md-3">{{ @$dataInstrument->year }}</div>
+                            <div class="col-md-3">
+                                {{ \Carbon\Carbon::parse($dataInstrument->tanggal_audit)->translatedFormat('d F Y') }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -117,11 +119,12 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Pertanyaan</th>
-                                                <th>Ya</th>
-                                                <th>Tidak</th>
-                                                <th>Keterangan</th>
-                                                <th class="text-center">Bukti</th>
+                                                <th>Pertanyaan/ Butir Mutu</th>
+                                                <th>Indikator dan Target</th>
+                                                <th>Tercapai</th>
+                                                <th>Tidak Tercapai</th>
+                                                <th>Deskripsi Ketercapaian Standard</th>
+                                                {{-- <th class="text-center">Bukti</th> --}}
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -138,31 +141,37 @@
                                                     </td>
 
                                                     <td>
+                                                        <p id="instrument_id">
+                                                            {{ $item->target }}
+                                                        </p>
+                                                    </td>
+
+                                                    <td>
                                                         <input class="form-check-input" type="radio"
                                                             id="flexRadioDefault{{ $loop->index }}"
-                                                            name="data[{{ $item->id }}][answer]{{ $loop->index }}"
-                                                            value="ya" {{ old('ya') }}>
+                                                            name="data[{{ $item->id }}][status_ketercapaian]{{ $loop->index }}"
+                                                            value="Tercapai" {{ old('Tercapai') }}>
                                                     </td>
 
                                                     <td>
                                                         <input class="form-check-input" type="radio"
                                                             id="flexRadioDefault1{{ $loop->index }}"
-                                                            name="data[{{ $item->id }}][answer]{{ $loop->index }}"
-                                                            value="tidak" {{ old('tidak') }}>
+                                                            name="data[{{ $item->id }}][status_ketercapaian]{{ $loop->index }}"
+                                                            value="Tidak Tercapai" {{ old('Tidak Tercapai') }}>
                                                     </td>
 
                                                     <td>
                                                         <textarea class="form-control" id="exampleFormControlTextarea1{{ $loop->index }}"
-                                                            name="data[{{ $item->id }}][reason]"></textarea>
+                                                            name="data[{{ $item->id }}][desrkripsi_ketercapaian]"></textarea>
                                                     </td>
 
-                                                    <td class="text-center">
+                                                    {{-- <td class="text-center"> --}}
                                                         {{-- <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                                                             data-bs-target="#inlineForm" id="modal{{ $loop->index }}">
                                                                 <i class="bi bi-front"></i>
                                                             </button> --}}
 
-                                                    </td>
+                                                    {{-- </td> --}}
                                                 </tr>
                                             @empty
                                                 <td class="text-center col-12" colspan="6">

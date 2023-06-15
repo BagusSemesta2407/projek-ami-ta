@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">
-                            @if (@$user->exists)
+                            @if (@$auditor->exists)
                                 Edit
                                 @php
                                     $aksi = 'Edit';
@@ -21,13 +21,13 @@
                         </h4>
                     </div>
 
-                    @if (@$user->exists)
+                    @if (@$auditor->exists)
                         <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                            action="{{ route('admin.user.update', $user) }}">
+                            action="{{ route('admin.auditor.update', $auditor) }}">
                             @method('PUT')
                         @else
                             <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                                action="{{ route('admin.user.store') }}">
+                                action="{{ route('admin.auditor.store') }}">
                     @endif
                     {{ csrf_field() }}
                     <div class="card-content">
@@ -42,7 +42,7 @@
                                             is-invalid
                                         @enderror"
                                                 name="name" placeholder="Masukkan Nama Kategori Unit Kerja"
-                                                value="{{ old('name', @$user->name) }}">
+                                                value="{{ old('name', @$auditor->user->name) }}">
 
                                             @if ($errors->has('name'))
                                                 <span class="text-danger">{{ $errors->first('name') }}</span>
@@ -56,7 +56,7 @@
                                             is-invalid
                                         @enderror"
                                                 name="email" placeholder="Masukkan Nama Kategori Unit Kerja"
-                                                value="{{ old('email', @$user->email) }}">
+                                                value="{{ old('email', @$auditor->user->email) }}">
 
                                             @if ($errors->has('email'))
                                                 <span class="text-danger">{{ $errors->first('email') }}</span>
@@ -64,28 +64,32 @@
                                         </div>
 
                                         <div class="form-group">
-                                            <label for="first-name-vertical">Role</label>
+                                            <label for="first-name-vertical">Jabatan</label>
                                             <select
-                                                class="form-control @error('roles')
+                                                class="form-control @error('auditor')
                                                 is-invalid
                                             @enderror"
-                                                name="roles" id="">
-                                                <option value="" selected disabled>Masukkan Role</option>
-                                                @foreach ($roles as $item)
-                                                    <option value="{{ $item->id }}"
-                                                        {{ old('roles', @$item->id) == $item->id ? 'selected' : '' }}>
-                                                        {{ $item->name }}
-                                                    </option>
-                                                @endforeach
-                                                {{-- <option value="admin" {{ old('admin', $roles->name) == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                <option value="auditee" {{ old('auditee', $roles->name) == 'auditee' ? 'selected' : '' }}>Auditee</option>
-                                                <option value="auditor" {{ old('auditor', $roles->name) == 'auditor' ? 'selected' : '' }}>Auditor</option>
-                                                <option value="kepala_p4mp" {{ old('kepala_p4mp', $roles->name) == 'kepala_p4mp' ? 'selected' : '' }}>Kepala P4MP</option> --}}
+                                                name="jabatan" id="">
+                                                <option value="" selected disabled>Masukkan Jabatan</option>
+                                                <option value="ketua" {{ old('ketua', @$auditor->jabatan) == 'ketua' ? 'selected' : '' }}>
+                                                    Ketua Tim Auditor
+                                                </option>
+                                                <option value="sekretaris" {{ old('sekretaris', @$auditor->jabatan) == 'sekretaris' ? 'selected' : '' }}>
+                                                    Sekretaris Tim Auditor
+                                                </option>
+                                                <option value="anggota" {{ old('anggota', @$auditor->jabatan) == 'anggota' ? 'selected' : '' }}>
+                                                    Anggota Tim Auditor
+                                                </option>
                                             </select>
 
-                                            @if ($errors->has('roles'))
-                                                <span class="text-danger">{{ $errors->first('roles') }}</span>
+                                            @if ($errors->has('auditor'))
+                                                <span class="text-danger">{{ $errors->first('auditor') }}</span>
                                             @endif
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label for="">Tugas</label>
+                                            <input type="text" class="form-control" name="tugas" placeholder="Masukkan Tugas Auditor" value="{{ old('tugas', @$auditor->tugas) }}">
                                         </div>
 
 

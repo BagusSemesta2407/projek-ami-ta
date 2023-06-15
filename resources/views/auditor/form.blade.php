@@ -102,8 +102,9 @@
                                         <thead>
                                             <tr>
                                                 <th>No</th>
-                                                <th>Pertanyaan</th>
-                                                <th>Status</th>
+                                                <th>Pertanyaan/ Butir Mutu</th>
+                                                <th>Indikator dan Target</th>
+                                                <th>Status Ketercapaian</th>
                                                 <th>Keterangan</th>
                                                 <th>Bukti</th>
                                                 <th>Valid</th>
@@ -122,27 +123,27 @@
                                                     </td>
 
                                                     <td>
-                                                        {{ $item->answer }}
+                                                        {{ $item->instrument->target }}
                                                     </td>
 
                                                     <td>
-                                                        {{ $item->reason }}
-                                                    </td>
-
-                                                    <td class="text-center">
-
+                                                        {{ $item->status_ketercapaian }}
                                                     </td>
 
                                                     <td>
-                                                        <input type="radio" class="form-check-input" id="flexRadioDefault{{ $loop->index }}" name="data[{{ $item->id }}][status]{{ $loop->index }}" value="Valid" {{ old('Valid') }}>
+                                                        {{ $item->desrkripsi_ketercapaian }}
                                                     </td>
 
                                                     <td>
-                                                        <input type="radio" class="form-check-input" id="flexRadioDefault{{ $loop->index }}" name="data[{{ $item->id }}][status]{{ $loop->index }}" value="Tidak Valid" {{ old('Tidak Valid') }}>
+                                                        <input type="radio" class="form-check-input" id="flexRadioDefault{{ $loop->index }}" name="data[{{ $item->id }}][status_temuan_audit]{{ $loop->index }}" value="Tercapai" {{ old('Valid') }}>
+                                                    </td>
+
+                                                    <td>
+                                                        <input type="radio" class="form-check-input" id="flexRadioDefault{{ $loop->index }}" name="data[{{ $item->id }}][status_temuan_audit]{{ $loop->index }}" value="Tidak Tercapai" {{ old('Tidak Valid') }}>
                                                     </td>
                                                 </tr>
                                             @empty
-                                                <td class="text-center col-12" colspan="6">
+                                                <td class="text-center col-12" colspan="7">
                                                     <img src="{{ asset('empty.svg') }}" alt="" class="m-4">
                                                     <p>
                                                         Instrument Menunggu Validasi

@@ -19,6 +19,7 @@ return new class extends Migration
                 ->cascadeOnUpdate();
             $table->enum('status_standar', ['Pendidikan', 'Penelitian', 'Pengabdian Kepada Masyarakat'])->nullable();
             $table->string('name')->nullable();
+            $table->string('target')->nullable();
             $table->timestamps();
         });
     }

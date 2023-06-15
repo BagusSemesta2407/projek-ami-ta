@@ -25,13 +25,17 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->string('nama_instrument')->nullable();
-            $table->string('nama_auditor')->nullable();
-            $table->string('nama_auditee')->nullable();
-            $table->string('nama_unit')->nullable();
-            $table->string('tahun_instrument')->nullable();
-            $table->enum('answer', ['ya', 'tidak'])->comment('jawaban dari auditee')->nullable();
-            $table->enum('status', ['Valid', 'Tidak Valid'])->nullable()->comment('For Auditor');
+            // $table->string('nama_instrument')->nullable();
+            // $table->string('nama_auditor')->nullable();
+            // $table->string('nama_auditee')->nullable();
+            // $table->string('nama_unit')->nullable();
+            // $table->string('tahun_instrument')->nullable();
+            $table->enum('status_ketercapaian',['Tercapai', 'Tidak Tercapai'])->nullable()->comment('for auditee');
+            $table->string('deskripsi_ketercapaian')->nullable()->comment('for auditee');
+            // $table->enum('answer', ['ya', 'tidak'])->comment('jawaban dari auditee')->nullable();
+            $table->string('hasil_audit_dokumen')->nullable()->comment('for auditor');
+            $table->enum('status_temuan_audit', ['Tercapai', 'Tidak Tercapai'])->nullable()->comment('For Auditor');
+            $table->string('rekomendasi')->nullable();
             $table->string('reason')->comment('alasan')->nullable();
             $table->timestamps();
         });

@@ -14,10 +14,14 @@ class AuditorController extends Controller
     public function index()
     {
         $title = 'Auditor';
-        $user = User::role('auditor')->get();
+        // $user = User::role('auditor')->get();
+        // $auditor=Auditor::whereHas('users', function($q){
+        //     $q->whereIn('name', ['Auditor']);
+        // })->get();
+        $auditor=Auditor::all();
 
         return view('admin.auditor.index', [
-            'user' => $user,
+            'auditor' => $auditor,
             'title' => $title,
         ]);
     }
@@ -27,7 +31,10 @@ class AuditorController extends Controller
      */
     public function create()
     {
-        //
+        $title = 'Tambah Auditor';
+        return view('admin.auditor.form', [
+            'title' => $title,
+        ]);
     }
 
     /**
@@ -35,7 +42,25 @@ class AuditorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user=User::create([
+            'name'  =>  $request->name,
+            'email' =>  $request->email,
+            'password'  =>  bcrypt('12345678'),
+        ]);
+
+        $user->assignRole('auditor');
+
+        $data =[
+            'user_id'   => $user->id,
+            'jabatan'   => $request->jabatan,
+            'tugas'     =>  $request->tugas,
+        ];
+
+        $auditor=Auditor::create($data);
+
+
+        return redirect()->route('admin.auditor.index');
+
     }
 
     /**
@@ -49,9 +74,16 @@ class AuditorController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Auditor $auditor)
+    public function edit($id)
     {
-        //
+        $title = 'Edit Auditor';
+        $auditor = Auditor::with(['user'])
+            ->where('id', $id)
+            ->first();
+        return view('admin.auditor.form',[
+            'auditor'=> $auditor,
+            'title' => $title
+        ]);
     }
 
     /**
@@ -59,14 +91,31 @@ class AuditorController extends Controller
      */
     public function update(Request $request, Auditor $auditor)
     {
-        //
+        $data = [
+            'jabatan'=>$request->jabatan,
+            'tugas'=>$request->tugas,
+        ];
+
+        Auditor::where('id', $auditor->id)->update($data);
+        User::whereId($auditor->user_id)->update([
+            'name'  =>  $request->name,
+            'email' =>  $request->email,
+        ]);
+
+        return redirect()->route('admin.auditor.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Auditor $auditor)
+    public function destroy($id)
     {
-        //
+        $auditor= Auditor::find($id);
+
+        $auditor->delete();
+
+        User::where('id', $auditor->user_id)->delete();
+        return redirect()->back();
+
     }
 }

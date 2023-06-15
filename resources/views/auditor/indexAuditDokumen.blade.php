@@ -5,66 +5,50 @@
         <section class="row">
             <div class="card">
                 <div class="card-header">
-                    Data Auditor
-                    <a href="{{ route('admin.auditor.create') }}" class="btn btn-outline-primary block float-end">
-                        Tambah
-                    </a>
-                </div>
+                    Data Audit Dokumen
 
+                    {{-- <a href="{{ route('admin.category-unit.create') }}" class="btn btn-outline-primary block float-end">
+                        Tambah
+                    </a> --}}
+
+                </div>
 
                 <div class="card-body">
                     <table class="table" id="table1">
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Auditor</th>
-                                <th>Jabatan</th>
-                                <th>Tugas</th>
+                                <th>Standar SPMI</th>
+                                <th>Butir Mutu</th>
+                                <th>Status Ketercapaian</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach ($auditor as $item)
+                            @foreach ($instrumentAuditee as $item)
                                 <tr>
                                     <td>
                                         {{ $loop->iteration }}
                                     </td>
 
                                     <td>
-                                        {{ $item->user->name }}
+                                        {{ $item->instrument->status_standar }}
                                     </td>
-
                                     <td>
-                                        @if ($item->jabatan == 'ketua')
-                                            Ketua Tim Auditor
-                                        @elseif ($item->jabatan == 'sekretaris')
-                                            Sekretaris Tim Auditor
-                                        @else
-                                            Anggota Tim Auditor
-                                        @endif
+                                        {{ $item->instrument->name }}
                                     </td>
-
                                     <td>
-                                        {{ $item->tugas }}
+                                        {{ $item->status_ketercapaian }}
                                     </td>
 
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('admin.auditor.edit', $item->id) }}"
-                                                class="btn btn-sm btn-outline-warning">
-                                                <i class="bi bi-pen"></i>
+                                            <a href="{{ route('menu-auditor.index-audit-dokumen.input-hasil-audit-dokumen', $item->id) }}"
+                                                class="btn btn-sm btn-outline-secondary">
+                                                <i class="bi bi-file-earmark-diff"></i>
                                             </a>
                                             &nbsp;
-                                            <form method="POST" action="{{ route('admin.auditor.destroy', $item->id) }}">
-                                                @csrf
-                                                <input name="_method" type="hidden" value="DELETE">
-                                                <button type="submit"
-                                                    class="btn btn-sm btn-outline-danger btn-flat show_confirm"
-                                                    data-toggle="tooltip" title='Delete'>
-                                                    <i class="bi bi-trash3"></i>
-                                                </button>
-                                            </form>
 
                                         </div>
                                     </td>

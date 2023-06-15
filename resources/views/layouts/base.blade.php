@@ -31,6 +31,9 @@
     {{-- file uploader --}}
     <link href="https://unpkg.com/filepond/dist/filepond.css" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ asset('assets/extensions/summernote/summernote-lite.min.css') }}">
+
+
     {{-- choices --}}
     {{-- Toast --}}
     {{-- <link rel="stylesheet" href="{{ asset('assets/extensions/toastify-js/src/toastify.css') }}"> --}}
@@ -254,8 +257,7 @@
     </script>
 
     <script>
-        if ($('#table1').length)
-        {
+        if ($('#table1').length) {
             // Simple Datatable
             let table1 = document.querySelector('#table1');
             let dataTable = new simpleDatatables.DataTable(table1);
@@ -312,6 +314,29 @@
         }
     </script>
 
+    <script src="{{ asset('assets/extensions/summernote/summernote-lite.min.js') }}"></script>
+    <script>
+        $('#summernote').summernote({
+            tabsize: 2,
+            height: 120,
+        })
+        $("#hint").summernote({
+            height: 100,
+            toolbar: false,
+            placeholder: 'type with apple, orange, watermelon and lemon',
+            hint: {
+                words: ['apple', 'orange', 'watermelon', 'lemon'],
+                match: /\b(\w{1,})$/,
+                search: function(keyword, callback) {
+                    callback($.grep(this.words, function(item) {
+                        return item.indexOf(keyword) === 0;
+                    }));
+                }
+            }
+        });
+    </script>
+
     @yield('script')
 </body>
+
 </html>

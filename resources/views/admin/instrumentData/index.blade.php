@@ -46,16 +46,15 @@
                                     </td>
 
                                     <td>
-                                        {{ $item->year }}
+                                        {{ \Carbon\Carbon::parse($item->tanggal_audit)->translatedFormat('d F Y') }}
                                     </td>
 
                                     <td>
-                                        @if ($item->media)
-                                            @foreach ($item->media as $items)
-                                                <a href="{{ $items->getFirstMediaUrl('documentStandard') }}" download
-                                                    title="Unduh">
-                                                    {{-- {{ $item->'download' }} --}}
-                                                    {{ @$items->getFirstMedia('documentStandard')->file_name }}
+                                        @if ($item->documentStandard)
+                                            @foreach ($item->documentStandard as $items)
+                                                
+                                                <a href="{{ $items }}" download>
+                                                    {{ $items }}
                                                 </a>
                                             @endforeach
                                         @endif
@@ -74,10 +73,6 @@
                                             <span class="badge bg-primary">
                                                 Menunggu Konfirmasi Kepala P4MP
                                             </span>
-                                        {{-- @elseif ($item->status == 'Ditolak Kepala P4MP')
-                                            <span class="badge bg-danger">
-                                                Menunggu Konfirmasi Kepala P4MP
-                                            </span> --}}
                                         @else
                                             <span class="badge bg-danger">
                                                 Data AMI Ditolak

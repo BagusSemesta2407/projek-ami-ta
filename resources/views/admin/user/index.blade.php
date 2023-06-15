@@ -47,6 +47,8 @@
                                         Auditee
                                     @elseif ($item->getRoleNames()[0] == 'auditor')
                                         Auditor
+                                    @elseif ($item->getRoleNames()[0] == 'kepala_p4mp')
+                                        Kepala P4MP
                                     @endif
                                 </td>
 
