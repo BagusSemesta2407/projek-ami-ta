@@ -83,6 +83,8 @@
                     <span>Audit Dokumen</span>
                 </a>
             </li>
+        <li class="sidebar-title">Audit Lapangan</li>
+
             <li
                 class="sidebar-item 
         {{ request()->is('menu-auditor/index-instrument-auditor*') ? 'active' : '' }}">

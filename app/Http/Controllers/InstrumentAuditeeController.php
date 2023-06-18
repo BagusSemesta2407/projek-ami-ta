@@ -78,7 +78,7 @@ class InstrumentAuditeeController extends Controller
                 'data_instrument_id' => $id,
                 'instrument_id'=> $key,
                 'status_ketercapaian'    => $value['status_ketercapaian'],
-                'desrkripsi_ketercapaian'    => $value['desrkripsi_ketercapaian'],
+                'deskripsi_ketercapaian'    => $value['deskripsi_ketercapaian'],
                 
                 // 'nama_instrument'   => $instrument->name,
                 // 'nama_auditor'  => $auditor->auditor->name,
@@ -180,10 +180,36 @@ class InstrumentAuditeeController extends Controller
     public function indexAuditDokumen()
     {
         $title = 'Audit Document';
-        $instrumentAuditee=InstrumentAuditee::all();
-        return view('auditor.indexAuditDokumen',[
+        // $instrumentAuditee=InstrumentAuditee::all();
+
+        $userId=Auth::id();
+        $dataInstrument=DataInstrument::with(['categoryUnit'])
+        ->where('auditor_id', $userId)
+        ->where('status', 'Sudah Di Jawab Auditee')
+        ->get();
+        // $dataInstrument=DataInstrument::all();
+
+        return view('auditor.auditdokumen.indexAuditDokumen',[
             'title' => $title,
-            'instrumentAuditee'=>$instrumentAuditee
+            // 'instrumentAuditee'=>$instrumentAuditee
+            'dataInstrument'    =>  $dataInstrument
+        ]);
+    }
+
+    public function indexDataAuditDokumen($id)
+    {
+        $title = 'Data Audit Dokumen';
+
+        $dataInstrument=DataInstrument::find($id);
+        $instrumentAuditee=InstrumentAuditee::where('data_instrument_id', $id)
+        ->whereHas('dataInstrument', function($q){
+            $q->where('status', ['Sudah Di Jawab Auditee']);
+        })->get();
+
+        return view('auditor.auditdokumen.indexDataAuditDokumen', [
+            'title'             =>$title,
+            'dataInstument'     => $dataInstrument,
+            'instrumentAuditee' => $instrumentAuditee
         ]);
     }
 
@@ -195,14 +221,14 @@ class InstrumentAuditeeController extends Controller
         $title = 'Audit Dokumen';
         $instrumentAuditee=InstrumentAuditee::find($id);
 
-        return view('auditor.inputHasilAuditDokumen',[
+        return view('auditor.auditdokumen.inputHasilAuditDokumen',[
             'title' => $title,
             'instrumentAuditee'=> $instrumentAuditee
         ]);
     }
 
     /**
-     * Display the specified resource.
+     * tambah data audit dokumen.
      */
     public function createHasilAuditDokumen(Request $request,$id)
     {
@@ -214,6 +240,18 @@ class InstrumentAuditeeController extends Controller
 
         return redirect()->route('menu-auditor.index-audit-dokumen');
     }
+
+    public function detailHasilAuditDokumen($id)
+    {
+        $title='Detail Data Audit Dokumen';
+        $instrumentAuditee=InstrumentAuditee::find($id);
+
+        return view('auditor.auditdokumen.detailHasilDataDokumen',[
+            'title'=>$title,
+            'instrumentAuditee'=> $instrumentAuditee
+        ]);
+    }
+
 
     /**
      * Display the specified resource.

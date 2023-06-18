@@ -162,7 +162,7 @@
 
                                                     <td>
                                                         <textarea class="form-control" id="exampleFormControlTextarea1{{ $loop->index }}"
-                                                            name="data[{{ $item->id }}][desrkripsi_ketercapaian]"></textarea>
+                                                            name="data[{{ $item->id }}][deskripsi_ketercapaian]"></textarea>
                                                     </td>
 
                                                     {{-- <td class="text-center"> --}}

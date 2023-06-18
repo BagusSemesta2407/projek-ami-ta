@@ -128,7 +128,10 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                     ],
 
                     function(){
+                        Route::get('index-data-audit-dokumen/{dataInstrument}', [InstrumentAuditeeController::class, 'indexDataAuditDokumen'])->name('get-index-data-audit-dokumen');
                         Route::get('input-hasil-audit-dokumen/{instrumentAuditee}', [InstrumentAuditeeController::class , 'inputHasilAuditDokumen'])->name('input-hasil-audit-dokumen');
+                        Route::post('input-hasil-audit-dokumen/{instrumentAuditee}', [InstrumentAuditeeController::class , 'createHasilAuditDokumen'])->name('create-hasil-audit-dokumen');
+                        Route::get('detail-data-audit-dokumen/{instrumentAuditee}', [InstrumentAuditeeController::class, 'detailHasilAuditDokumen'])->name('detail-data-audit-dokumen');
                     }
                 );
             }

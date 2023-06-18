@@ -40,27 +40,28 @@
                             <label for="disabledInput">Bukti</label>
                             {{-- <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
                                 value="{{ $instrumentAuditee->proof_id }}" disabled> --}}
+                            <p>bukti</p>
                         </div>
 
+                    </div>
+                    <form action="{{ route('menu-auditor.index-audit-dokumen.create-hasil-audit-dokumen', $instrumentAuditee) }}"
+                        enctype="multipart/form-data" class="form form-vertical" method="POST">
+                        {{ csrf_field() }}
+                        <div class="form-group">
+                            <label for="disabledInput">Hasil Audit Dokumen</label>
+                            <textarea id="summernote" name="hasil_audit_dokumen"></textarea>
                         </div>
-                        <form action="{{ route('menu-kepala-p4mp.approval-data-ami.approve-data-ami', $instrumentAuditee) }}"
-                            enctype="multipart/form-data" class="form form-vertical" method="POST">
-                            {{ csrf_field() }}
-                            <div class="form-group">
-                                <label for="disabledInput">Hasil Audit Dokumen</label>
-                                <div id="summernote" name="hasil_audit_dokumen"></div>
-                            </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary me-1 mb-1" id="btnSubmit">
+                                Submit
+                                <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;" role="status">
+                                    <span class="sr-only">Loading...</span>
+                                </span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-12">
-            <button type="submit" class="btn btn-primary me-1 mb-1" id="btnSubmit">
-                Submit
-                <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;" role="status">
-                    <span class="sr-only">Loading...</span>
-                </span>
-            </button>
         </div>
         </form>
     </section>

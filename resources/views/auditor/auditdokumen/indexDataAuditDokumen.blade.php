@@ -7,10 +7,6 @@
                 <div class="card-header">
                     Data Audit Dokumen
 
-                    {{-- <a href="{{ route('admin.category-unit.create') }}" class="btn btn-outline-primary block float-end">
-                        Tambah
-                    </a> --}}
-
                 </div>
 
                 <div class="card-body">
@@ -21,6 +17,7 @@
                                 <th>Standar SPMI</th>
                                 <th>Butir Mutu</th>
                                 <th>Status Ketercapaian</th>
+                                <th>Hasil Audit Dokumen</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -38,18 +35,26 @@
                                     <td>
                                         {{ $item->instrument->name }}
                                     </td>
+
                                     <td>
                                         {{ $item->status_ketercapaian }}
+                                    </td>
+
+                                    <td>
+                                        {{ strip_tags($item->hasil_audit_dokumen) }}
                                     </td>
 
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('menu-auditor.index-audit-dokumen.input-hasil-audit-dokumen', $item->id) }}"
                                                 class="btn btn-sm btn-outline-secondary">
-                                                <i class="bi bi-file-earmark-diff"></i>
+                                                <i class="bi bi-file-check-fill"></i>
                                             </a>
                                             &nbsp;
-
+                                            <a href="{{ route('menu-auditor.index-audit-dokumen.detail-data-audit-dokumen', $item->id) }}"
+                                                class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-eye-fill"></i>
+                                            </a>
                                         </div>
                                     </td>
                                 </tr>
@@ -63,28 +68,3 @@
     </div>
 @endsection
 
-{{-- @section('script')
-    
-@endsection --}}
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
-<script type="text/javascript">
- 
-     $('.show_confirm').click(function(event) {
-          var form =  $(this).closest("form");
-          var name = $(this).data("name");
-          event.preventDefault();
-          swal({
-              title: `Are you sure you want to delete this record?`,
-              text: "If you delete this, it will be gone forever.",
-              icon: "warning",
-              buttons: true,
-              dangerMode: true,
-          })
-          .then((willDelete) => {
-            if (willDelete) {
-              form.submit();
-            }
-          });
-      });
-  
-</script> --}}

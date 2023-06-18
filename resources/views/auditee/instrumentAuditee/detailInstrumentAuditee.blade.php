@@ -83,9 +83,11 @@
                             <thead>
                                 <tr>
                                     <th>No</th>
-                                    <th>Pertanyaan</th>
-                                    <th>Jawab</th>
-                                    <th>Keterangan</th>
+                                    <th>Standard SPMI</th>
+                                    <th>Pertanyaan/Butir Mutu</th>
+                                    <th>Indikator dan Target</th>
+                                    <th>Status Ketercapaian</th>
+                                    <th>Deskripsi Ketercapaian</th>
                                     <th>Bukti</th>
                                 </tr>
                             </thead>
@@ -98,22 +100,29 @@
                                         </td>
 
                                         <td>
+                                            {{ $item->instrument->status_standar }}
+                                        </td>
+                                        <td>
                                             {{ $item->instrument->name }}
+                                        </td>
+
+                                        <td>
+                                            {{ $item->instrument->target }}
                                         </td>
 
                                         <td>
                                             @if ($item->status_ketercapaian == 'Tidak Tercapai')
                                                 {{-- <span class="badge badge-success">Ya</span> --}}
-                                                Tidak
+                                                Tidak Tercapai
                                             @else
                                                 {{-- <span class="badge badge-danger">Tidak</span> --}}
-                                                Ya
+                                                Tercapai
                                             @endif
                                             {{-- {{ $item->answer }} --}}
                                         </td>
 
                                         <td>
-                                            {{ $item->desrkripsi_ketercapaian }}
+                                            {{ $item->deskripsi_ketercapaian }}
                                         </td>
 
                                         <td>
