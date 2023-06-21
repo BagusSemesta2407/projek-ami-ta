@@ -316,10 +316,13 @@
 
     <script src="{{ asset('assets/extensions/summernote/summernote-lite.min.js') }}"></script>
     <script>
+        
         $('#summernote').summernote({
             tabsize: 2,
             height: 120,
         })
+
+        
         $("#hint").summernote({
             height: 100,
             toolbar: false,

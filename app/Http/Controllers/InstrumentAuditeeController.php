@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\DB;
 
 class InstrumentAuditeeController extends Controller
 {
+
     /**
      * Display a listing of the resource.
      */
@@ -39,9 +40,10 @@ class InstrumentAuditeeController extends Controller
         $dataInstrument = DataInstrument::find($id);
 
         $filter = (object) [
-            'category_unit_id' => $dataInstrument->id,
+            'category_unit_id' => $dataInstrument->category_unit_id,
             'status_standar' => $status_standar,
         ];
+        // dd($filter);
 
         $instrument = Instrument::filter($filter)
             // ->whereHas('instrumentAuditee', function($q){
@@ -50,6 +52,8 @@ class InstrumentAuditeeController extends Controller
             //     }); 
             // })
             ->get();
+        // $instrument=Instrument::filter($filter)->get();
+            // dd($instrument);
 
         $title = 'Form Data Instrument';
 
@@ -119,11 +123,12 @@ class InstrumentAuditeeController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * AUDIT LAPANGAN(VALIDASI)
+     * (VALIDASI AUDIT LAPANGAN TIM AUDITOR & AUDITEE)
      */
     public function indexAuditor()
     {
-        $title = 'Instrument Auditee';
+        $title = 'Audit Lapangan';
         $userId=Auth::id();
 
         $dataInstrument = DataInstrument::with(['categoryUnit'])
@@ -135,14 +140,16 @@ class InstrumentAuditeeController extends Controller
             'dataInstrument' => $dataInstrument,
         ]);
     }
+
     /**
-     * Display the specified resource.
+     * AUDIT LAPANGAN(VALIDASI)/DATA AUDIT LAPANGAN
+     * 
      */
     public function createAuditor($id)
     {
-        $title = 'Validasi Data Instrument';
+        $title = 'Audit Lapangan';
 
-        $dataInstrument = DataInstrument::find($id); 
+        $dataInstrument = DataInstrument::find($id);
         $instrumentAuditee = InstrumentAuditee::where('data_instrument_id', $id)
         ->whereHas('dataInstrument', function ($q) {
             $q->whereIn('status', ['Sudah Di Jawab Auditee']);
@@ -157,9 +164,71 @@ class InstrumentAuditeeController extends Controller
 
     /**
      * Display the specified resource.
+     * AUDIT LAPANGAN(VALIDASI)/DATA AUDIT LAPANGAN/VALIDASI AUDIT LAPANGAN
+     */
+    public function validateDataAuditLapangan($id)
+    {
+        $title='Audit Lapangan';
+        $instrumentAuditee=InstrumentAuditee::find($id);
+
+        return view('auditor.auditLapangan.validateDataAuditLapangan',[
+            "title" =>$title,
+            "instrumentAuditee"=>$instrumentAuditee
+        ]);
+    }
+
+    public function postValidateDataAuditLapangan(Request $request, $id)
+    {
+        $data = [
+            'hasil_temuan_audit'    => $request->hasil_temuan_audit,
+            'status_temuan_audit'   => $request->status_temuan_audit,
+            'rekomendasi'           => $request->rekomendasi
+        ];
+
+        InstrumentAuditee::where('id', $id)->update($data);
+
+        return redirect()->route('menu-auditor.index-instrument-auditor');
+    }
+
+     /**
+     * Display the specified resource.
+     */
+    public function detailValidateDataAuditLapangan($id)
+    {
+        $title='Audit Lapangan';
+        $instrumentAuditee=InstrumentAuditee::find($id);
+
+        return view('auditor.auditLapangan.detailauditlapangan',[
+            'title' =>$title,
+            'instrumentAuditee' =>$instrumentAuditee
+        ]);
+    }
+
+
+     /**
+     * Display the specified resource.
+     */
+    public function updateStatusDataInstrument($id)
+    {
+        $dataInstrument=DataInstrument::findOrFail($id);
+
+        if($dataInstrument->status == 'Sudah Di Jawab Auditee')
+        {
+            $dataInstrument->status = 'Sudah Divalidasi Auditor';
+        }
+
+        $dataInstrument->save();
+
+        // return redirect()->back();
+        return response()->json(['success', 'Data Berhasil Divalidasi']);
+    }
+
+
+    /**
+     * Display the specified resource.
      */
     public function confirmValidateAuditor(Request $request, $id)
-    {
+    {   
         foreach($request->data as $value)
         {
             InstrumentAuditee::where('data_instrument_id', $id)->update([
@@ -175,7 +244,7 @@ class InstrumentAuditeeController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * AUDIT DOKUMEN.
      */
     public function indexAuditDokumen()
     {
@@ -195,7 +264,10 @@ class InstrumentAuditeeController extends Controller
             'dataInstrument'    =>  $dataInstrument
         ]);
     }
-
+    
+    /**
+     * AUDIT DOKUMEN/DATA AUDIT DOKUMEN.
+     */
     public function indexDataAuditDokumen($id)
     {
         $title = 'Data Audit Dokumen';
@@ -214,11 +286,12 @@ class InstrumentAuditeeController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * AUDIT DOKUMEN/DATA AUDIT DOKUMEN/INPUT HASIL AUDIT DOKUMEN.
+     * .
      */
     public function inputHasilAuditDokumen($id)
     {
-        $title = 'Audit Dokumen';
+    $title = 'Audit Dokumen';
         $instrumentAuditee=InstrumentAuditee::find($id);
 
         return view('auditor.auditdokumen.inputHasilAuditDokumen',[
@@ -228,7 +301,7 @@ class InstrumentAuditeeController extends Controller
     }
 
     /**
-     * tambah data audit dokumen.
+     * AUDIT DOKUMEN/DATA AUDIT DOKUMEN/INPUT HASIL AUDIT DOKUMEN/(POST).
      */
     public function createHasilAuditDokumen(Request $request,$id)
     {
@@ -241,6 +314,9 @@ class InstrumentAuditeeController extends Controller
         return redirect()->route('menu-auditor.index-audit-dokumen');
     }
 
+    /**
+     * AUDIT DOKUMEN/DATA AUDIT DOKUMEN/DETAIL DATA AUDIT DOKUMEN.
+     */
     public function detailHasilAuditDokumen($id)
     {
         $title='Detail Data Audit Dokumen';

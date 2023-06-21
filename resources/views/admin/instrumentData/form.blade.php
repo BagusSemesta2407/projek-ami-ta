@@ -274,14 +274,16 @@
                                                 Pilih Document Standard
                                             </label>
                                             <ul class="list-group">
-                                                @forelse (@$documentStandard as $item)
+                                                @forelse (@$dokumenStandar as $item)
                                                     <li class="list-group-item">
-                                                        @if ($item->media)
+                                                        {{-- @if ($item->media)
                                                         <input class="form-check-input" type="checkbox"
                                                             value="{{ $item->getFirstMediaUrl('documentStandard') }}"
                                                             aria-label="..." name="documentStandard[]">
                                                             {{ @$item->getFirstMedia('documentStandard')->file_name }}
-                                                        @endif
+                                                        @endif --}}
+                                                            <input type="checkbox" class="form-check-input" name="dokumenStandar[]" value="{{ $item->file }}" aria-label="...">
+                                                            {{ $item->file }}
                                                     </li>
                                                 @empty
                                                     <i>

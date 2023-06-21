@@ -5,9 +5,12 @@ use App\Http\Controllers\AuditorController;
 use App\Http\Controllers\CategoryUnitController;
 use App\Http\Controllers\DataInstrumentController;
 use App\Http\Controllers\DocumentStandardController;
+use App\Http\Controllers\DokumenStandarController;
 use App\Http\Controllers\InstrumentAuditeeController;
 use App\Http\Controllers\InstrumentController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\UserController;
+use Illuminate\Routing\RouteRegistrar;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -47,10 +50,25 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::resource('auditor', AuditorController::class);
                 Route::resource('auditee', AuditeeController::class);
                 Route::resource('document-standard', DocumentStandardController::class);
+                Route::resource('dokumen-standar', DokumenStandarController::class);
 
                 //data-instrument
                 Route::resource('data-instruments', DataInstrumentController::class);
                 Route::get('getDataInstrumentId/{id}', [DataInstrumentController::class, 'getDataInstrumentId'])->name('get-data-instrument-id');
+
+                Route::get('report-ami', [ReportController::class , 'index'])->name('report-index');
+
+                Route::group(
+                    [
+                        'as' =>'report-ami.',
+                        'prefix'   =>'report-ami',
+                    ],
+
+                    function()
+                    {
+                        Route::get('detail-report-ami/{instrumentAuditee}', [ReportController::class, 'detailReportAMI'])->name('detail-ami');
+                    }
+                );
             }
         );
 
@@ -108,7 +126,12 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                     function () {
                         //for instrument detail
                         Route::get('validasi-instrument-auditor/{dataInstrument}', [InstrumentAuditeeController::class, 'createAuditor'])->name('validasi-instrument-auditor');
-                        Route::post('validasi-instrument-auditor/{dataInstrument}', [InstrumentAuditeeController::class, 'confirmValidateAuditor'])->name('confirm-validate-instrument-auditor');
+                        Route::get('audit-data-validasi/{instrumentAuditee}',[InstrumentAuditeeController::class, 'validateDataAuditLapangan'])->name('audit-data-validasi');
+                        // Route::post('validasi-instrument-auditor/{dataInstrument}', [InstrumentAuditeeController::class, 'confirmValidateAuditor'])->name('confirm-validate-instrument-auditor');
+                        Route::post('audit-data-validasi/{instrumentAuditee}',[InstrumentAuditeeController::class, 'postValidateDataAuditLapangan'])->name('post-validate-data-audit-lapangan');
+                        Route::get('detail-audit-lapangan/{instrumentAuditee}', [InstrumentAuditeeController::class, 'detailValidateDataAuditLapangan'])->name('detail-audit-lapangan');
+
+                        Route::post('validate/{dataInstrument}', [InstrumentAuditeeController::class, 'updateStatusDataInstrument'])->name('validate');
                         // Route::post('form-instrument-auditee/{dataInstrument}', [InstrumentAuditeeController::class, 'store'])->name('store-form-instrument-auditee');
                         // Route::get('list-instrument-standard/{dataInstrument}/{status_standar?}', [InstrumentAuditeeController::class, 'create'])->name('status-standar');
 

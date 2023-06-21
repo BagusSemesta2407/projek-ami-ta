@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CategoryUnit;
 use App\Models\DataInstrument;
 use App\Models\DocumentStandard;
+use App\Models\DokumenStandar;
 use App\Models\Instrument;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -46,17 +47,19 @@ class DataInstrumentController extends Controller
 
         $categoryUnit = CategoryUnit::all();
 
-        $documentStandard = DocumentStandard::whereHas('media', function($q){
-            $q->whereIn('model_type', ['App\Models\DocumentStandard']);
-        })->get();
+        // $documentStandard = DocumentStandard::whereHas('media', function($q){
+        //     $q->whereIn('model_type', ['App\Models\DocumentStandard']);
+        // })->get();
         // dd($documentStandard);
-
+        // $dokumenStandar=DokumenStandar::oldest('file');
+        $dokumenStandar=DokumenStandar::all();
         return view('admin.instrumentData.form', [
             'title' => $title,
             'categoryUnit' => $categoryUnit,
             'userAuditor' => $userAuditor,
             'userAuditee' => $userAuditee,
-            'documentStandard' => $documentStandard,
+            'dokumenStandar'    => $dokumenStandar
+            // 'documentStandard' => $documentStandard,
         ]);
     }
 
@@ -71,7 +74,7 @@ class DataInstrumentController extends Controller
             'category_unit_id' => $request->category_unit_id,
             'status' => 'Menunggu Konfirmasi Kepala P4MP',
             'tanggal_audit' => $request->tanggal_audit,
-            'documentStandard'  => $request->documentStandard
+            'dokumenStandar'  => $request->dokumenStandar
         ]);
         // dd($request->all());
 

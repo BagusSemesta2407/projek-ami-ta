@@ -17,7 +17,8 @@
             {{ request()->is('admin/user*') ? 'active' : '' }} ||
             {{ request()->is('admin/auditor*') ? 'active' : '' }} ||
             {{ request()->is('admin/auditee*') ? 'active' : '' }} ||
-            {{ request()->is('admin/document-standard*') ? 'active' : '' }}">
+            {{ request()->is('admin/document-standard*') ? 'active' : '' }} ||
+            {{ request()->is('admin/dokumen-standar*') ? 'active' : '' }}">
                 <a href="#" class='sidebar-link'>
                     <i class="bi bi-stack"></i>
                     <span>Master Data</span>
@@ -48,6 +49,11 @@
                             Document Standard
                         </a>
                     </li>
+                    <li class="submenu-item {{ request()->is('admin/dokumen-standar*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.dokumen-standar.index') }}" class="sidebar-link">
+                            Dokumen Standar
+                        </a>
+                    </li>
                 </ul>
             </li>
 
@@ -56,6 +62,14 @@
                 <a href="{{ route('admin.data-instruments.index') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
                     <span>Data Penetapan AMI</span>
+                </a>
+            </li>
+            <li class="sidebar-title">Report</li>
+
+            <li class="sidebar-item">
+                <a href="{{ route('admin.report-index') }}" class='sidebar-link'>
+                    <i class="bi bi-filetype-doc"></i>
+                    <span>Audit Mutu Internal</span>
                 </a>
             </li>
         @endrole
@@ -67,7 +81,7 @@
         {{ request()->is('menu-auditee/instruments-auditee*') ? 'active' : '' }}">
                 <a href="{{ route('menu-auditee.instruments-auditee.index') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
-                    <span>Instrument Auditee</span>
+                    <span>Evaluasi Diri</span>
                 </a>
             </li>
         @endrole
@@ -83,14 +97,13 @@
                     <span>Audit Dokumen</span>
                 </a>
             </li>
-        <li class="sidebar-title">Audit Lapangan</li>
 
             <li
                 class="sidebar-item 
         {{ request()->is('menu-auditor/index-instrument-auditor*') ? 'active' : '' }}">
                 <a href="{{ route('menu-auditor.index-instrument-auditor') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
-                    <span>Validasi</span>
+                    <span>Audit Lapangan</span>
                 </a>
             </li>
         @endrole

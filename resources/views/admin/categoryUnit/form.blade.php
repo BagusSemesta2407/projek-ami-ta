@@ -37,7 +37,7 @@
                                 <div class="row repeater">
                                     <div class="col-lg-6" data-repeater-list="">
                                         <div class="form-group" data-repeater-item>
-                                            <label for="first-name-vertical">Nama</label>
+                                            <label for="first-name-vertical">Unit/Program Studi/Jurusan</label>
                                             <input type="text" id="first-name-vertical"
                                                 class="form-control @error('name')
                                                 is-invalid

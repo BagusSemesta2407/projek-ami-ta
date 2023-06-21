@@ -47,7 +47,6 @@
 
                             <div class="col-md-3 badges">
                                 @if ($dataInstrument->status == 'On Progress')
-                                    {{-- On Progress --}}
                                     <span class="badge bg-secondary">On Progress</span>
                                 @elseif ($dataInstrument->status == 'Sudah Di Jawab Auditee')
                                     <span class="badge bg-warning">Menunggu Validasi Auditor</span>
@@ -72,6 +71,7 @@
                         </div>
                     </div>
                 </div>
+                {{-- <x-components.alert></x-components.alert> --}}
             </div>
         </div>
 
@@ -126,7 +126,7 @@
                                         </td>
 
                                         <td>
-
+                                            {{-- bukti --}}
                                         </td>
                                     </tr>
                                 @empty

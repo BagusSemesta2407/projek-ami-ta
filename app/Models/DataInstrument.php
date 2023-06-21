@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -14,6 +15,10 @@ class DataInstrument extends Model implements HasMedia
 
     protected $guarded = [
         'id',
+    ];
+
+    protected $appends = [
+        'file_dokumen_standar'
     ];
 
     // public function auditee(){
@@ -43,7 +48,17 @@ class DataInstrument extends Model implements HasMedia
         return $this->hasMany(InstrumentAuditee::class);
     }
 
+
+    public function getFileDokumenStandarAttribute()
+    {
+        $data=DokumenStandar::whereIn('id', $this->dokumenStandar)->get();
+        if ($data->isEmpty()) {
+            return null;
+        }
+
+        return $data->implode('file', '-');
+    }
     protected $casts = [
-        'documentStandard' => 'array'
+        'dokumenStandar' => 'array'
     ];
 }

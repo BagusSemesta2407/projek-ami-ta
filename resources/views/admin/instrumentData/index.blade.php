@@ -50,11 +50,11 @@
                                     </td>
 
                                     <td>
-                                        @if ($item->documentStandard)
-                                            @foreach ($item->documentStandard as $items)
-                                                
-                                                <a href="{{ $items }}" download>
-                                                    {{ $items }}
+                                        @if ($item->dokumenStandar)
+                                            {{-- {{ $item->dokumenStandar }} --}}
+                                            @foreach ($item->dokumenStandar as $items)
+                                                <a href="{{ asset('storage/public/file/dokumenStandar/' . $items) }}">
+                                                    <option value="{{ $items }}">{{ $items }}</option>
                                                 </a>
                                             @endforeach
                                         @endif
