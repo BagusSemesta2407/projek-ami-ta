@@ -104,6 +104,6 @@ class DokumenStandarController extends Controller
 
         $dokumenStandar->delete();
 
-        return response()->json(['status' => 'Data Telah Dihapus']);
+        return response()->json(['success','Data Berhasil Dihapus']);
     }
 }

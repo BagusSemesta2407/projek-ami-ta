@@ -18,6 +18,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Auditor</th>
+                                <th>Email</th>
                                 <th>Jabatan</th>
                                 <th>Tugas</th>
                                 <th>Action</th>
@@ -33,6 +34,9 @@
 
                                     <td>
                                         {{ $item->user->name }}
+                                    </td>
+                                    <td>
+                                        {{ $item->user->email }}
                                     </td>
 
                                     <td>
@@ -56,7 +60,7 @@
                                                 <i class="bi bi-pen"></i>
                                             </a>
                                             &nbsp;
-                                            <form method="POST" action="{{ route('admin.auditor.destroy', $item->id) }}">
+                                            {{-- <form method="POST" action="{{ route('admin.auditor.destroy', $item->id) }}">
                                                 @csrf
                                                 <input name="_method" type="hidden" value="DELETE">
                                                 <button type="submit"
@@ -64,7 +68,11 @@
                                                     data-toggle="tooltip" title='Delete'>
                                                     <i class="bi bi-trash3"></i>
                                                 </button>
-                                            </form>
+                                            </form> --}}
+
+                                            <button class="btn btn-sm btn-outline-danger delete" data-url="{{ route('admin.auditor.destroy', $item->id) }}">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
 
                                         </div>
                                     </td>

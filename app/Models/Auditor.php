@@ -18,7 +18,4 @@ class Auditor extends Model
         return $this->belongsTo(User::class);
     }
 
-    // public function dataInstrument(){
-    //     return $this->hasMany(DataInstrument::class);
-    // }
 }

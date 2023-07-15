@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DataInstrumentRequest;
 use App\Models\CategoryUnit;
 use App\Models\DataInstrument;
 use App\Models\DocumentStandard;
@@ -9,6 +10,7 @@ use App\Models\DokumenStandar;
 use App\Models\Instrument;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DataInstrumentController extends Controller
 {
@@ -34,7 +36,7 @@ class DataInstrumentController extends Controller
      */
     public function create()
     {
-        $title = 'Form Tambah Data Instrument';
+        $title = 'Data Penetapan AMI';
 
         $userAuditor = User::whereHas('roles', function ($q) {
             $q->whereIn('name', ['auditor']);
@@ -47,11 +49,6 @@ class DataInstrumentController extends Controller
 
         $categoryUnit = CategoryUnit::all();
 
-        // $documentStandard = DocumentStandard::whereHas('media', function($q){
-        //     $q->whereIn('model_type', ['App\Models\DocumentStandard']);
-        // })->get();
-        // dd($documentStandard);
-        // $dokumenStandar=DokumenStandar::oldest('file');
         $dokumenStandar=DokumenStandar::all();
         return view('admin.instrumentData.form', [
             'title' => $title,
@@ -66,17 +63,17 @@ class DataInstrumentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DataInstrumentRequest $request)
     {
         DataInstrument::create([
             'auditor_id' => $request->auditor_id,
+            'auditor2_id' => $request->auditor2_id,
             'auditee_id' => $request->auditee_id,
             'category_unit_id' => $request->category_unit_id,
             'status' => 'Menunggu Konfirmasi Kepala P4MP',
             'tanggal_audit' => $request->tanggal_audit,
             'dokumenStandar'  => $request->dokumenStandar
         ]);
-        // dd($request->all());
 
         return redirect()->route('admin.data-instruments.index')->with('success', 'Data Berhasil Ditambah');
 
@@ -95,7 +92,7 @@ class DataInstrumentController extends Controller
      */
     public function edit($id)
     {
-        $title = 'Form Edit Data Instrument';
+        $title = 'Data Penetapan AMI';
         $dataInstrument=DataInstrument::find($id);
         $userAuditor = User::whereHas('roles', function ($q) {
             $q->whereIn('name', ['auditor']);
@@ -107,7 +104,8 @@ class DataInstrumentController extends Controller
         })->get();
         $categoryUnit = CategoryUnit::all();
         $instrument = Instrument::all();
-
+        // $dokumenStandar=$dataInstrument->dokumenStandar;
+        $dokumenStandar=DokumenStandar::oldest('file')->get();
 
         return view('admin.instrumentData.form',[
             'dataInstrument' => $dataInstrument,
@@ -116,23 +114,39 @@ class DataInstrumentController extends Controller
             'userAuditee' => $userAuditee,
             'categoryUnit' => $categoryUnit,
             'instrument' => $instrument,
+            'dokumenStandar'=> $dokumenStandar
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, DataInstrument $dataInstrument)
+    public function update(Request $request, $id)
     {
-        //
+        $data=[
+            'auditor_id' => $request->auditor_id,
+            'auditee_id' => $request->auditee_id,
+            'category_unit_id' => $request->category_unit_id,
+            'status' => 'Menunggu Konfirmasi Kepala P4MP',
+            'tanggal_audit' => $request->tanggal_audit,
+            'dokumenStandar'  => $request->dokumenStandar
+        ];
+
+        DataInstrument::where('id', $id)->update($data);
+
+        return redirect()->route('admin.data-instruments.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(DataInstrument $dataInstrument)
+    public function destroy($id)
     {
-        //
+        $dataInstrument = DataInstrument::find($id);
+
+        $dataInstrument->delete();
+
+        return response()->json(['success','Data Berhasil Dihapus']);
     }
 
     /**
@@ -142,7 +156,6 @@ class DataInstrumentController extends Controller
     {
         $title = 'Konfirmasi Data Penetapan AMI';
         $dataInstrument=DataInstrument::with(['categoryUnit'])
-        // ->where('status', 'Menunggu Konfirmasi Kepala P4MP')
         ->get();
 
         return view('kepalaP4mp.index', [
@@ -177,7 +190,7 @@ class DataInstrumentController extends Controller
 
         DataInstrument::where('id', $id)->update($data);
 
-        return redirect()->route('menu-kepala-p4mp.approval-data-ami');
+        return redirect()->route('menu-p4mp.approval-data-ami');
     }
 
     public function getDataInstrumentId($id)

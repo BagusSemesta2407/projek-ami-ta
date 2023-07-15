@@ -50,6 +50,6 @@ class UserSeeder extends Seeder
             'password' => bcrypt('12345678'),
         ]);
 
-        $user->assignRole('kepala_p4mp');
+        $user->assignRole('P4MP');
     }
 }

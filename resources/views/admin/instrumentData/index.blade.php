@@ -19,7 +19,8 @@
                             <tr>
                                 <th>No</th>
                                 <th>Auditee</th>
-                                <th>Auditor</th>
+                                <th>Auditor 1</th>
+                                <th>Auditor 2</th>
                                 <th>Unit</th>
                                 <th>Tahun</th>
                                 <th>Document Standard</th>
@@ -40,6 +41,9 @@
                                     </td>
                                     <td>
                                         {{ @$item->auditor->name }}
+                                    </td>
+                                    <td>
+                                        {{ @$item->auditor2->name }}
                                     </td>
                                     <td>
                                         {{ @$item->categoryUnit->name }}
@@ -87,16 +91,9 @@
                                                 <i class="bi bi-pen"></i>
                                             </a>
                                             &nbsp;
-                                            <form method="POST"
-                                                action="{{ route('admin.data-instruments.destroy', $item->id) }}">
-                                                @csrf
-                                                <input name="_method" type="hidden" value="DELETE">
-                                                <button type="submit"
-                                                    class="btn btn-sm btn-outline-danger btn-flat show_confirm"
-                                                    data-toggle="tooltip" title='Delete'>
-                                                    <i class="bi bi-trash3"></i>
-                                                </button>
-                                            </form>
+                                            <button class="btn btn-sm btn-outline-danger delete" data-url="{{ route('admin.data-instruments.destroy', $item->id) }}">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>

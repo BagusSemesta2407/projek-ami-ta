@@ -61,7 +61,7 @@
                                                 is-invalid
                                             @enderror"
                                                 name="file" placeholder="Masukkan File"
-                                                value="{{ old('file', $dokumenStandar->file) }}" data-default-file="{{ @$dokumenStandar->file_url }}">
+                                                value="{{ old('file', @$dokumenStandar->file) }}" data-default-file="{{ @$dokumenStandar->file_url }}">
 
                                             @if ($errors->has('file'))
                                                 <span class="text-danger">{{ $errors->first('file') }}</span>

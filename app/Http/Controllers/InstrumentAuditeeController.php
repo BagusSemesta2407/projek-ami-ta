@@ -19,7 +19,7 @@ class InstrumentAuditeeController extends Controller
     public function index()
     {
         $title = 'Instrument Auditee';
-        $userId=Auth::id();
+        $userId=Auth::id(); 
 
         $dataInstrument = DataInstrument::with(['categoryUnit'])
         ->where('auditee_id', $userId)
@@ -70,6 +70,7 @@ class InstrumentAuditeeController extends Controller
      */
     public function store(Request $request, $id)
     {
+        // $bukti=InstrumentAuditee::saveBukti($request);
         foreach ($request->data as $key => $value)
         {
             // $auditor=DataInstrument::find($id);
@@ -83,13 +84,15 @@ class InstrumentAuditeeController extends Controller
                 'instrument_id'=> $key,
                 'status_ketercapaian'    => $value['status_ketercapaian'],
                 'deskripsi_ketercapaian'    => $value['deskripsi_ketercapaian'],
-                
+                'bukti'=>$value['bukti']
+                // 'bukti' => InstrumentAuditee::saveBukti($value['bukti']),
                 // 'nama_instrument'   => $instrument->name,
                 // 'nama_auditor'  => $auditor->auditor->name,
                 // 'nama_auditee'  => $auditee->auditee->name,
                 // 'nama_unit'     => $categoryUnit->categoryUnit->name,
                 // 'tahun_instrument'  => $dataInstrument->year
             ]);
+
         }
 
         DataInstrument::where('id', $id)->update([
@@ -291,7 +294,7 @@ class InstrumentAuditeeController extends Controller
      */
     public function inputHasilAuditDokumen($id)
     {
-    $title = 'Audit Dokumen';
+        $title = 'Audit Dokumen';
         $instrumentAuditee=InstrumentAuditee::find($id);
 
         return view('auditor.auditdokumen.inputHasilAuditDokumen',[
@@ -329,6 +332,124 @@ class InstrumentAuditeeController extends Controller
     }
 
 
+    /**
+     * KEPALA P4MP
+     * Rapat-tinjauan.
+     */
+    public function rapatTinjauan()
+    {
+        $title='Rapat Tinjauan Manajemen Pengendalian';
+        // $instrumentAuditee=InstrumentAuditee::whereHas('dataInstrument', function($q){
+        //     $q->whereIn('status', ['Sudah Divalidasi Auditor']);
+        // })->get();
+        $dataInstrument=DataInstrument::with(['categoryUnit'])
+        ->where('status', 'Sudah Divalidasi Auditor')
+        ->get();
+        return view('rapatTinjauan.index',[
+            'title' => $title,
+            'dataInstrument'=>$dataInstrument
+        ]);
+    }
+
+
+    public function formRapatTinjauanPengendalian($id)
+    {
+        $title='Rapat Tinjauan Manajemen Pengendalian';
+        $instrumentAuditee=InstrumentAuditee::with('dataInstrument')->where('data_instrument_id', $id)->get();
+
+        return view('rapatTinjauan.pengendalian.form',[
+            'title' => $title,
+            'instrumentAuditee'=>$instrumentAuditee
+        ]);
+    }
+
+
+    /**
+     * Display the specified resource.
+     */
+    public function createPengendalian($id)
+    {
+        $title='Rapat Tinjauan Manajemen';
+
+        $instrumentAuditee=InstrumentAuditee::find($id);
+
+        return view('rapatTinjauan.form',[
+            'title' => $title,
+            'instrumentAuditee'=> $instrumentAuditee
+        ]);
+    }
+
+    /**
+     * POST PENGENDALIAN.
+     */
+    public function storePengendalian(Request $request, $id)
+    {
+        $data=[
+            'important' => $request->important,
+            'urgent'    => $request->urgent,
+            'anggaran'  => $request->anggaran,
+            'tindak_lanjut' => $request->tindak_lanjut,
+            'deskripsi_penting' =>$request->deskripsi_penting,
+            'deskripsi_urgent' =>$request->deskripsi_urgent,
+        ];
+
+        // $file=InstrumentAuditee::saveChangeDokumen($request);
+
+        // if($file){
+        //     $data['change_dokumen']= $file;
+        //     InstrumentAuditee::deleteChangeDokumen($id);
+        // }
+
+        InstrumentAuditee::where('id', $id)->update($data);
+
+        return redirect()->route('menu-kepala-p4mp.rapat-tinjauan');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function indexPeningkatan()
+    {
+        $title='Rapat Tinjauan Manajemen';
+        $instrumentAuditee=InstrumentAuditee::whereHas('dataInstrument', function($q){
+            $q->whereIn('status', ['Sudah Divalidasi Auditor']);
+        })->get();
+        return view('rapatTinjauan.peningkatanInde',[
+            'title' => $title,
+            'instrumentAuditee'=>$instrumentAuditee
+        ]);
+    }
+
+
+    /**
+     * Display the specified resource.
+     */
+    public function createPeningkatan($id)
+    {
+        $title='Rapat Tinjauan Manajemen';
+
+        $instrumentAuditee=InstrumentAuditee::find($id);
+
+        return view('rapatTinjauan.createPeningkatan',[
+            'title' => $title,
+            'instrumentAuditee'=> $instrumentAuditee
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function storePeningkatan(Request $request,$id)
+    {
+        $file=InstrumentAuditee::saveChangeDokumen($request);
+
+        if($file){
+            $data['change_dokumen']= $file;
+            InstrumentAuditee::deleteChangeDokumen($id);
+        }
+        InstrumentAuditee::where('id', $id)->update($data);
+        return redirect()->route('menu-kepala-p4mp.index-peningkatan');
+    }
     /**
      * Display the specified resource.
      */

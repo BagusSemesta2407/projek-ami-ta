@@ -14,6 +14,8 @@ class InstrumentAuditee extends Model
         'id',
     ];
 
+    protected $appends = ['bukti_url','change_dokumen_url'];
+
     public function dataInstrument()
     {
         return $this->belongsTo(DataInstrument::class);
@@ -24,10 +26,10 @@ class InstrumentAuditee extends Model
         return $this->belongsTo(Instrument::class);
     }
 
-    public function proof()
-    {
-        return $this->belongsTo(Proof::class);
-    }
+    // public function proof()
+    // {
+    //     return $this->belongsTo(Proof::class);
+    // }
 
     /**
      * Scope Filter.
@@ -37,66 +39,85 @@ class InstrumentAuditee extends Model
     public function scopeFilter($query, $filter)
     {
         $query->when($filter->data_instrument_id ?? false, fn ($query, $dataInstrument) => $query->where('data_instrument_id', $dataInstrument));
-
     }
 
-    // /**
-    //  * The accessors to append to the model's array form.
-    //  *
-    //  * @var array
-    //  */
-    // protected $appends = ['proof_url'];
+    /**
+     * Save image Owner.
+     *
+     * @param  $request
+     * @return string
+     */
+    public static function saveBukti($file)
+    {
+        $filename = $file->getClientOriginalName();
+        $file->storeAs('public/bukti/', $filename);
 
-    // /**
-    //  * Save proof Owner.
-    //  *
-    //  * @return string
-    //  */
-    // public static function saveProof($request)
-    // {
-    //     $filename = null;
+        return $filename; // Kembalikan nama file jika diperlukan
+    }
 
-    //     if ($request->proof) {
-    //         $file = $request->proof;
+    public static function saveChangeDokumen($request)
+    {
+        $filename = null;
+        if ($request->change_dokumen) {
+            $file = $request->change_dokumen;
 
-    //         foreach ($file as $key) {
-    //             $ext = $key->getClientOriginalExtension();
-    //             $filename = date('YmdHis').uniqid().'.'.$ext;
-    //             // $filename = str_random(5)."-".date('his')."-".str_random(3).".".$ext;
-    //             $file->storeAs('public/instrumentAuditee/proof/', $filename);
-    //         }
-    //     }
+            $name = $file->getClientOriginalName();
+            $filename = $name;
+            $file->storeAs('public/perubahanDokumen/', $filename);
+        }
 
-    //     return $filename;
-    // }
+        return $filename;
+    }
 
-    // /**
-    //  * Get the file proof.
-    //  *
-    //  * @return string
-    //  */
-    // public function getProofUrlAttribute()
-    // {
-    //     if ($this->proof) {
-    //         return asset('storage/public/instrumentAuditee/proof/'.$this->proof);
-    //     }
+    public function getChangeDokumenUrlAttribute()
+    {
+        if ($this->change_dokumen) {
+            return asset('storage/public/perubahanDokumen/' . $this->change_dokumen);
+        }
 
-    //     return null;
-    // }
+        return null;
+    }
 
-    // /**
-    //  * Delete proof.
-    //  *
-    //  * @return void
-    //  */
-    // public static function deleteProof($id)
-    // {
-    //     $instrumentAuditee = InstrumentAuditee::firstWhere('id', $id);
-    //     if ($instrumentAuditee->proof != null) {
-    //         $path = 'public/instrumentAuditee/proof/'.$instrumentAuditee->proof;
-    //         if (Storage::exists($path)) {
-    //             Storage::delete('public/instrumentAuditee/proof/'.$instrumentAuditee->proof);
-    //         }
-    //     }
-    // }
+    /**
+     * Get the image owner url.
+     *
+     * @return string
+     */
+    public function getBuktiUrlAttribute()
+    {
+        if ($this->bukti) {
+            return asset('storage/public/bukti/' . $this->bukti);
+        }
+
+        return null;
+    }
+
+    /**
+     * Delete image.
+     *
+     * @param  $id
+     * @return void
+     */
+    public static function deleteBukti($id)
+    {
+        $instrumentAuditee = InstrumentAuditee::firstWhere('id', $id);
+        if ($instrumentAuditee->bukti != null) {
+            $path = 'public/bukti/' . $instrumentAuditee->bukti;
+            if (Storage::exists($path)) {
+                Storage::delete('public/bukti/' . $instrumentAuditee->bukti);
+            }
+        }
+    }
+
+    public static function deleteChangeDokumen($id)
+    {
+        $instrumentAuditee = InstrumentAuditee::firstWhere('id', $id);
+
+        if ($instrumentAuditee->change_dokumen != null) {
+            $path = 'public/perubahanDokumen/' . $instrumentAuditee->change_dokumen;
+            if (Storage::exists($path)) {
+                Storage::delete('public/perubahanDokumen/' . $instrumentAuditee->change_dokumen);
+            }
+        }
+    }
 }

@@ -23,6 +23,8 @@ class CategoryUnitRequest extends FormRequest
     {
         $rules = [
             'name' => 'required',
+            'kepala'=> 'required',
+            'kategori_audit'    => 'required',
         ];
 
         return $rules;
@@ -32,6 +34,8 @@ class CategoryUnitRequest extends FormRequest
     {
         return [
             'name.required' => 'Nama Kategori Unit Wajib Diisi',
+            'kepala.required' => 'Nama Kepala Unit Wajib Diisi',
+            'kategori_audit.required' => 'Nama Kategori Audit Wajib Diisi',
         ];
     }
 }

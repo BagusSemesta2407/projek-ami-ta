@@ -22,6 +22,7 @@ class CategoryUnit extends Model
     {
         return $this->hasMany(DataInstrument::class);
     }
+    
 
     /**
      * Scope Filter.

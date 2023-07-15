@@ -1,146 +1,9 @@
 @extends('layouts.base')
 
 @section('content')
-    {{-- <head>
-    <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-</head> --}}
     <section id="basic-vertical-layouts">
         <div class="row match-height">
             <div class="col-md-12 col-12">
-                {{-- <div class="card">
-                    <div class="card-header">
-                        <h4 class="card-title">
-                            @if (@$dataInstrument->exists)
-                                Edit
-                                @php
-                                    $aksi = 'Edit';
-                                @endphp
-                            @else
-                                Tambah
-                                @php
-                                    $aksi = 'Tambah';
-                                @endphp
-                            @endif
-                            Data Unit Kerja
-                        </h4>
-                    </div>
-
-                    @if (@$dataInstrument->exists)
-                        <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                            action="{{ route('admin.data-instruments.update', $dataInstrument) }}">
-                            @method('PUT')
-                        @else
-                            <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                                action="{{ route('admin.data-instruments.store') }}">
-                    @endif
-                    {{ csrf_field() }}
-                    <div class="card-content">
-                        <div class="card-body">
-                            <div class="form-body">
-                                <div class="row">
-                                    <div class="col-12">
-                                        <div class="form-group">
-                                            <label for="name" class="col-sm-3 col-form-label">
-                                                Pilih Auditor <sup class="text-danger">*</sup>
-                                            </label>
-
-                                            <div class="col-md-12">
-                                                <div class="input-group">
-                                                    <select name="auditor_id"
-                                                        class="form-control select2 @error('auditor_id') is-invalid @enderror">
-                                                        <option value="" selected="" disabled="">
-                                                            Pilih Auditor
-                                                        </option>
-
-                                                        @foreach ($userAuditor as $item)
-                                                            <option value="{{ $item->id }}"
-                                                                {{ old('auditor_id', @$dataInstrument->auditor_id) == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                @if ($errors->has('auditor_id'))
-                                                    <span class="text-danger">{{ $errors->first('auditor_id') }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="name" class="col-sm-3 col-form-label">
-                                                Pilih Auditee <sup class="text-danger">*</sup>
-                                            </label>
-
-                                            <div class="col-md-12">
-                                                <div class="input-group">
-                                                    <select name="auditee_id"
-                                                        class="form-control select2 @error('auditee_id') is-invalid @enderror">
-                                                        <option value="" selected="" disabled="">
-                                                            Pilih Auditee
-                                                        </option>
-
-                                                        @foreach ($userAuditee as $item)
-                                                            <option value="{{ $item->id }}"
-                                                                {{ old('auditee_id', @$dataInstrument->auditee_id) == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                @if ($errors->has('auditee_id'))
-                                                    <span class="text-danger">{{ $errors->first('auditee_id') }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="name" class="col-sm-3 col-form-label">
-                                                Pilih Unit Kerja <sup class="text-danger">*</sup>
-                                            </label>
-
-                                            <div class="col-md-12">
-                                                <div class="input-group">
-                                                    <select name="category_unit_id"
-                                                        class="form-control select2 @error('category_unit_id') is-invalid @enderror">
-                                                        <option value="" selected="" disabled="">
-                                                            Pilih Unit
-                                                        </option>
-
-                                                        @foreach ($categoryUnit as $item)
-                                                            <option value="{{ $item->id }}"
-                                                                {{ old('category_unit_id', @$dataInstrument->category_unit_id) == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
-                                                @if ($errors->has('category_unit_id'))
-                                                    <span
-                                                        class="text-danger">{{ $errors->first('category_unit_id') }}</span>
-                                                @endif
-                                            </div>
-                                        </div>
-
-                                        <div class="form-group">
-                                            <label for="" class="col-sm-3 col-form-label">
-                                                Tahun
-                                            </label>
-
-                                            <div class="col-md-12">
-                                                <div class="input-group">
-                                                    <input type="number" name="year" class="form-control" id="datepicker">
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                </div> --}}
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">
@@ -161,11 +24,11 @@
 
                     @if (@$dataInstrument->exists)
                         <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                            action="{{ route('admin.data-instruments.update', $dataInstrument) }}">
+                            action="{{ route('admin.data-instruments.update', $dataInstrument) }}" id="form">
                             @method('PUT')
                         @else
                             <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                                action="{{ route('admin.data-instruments.store') }}">
+                                action="{{ route('admin.data-instruments.store') }}" id="form">
                     @endif
                     {{ csrf_field() }}
                     <div class="card-content">
@@ -175,40 +38,62 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="name" class="col-sm-3 col-form-label">
-                                                Pilih Auditor <sup class="text-danger">*</sup>
+                                                Auditor 1 <sup class="text-danger">*</sup>
                                             </label>
 
                                             <div class="col-md-12">
-                                                <div class="input-group">
-                                                    <select name="auditor_id"
-                                                        class="form-control select2 @error('auditor_id') is-invalid @enderror">
-                                                        <option value="" selected="" disabled="">
-                                                            Pilih Auditor
+                                                <select name="auditor_id"
+                                                    class="form-select select2 @error('auditor_id') is-invalid @enderror"
+                                                     >
+                                                     <option value="" selected="" disabled="">
+                                                        Pilih Auditor 1
+                                                    </option>
+                                                    @foreach ($userAuditor as $item)
+                                                        <option value="{{ $item->id }}"
+                                                            {{ old('auditor_id', @$dataInstrument->auditor_id) == $item->id ? 'selected' : '' }}>
+                                                            {{ $item->name }}
                                                         </option>
-
-                                                        @foreach ($userAuditor as $item)
-                                                            <option value="{{ $item->id }}"
-                                                                {{ old('auditor_id', @$dataInstrument->auditor_id) == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                </div>
+                                                    @endforeach
+                                                </select>
                                                 @if ($errors->has('auditor_id'))
                                                     <span class="text-danger">{{ $errors->first('auditor_id') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name" class="col-sm-3 col-form-label">
+                                                Auditor 2 <sup class="text-danger">*</sup>
+                                            </label>
+
+                                            <div class="col-md-12">
+                                                <select name="auditor2_id"
+                                                    class="form-select select2 @error('auditor2_id') is-invalid @enderror">
+                                                    <option value="" selected="" disabled="">
+                                                        Pilih Auditor 2
+                                                    </option>
+
+                                                    @foreach ($userAuditor as $item)
+                                                        <option value="{{ $item->id }}"
+                                                            {{ old('auditor2_id', @$dataInstrument->auditor2_id) == $item->id ? 'selected' : '' }}>
+                                                            {{ $item->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+                                                @if ($errors->has('auditor2_id'))
+                                                    <span class="text-danger">{{ $errors->first('auditor2_id') }}</span>
                                                 @endif
                                             </div>
                                         </div>
 
                                         <div class="form-group">
                                             <label for="name" class="col-sm-3 col-form-label">
-                                                Pilih Auditee <sup class="text-danger">*</sup>
+                                                Auditee <sup class="text-danger">*</sup>
                                             </label>
 
                                             <div class="col-md-12">
-                                                <div class="input-group">
+                                                {{-- <div class="input-group"> --}}
                                                     <select name="auditee_id"
-                                                        class="form-control select2 @error('auditee_id') is-invalid @enderror">
+                                                        class="form-select select2 @error('auditee_id') is-invalid @enderror">
                                                         <option value="" selected="" disabled="">
                                                             Pilih Auditee
                                                         </option>
@@ -220,7 +105,7 @@
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                </div>
+                                                {{-- </div> --}}
                                                 @if ($errors->has('auditee_id'))
                                                     <span class="text-danger">{{ $errors->first('auditee_id') }}</span>
                                                 @endif
@@ -229,16 +114,16 @@
 
                                         <div class="form-group">
                                             <label for="name" class="col-sm-3 col-form-label">
-                                                Pilih Unit Kerja <sup class="text-danger">*</sup>
+                                            Pilih Unit/Program Studi/Jurusan <sup class="text-danger">*</sup>
                                             </label>
 
                                             <div class="col-md-12">
                                                 <div class="input-group">
                                                     <select name="category_unit_id"
-                                                        class="form-control select2 @error('category_unit_id') is-invalid @enderror"
+                                                        class="form-select select2 @error('category_unit_id') is-invalid @enderror"
                                                         id="select-unit">
                                                         <option value="" selected="" disabled="">
-                                                            Pilih Unit
+                                                            Pilih Unit/Program Studi/Jurusan
                                                         </option>
 
                                                         @foreach ($categoryUnit as $item)
@@ -263,32 +148,36 @@
 
                                             <div class="col-md-12">
                                                 <div class="input-group">
-                                                    <input type="date" name="tanggal_audit" class="form-control"
-                                                        id="input-year" value="{{ old('tanggal_audit', @$dataInstrument->tanggal_audit) }}">
+                                                    <input type="date" name="tanggal_audit"
+                                                        class="form-control @error('tanggal_audit')
+                                                        is-invalid
+                                                    @enderror"
+                                                        id="input-year"
+                                                        value="{{ old('tanggal_audit', @$dataInstrument->tanggal_audit) }}">
                                                 </div>
+                                                @if ($errors->has('tanggal_audit'))
+                                                    <span class="text-danger">{{ $errors->first('tanggal_audit') }}</span>
+                                                @endif
                                             </div>
                                         </div>
 
                                         <div class="form-group list-group">
                                             <label for="" class="col-sm-3 col-form-label">
-                                                Pilih Document Standard
+                                                 Dokumen Standar
                                             </label>
                                             <ul class="list-group">
                                                 @forelse (@$dokumenStandar as $item)
                                                     <li class="list-group-item">
-                                                        {{-- @if ($item->media)
-                                                        <input class="form-check-input" type="checkbox"
-                                                            value="{{ $item->getFirstMediaUrl('documentStandard') }}"
-                                                            aria-label="..." name="documentStandard[]">
-                                                            {{ @$item->getFirstMedia('documentStandard')->file_name }}
-                                                        @endif --}}
-                                                            <input type="checkbox" class="form-check-input" name="dokumenStandar[]" value="{{ $item->file }}" aria-label="...">
-                                                            {{ $item->file }}
+                                                        <input type="checkbox" class="form-check-input"
+                                                            name="dokumenStandar[]" value="{{ $item->file }}"
+                                                            {{ old('dokumenStandar', @$dataInstrument->dokumenStandar) == $item->id ? 'selected' : '' }}
+                                                            aria-label="...">
+                                                        {{ $item->file }}
                                                     </li>
                                                 @empty
                                                     <i>
                                                         Data Document Standard Tidak Ada
-                                                    </i>    
+                                                    </i>
                                                 @endforelse
                                             </ul>
                                         </div>
@@ -304,12 +193,54 @@
                     </div>
 
                 </div>
+                {{-- 
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">
+                            dcdc
+                        </h4>
+                    </div>
+
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="form-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label for="" class="col-sm-3 col-form-label">
+                                                Tujuan
+                                            </label>
+
+                                            <div class="col-md-6" id="repeater">
+                                                <button type="button" class="btn btn-primary" id="add-input-tujuan">
+                                                    <i class="bi bi-plus-circle"></i>
+                                                </button>
+                                                <br>
+                                                <br>
+                                                <div class="input-group input-tujuan">
+                                                    <input type="text" class="form-control">
+                                                    
+                                                    &nbsp;
+                                                    &nbsp;
+                                                    <button type="button" class="btn btn-danger" id="delete-input-tujuan">
+                                                        <i class="bi bi-trash-fill"></i>
+                                                    </button>
+                                                </div>
+                                                <br>
+                                            </div>
+                                            <br>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> --}}
                 <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary me-1 mb-1" id="btnSubmit">
+                    <button type="submit" class="btn btn-outline-primary me-1 mb-1" id="btnSubmit">
                         {{ $aksi }}
                         <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;"
                             role="status">
-                            <span class="sr-only">Loading...</span>
                         </span>
                     </button>
                 </div>
@@ -367,6 +298,15 @@
                 }
             })
         })
+
+        // $(document).ready(function(){
+        //     $('#add-input-tujuan').click(function(){
+        //         var selectedElement=$('.input-tujuan:last').clone();
+
+        //         selectedElement.find('input').val('');
+        //         $('#repeater').append(selectedElement);
+        //     })
+        // })
     </script>
 
     {{-- <script>

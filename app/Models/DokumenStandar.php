@@ -30,7 +30,7 @@ class DokumenStandar extends Model
 
 
     /**
-     * Save image Owner.
+     * Save image.
      *
      * @param  $request
      * @return string
@@ -42,8 +42,8 @@ class DokumenStandar extends Model
         if ($request->file) {
             $file = $request->file;
 
-            $ext = $file->getClientOriginalExtension();
-            $filename = 'Document Standard'.'-'.date('Ymd') . '.' . $ext;
+            $name=$file->getClientOriginalName();
+            $filename = $name;
             $file->storeAs('public/file/dokumenStandar/', $filename);
         }
 

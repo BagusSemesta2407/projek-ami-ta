@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Instrument extends Model
 {
@@ -24,6 +25,16 @@ class Instrument extends Model
     }
 
     /**
+     * Get all of the evaluasiDiri for the Instrument
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function evaluasiDiri(): HasMany
+    {
+        return $this->hasMany(EvaluasiDiri::class);
+    }
+
+    /**
      * Scope Filter.
      *
      * @return scope
@@ -37,4 +48,5 @@ class Instrument extends Model
 
         $query->when($filter->status_standar ?? false, fn ($query, $status_standar) => $query->where('status_standar', $status_standar));
     }
+    
 }

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->enum('status_standar', ['Pendidikan', 'Penelitian', 'Pengabdian Kepada Masyarakat'])->nullable();
             $table->string('name')->nullable();
             $table->string('target')->nullable();
+            $table->enum('status_ketercapaian', ['Tercapai', 'Tidak Tercapai'])->default('Tidak Tercapai')->nullable();
             $table->timestamps();
         });
     }

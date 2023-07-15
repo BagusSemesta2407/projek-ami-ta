@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryUnitRequest;
 use App\Models\CategoryUnit;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class CategoryUnitController extends Controller
@@ -28,7 +29,7 @@ class CategoryUnitController extends Controller
      */
     public function create()
     {
-        $title = 'Form Data Unit Kerja';
+        $title = 'Unit Kerja';
 
         return view('admin.categoryUnit.form', [
             'title' => $title,
@@ -43,9 +44,10 @@ class CategoryUnitController extends Controller
     {
         CategoryUnit::create([
             'name' => $request->name,
+            'kategori_audit'    => $request->kategori_audit,
+            'kepala'    => $request->kepala
         ]);
 
-        // return dd($request->all());
         return redirect()->route('admin.category-unit.index')->with('success', 'Data Berhasil Ditambahkan!');
     }
 
@@ -80,6 +82,8 @@ class CategoryUnitController extends Controller
     {
         $data = [
             'name' => $request->name,
+            'kategori_audit'    => $request->kategori_audit,
+            'kepala'    => $request->kepala
         ];
 
         CategoryUnit::where('id', $id)->update($data);
@@ -96,6 +100,7 @@ class CategoryUnitController extends Controller
 
         $categoryUnit->delete();
 
-        return redirect()->back();
+        // return redirect()->back();
+        return response()->json(['success','Data Berhasil Dihapus']);
     }
 }

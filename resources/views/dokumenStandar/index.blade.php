@@ -52,8 +52,7 @@
                                                     <i class="bi bi-trash3"></i>
                                                 </button>
                                             </form> --}}
-                                            <button value="{{ route('admin.dokumen-standar.destroy', $item->id) }}"
-                                                class="btn btn-sm btn-outline-danger delete"> 
+                                            <button class="btn btn-sm btn-outline-danger delete" data-url="{{ route('admin.dokumen-standar.destroy', $item->id) }}">
                                                 <i class="bi bi-trash3"></i>
                                             </button>
                                         </div>
@@ -69,44 +68,3 @@
     </div>
 @endsection
 
-@section('script')
-<script>
-    $(document).ready(function() {
-
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-
-        $(document).on('click', '.delete', function() {
-            let url = $(this).val();
-            console.log(url);
-            swal({
-                    title: "Apakah anda yakin?",
-                    text: "Setelah dihapus, Anda tidak dapat memulihkan Tag ini lagi!",
-                    icon: "warning",
-                    buttons: true,
-                    dangerMode: true,
-                })
-                .then((willDelete) => {
-                    if (willDelete) {
-                        $.ajax({
-                            type: "DELETE",
-                            url: url,
-                            dataType: 'json',
-                            success: function(response) {
-                                swal(response.status, {
-                                        icon: "success",
-                                    })
-                                    .then((result) => {
-                                        location.reload();
-                                    });
-                            }
-                        });
-                    }
-                })
-        });
-    });
-</script>
-@endsection

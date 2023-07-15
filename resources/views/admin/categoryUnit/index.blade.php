@@ -19,6 +19,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Unit</th>
+                                <th>Kepala</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -33,6 +34,9 @@
                                     <td>
                                         {{ $item->name }}
                                     </td>
+                                    <td>
+                                        {{ $item->kepala }}
+                                    </td>
 
                                     <td>
                                         <div class="d-flex">
@@ -41,14 +45,16 @@
                                                 <i class="bi bi-pen"></i>
                                             </a>
                                             &nbsp;
-                                            <form method="POST" action="{{ route('admin.category-unit.destroy', $item->id) }}">
+                                            {{-- <form method="POST" action="{{ route('admin.category-unit.destroy', $item->id) }}">
                                                 @csrf
                                                 <input name="_method" type="hidden" value="DELETE">
                                                 <button type="submit" class="btn btn-sm btn-outline-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>
                                                     <i class="bi bi-trash3"></i>
                                                 </button>
-                                            </form>
-
+                                            </form> --}}
+                                            <button class="btn btn-sm btn-outline-danger delete" data-url="{{ route('admin.category-unit.destroy', $item->id) }}">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -87,3 +93,7 @@
       });
   
 </script> --}}
+
+@section('script')
+    
+@endsection

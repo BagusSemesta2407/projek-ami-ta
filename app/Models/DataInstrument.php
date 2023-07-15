@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
@@ -32,6 +33,10 @@ class DataInstrument extends Model implements HasMedia
     {
         return $this->belongsTo(User::class, 'auditor_id', 'id');
     }
+    public function auditor2()
+    {
+        return $this->belongsTo(User::class, 'auditor2_id', 'id');
+    }
 
     public function auditee()
     {
@@ -46,6 +51,16 @@ class DataInstrument extends Model implements HasMedia
     public function instrumentAuditee()
     {
         return $this->hasMany(InstrumentAuditee::class);
+    }
+
+    /**
+     * Get all of the evaluasiDiri for the DataInstrument
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function evaluasiDiri(): HasMany
+    {
+        return $this->hasMany(EvaluasiDiri::class);
     }
 
 

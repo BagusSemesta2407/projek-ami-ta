@@ -67,7 +67,7 @@
 
         <div class="row">
             <div class="col-12 d-flex justify-content-between">
-                <div class="card col-md-7">
+                <div class="card col-lg-12">
                     {{-- <div class="card-header">
                         <h5 class="card-title">Horizontal Navs</h5>
                     </div> --}}
@@ -81,7 +81,7 @@
                             <button type="submit" class="btn btn-outline-primary block float-end">
                                 <i class="bi bi-send"></i>
                             </button>
-                            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                            {{-- <ul class="nav nav-tabs" id="myTab" role="tablist">
                                 <li class="nav-item">
                                     <a href="{{ route('menu-auditee.instruments-auditee.status-standar', ['dataInstrument' => $dataInstrument->id, 'status_standar' => null]) }}"
                                         class="nav-link {{ $status_standar == null ? 'active' : '' }}">
@@ -106,7 +106,7 @@
                                         Pengabdian Kepada Masyarakat
                                     </a>
                                 </li>
-                            </ul>
+                            </ul> --}}
 
                             {{-- </form> --}}
                             <div class="card-header">
@@ -124,7 +124,7 @@
                                                 <th>Tercapai</th>
                                                 <th>Tidak Tercapai</th>
                                                 <th>Deskripsi Ketercapaian Standard</th>
-                                                {{-- <th class="text-center">Bukti</th> --}}
+                                                <th class="text-center">Bukti</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -164,9 +164,15 @@
                                                         <textarea class="form-control" id="exampleFormControlTextarea1{{ $loop->index }}"
                                                             name="data[{{ $item->id }}][deskripsi_ketercapaian]"></textarea>
                                                     </td>
+                                                    <td>
+                                                        {{-- <input class="form-control form-control-lg" id="formFileLg{{ $loop->index }}"
+                                                            type="file" name="data[{{ $item->id }}][bukti]"> --}}
+                                                        <input type="url" class="form-control" id="{{ $loop->index }}" name="data[{{ $item->id }}][bukti]">
+
+                                                    </td>
 
                                                     {{-- <td class="text-center"> --}}
-                                                        {{-- <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                                    {{-- <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
                                                             data-bs-target="#inlineForm" id="modal{{ $loop->index }}">
                                                                 <i class="bi bi-front"></i>
                                                             </button> --}}
@@ -191,7 +197,7 @@
                             </div>
                     </div>
                 </div>
-                <div class="card col-lg-4">
+                {{-- <div class="card col-lg-3">
                     <div class="card-header">
                         <h4 class="card-title">Upload Bukti</h4>
                     </div>
@@ -200,7 +206,7 @@
                         <div class="row">
                             <div id="tag-container">
                                 <div class="input-group mb-3">
-                                    {{-- <div id="input">
+                                    <div id="input">
                                         <div id="file" class="col-12">
                                             <label for="formFileLg" class="form-label">Large file input example</label>
                                             <input class="form-control form-control-lg" id="formFileLg" type="file" name="name">
@@ -216,17 +222,17 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div> --}}
+                                    </div>
                                 </div>
                             </div>
 
                             <div class="input-group-append">
-                                {{-- <button class="btn btn-primary add-tag" type="button">Add</button> --}}
-                                {{-- <button class="btn btn-danger remove-tag" type="button">Hapus</button> --}}
+                                <button class="btn btn-primary add-tag" type="button">Add</button>
+                                <button class="btn btn-danger remove-tag" type="button">Hapus</button>
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 </form>
             </div>
         </div>
@@ -234,7 +240,7 @@
 @endsection
 
 @section('script')
-    <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
+    {{-- <script src="https://cdn.jsdelivr.net/gh/habibmhamadi/multi-select-tag/dist/js/multi-select-tag.js"></script>
     <script>
         new MultiSelectTag('countries') // id
     </script>
@@ -258,5 +264,5 @@
                 $(this).closest('.input-group').remove();
             });
         });
-    </script>
+    </script> --}}
 @endsection

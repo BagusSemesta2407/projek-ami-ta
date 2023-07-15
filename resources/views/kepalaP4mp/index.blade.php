@@ -38,7 +38,7 @@
 
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('menu-kepala-p4mp.approval-data-ami.approve-data-ami', $item->id) }}"
+                                            <a href="{{ route('menu-p4mp.approval-data-ami.approve-data-ami', $item->id) }}"
                                                 class="btn btn-sm btn-outline-success">
                                                 <i class="bi bi-eye-fill"></i>
                                             </a>

@@ -36,8 +36,12 @@
 
     {{-- choices --}}
     {{-- Toast --}}
-    {{-- <link rel="stylesheet" href="{{ asset('assets/extensions/toastify-js/src/toastify.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/extensions/toastify-js/src/toastify.css') }}">
 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" />
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/select2-bootstrap-5-theme@1.3.0/dist/select2-bootstrap-5-theme.min.css" />
 
 </head>
 
@@ -48,8 +52,9 @@
                 <div class="sidebar-header position-relative">
                     <div class="d-flex justify-content-between align-items-center">
                         <div class="logo">
-                            <a href="index.html"><img src="{{ asset('assets/images/logo/logo.svg') }}" alt="Logo"
-                                    srcset=""></a>
+                            <a href="{{ route('dashboard') }}">
+                                <img src="{{ asset('logo-polsub.png') }}" alt="Logo" srcset="">
+                            </a>
                         </div>
                         <div class="theme-toggle d-flex gap-2  align-items-center mt-2">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
@@ -95,6 +100,7 @@
         {{-- content --}}
         <div id="main">
             <header class='mb-3'>
+
                 <nav class="navbar navbar-expand navbar-light">
                     <div class="container-fluid">
                         <a href="#" class="burger-btn d-block">
@@ -137,7 +143,7 @@
                                     </div>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                                    <li>
+                                    {{-- <li>
                                         <h6 class="dropdown-header">Hello, John!</h6>
                                     </li>
                                     <li><a class="dropdown-item" href="#"><i
@@ -148,10 +154,10 @@
                                             Settings</a></li>
                                     <li><a class="dropdown-item" href="#"><i
                                                 class="icon-mid bi bi-wallet me-2"></i>
-                                            Wallet</a></li>
-                                    <li>
+                                            Wallet</a></li> --}}
+                                    {{-- <li>
                                         <hr class="dropdown-divider">
-                                    </li>
+                                    </li> --}}
                                     <li>
                                         <a class="dropdown-item" href="{{ route('logout') }}"
                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
@@ -208,8 +214,10 @@
 
     {{-- toastify --}}
 
-    {{-- <script src="{{ asset('assets/extensions/toastify-js/src/toastify.js') }}"></script>
-    <script src="{{ asset('assets/js/extensions/toastify.js') }}"></script> --}}
+    <script src="{{ asset('assets/extensions/toastify-js/src/toastify.js') }}"></script>
+    <script src="{{ asset('assets/js/extensions/toastify.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/toastify.js') }}"></script>
+
 
     {{-- file uploader --}}
     <script src="https://unpkg.com/filepond-plugin-file-validate-size/dist/filepond-plugin-file-validate-size.js"></script>
@@ -221,6 +229,46 @@
     <link rel="stylesheet" href="{{ asset('assets/extensions/choices.js/public/assets/styles/choices.min.css') }}" />
 
     <script src="{{ asset('assets/extensions/choices.js/public/assets/scripts/choices.min.js') }}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <script>
+        $(document).on('click', '.delete', function() {
+            var url = $(this).data('url');
+            var icon = 'question';
+
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            })
+
+            Swal.fire({
+                title: 'Apakah Anda Yakin Ingin Menghapus?',
+                text: 'Data akan terhapus secara permanen',
+                icon: icon,
+                showCancelButton: true
+            }).then((action) => {
+                if (action.isConfirmed) {
+                    console.log(action);
+                    $.ajax({
+                        type: 'DELETE',
+                        url: url,
+                        dataType: 'json',
+                        success: function(data) {
+                            Swal.fire('Berhasil', 'Data Berhasil Dihapus', 'success')
+                                .then(function() {
+                                    location.reload();
+                                })
+                        },
+                        error: function(data) {
+                            console.log('Error :' + data);
+                        }
+                    })
+                }
+            })
+        });
+    </script>
 
     <script>
         // register desired plugins...
@@ -248,10 +296,11 @@
     <script>
         $(document).ready(function() {
             @if (session('success'))
-                toast.success({
+                Toastify.success({
                     message: "{{ session('success') }}",
-                    position: 'top-right'
-                })
+                    gravity: 'top',
+                    position: 'right'
+                }).showToast()
             @endif ()
         });
     </script>
@@ -264,7 +313,16 @@
         }
     </script>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        $('.select2').select2({
+            theme: "bootstrap-5",
+            width: $(this).data('width') ? $(this).data('width') : $(this).hasClass('w-100') ? '100%' : 'style',
+            placeholder: $(this).data('placeholder'),
+        });
+    </script>
+
+    {{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     <script type="text/javascript">
         $('.show_confirm').click(function(event) {
             var form = $(this).closest("form");
@@ -281,6 +339,15 @@
                         form.submit();
                     }
                 });
+        });
+    </script> --}}
+
+    <script>
+        $('#form').submit(function(e) {
+            let form = this;
+            e.preventDefault();
+
+            confirmSubmit(form);
         });
     </script>
 
@@ -316,13 +383,16 @@
 
     <script src="{{ asset('assets/extensions/summernote/summernote-lite.min.js') }}"></script>
     <script>
-        
         $('#summernote').summernote({
             tabsize: 2,
             height: 120,
         })
+        $('#summernote1').summernote({
+            tabsize: 2,
+            height: 120,
+        })
 
-        
+
         $("#hint").summernote({
             height: 100,
             toolbar: false,

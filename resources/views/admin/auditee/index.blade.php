@@ -5,7 +5,10 @@
         <section class="row">
             <div class="card">
                 <div class="card-header">
-                    Data Auditor
+                    Data Auditee
+                    <a href="{{ route('admin.auditee.create') }}" class="btn btn-outline-primary block float-end">
+                        Tambah
+                    </a>
                 </div>
 
                 <div class="card-body">
@@ -13,13 +16,13 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Nama Auditor</th>
+                                <th>Nama Auditee</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach ($user as $item)
+                            @foreach ($auditee as $item)
                                 <tr>
                                     <td>
                                         {{ $loop->iteration }}
@@ -30,7 +33,17 @@
                                     </td>
 
                                     <td>
-                                        
+                                        <div class="d-flex">
+                                            <a href="{{ route('admin.auditee.edit', $item->id) }}"
+                                                class="btn btn-sm btn-outline-warning">
+                                                <i class="bi bi-pen"></i>
+                                            </a>
+                                            &nbsp;
+                                            <button class="btn btn-sm btn-outline-danger delete" data-url="{{ route('admin.auditee.destroy', $item->id) }}">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach

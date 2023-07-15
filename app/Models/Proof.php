@@ -14,10 +14,10 @@ class Proof extends Model
         'id',
     ];
 
-    public function instrumentAuditee()
-    {
-        return $this->hasMany(InstrumentAuditee::class);
-    }
+    // public function instrumentAuditee()
+    // {
+    //     return $this->hasMany(InstrumentAuditee::class);
+    // }
 
     protected $casts = [
         'data' => 'array'

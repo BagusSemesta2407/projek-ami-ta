@@ -55,7 +55,15 @@
                             <label for="disabledInput">Bukti</label>
                             {{-- <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
                                 value="{{ $instrumentAuditee->proof_id }}" disabled> --}}
-                            <p>bukti</p>
+                            {{-- <p>bukti</p> --}}
+                            {{-- @if ($instrumentAuditee->bukti_url)
+                                <a href="{{ $instrumentAuditee->bukti_url }}" download title="Unduh">
+                                    {{ $instrumentAuditee->bukti }}
+                                </a>
+                            @endif --}}
+                            <div class="col-12">
+                                <a href="{{ $instrumentAuditee->bukti }}" target="_blank">{{ $instrumentAuditee->bukti }}</a>
+                            </div>
                         </div>
 
                     </div>

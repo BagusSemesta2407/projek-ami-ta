@@ -21,23 +21,23 @@
                         </thead>
 
                         <tbody>
-                            @foreach ($instrumentAuditee as $item)
+                            @foreach ($dataInstrument as $item)
                                 <tr>
                                     <td>
                                         {{ $loop->iteration }}
                                     </td>
 
                                     <td>
-                                        {{ $item->dataInstrument->categoryUnit->name }}
+                                        {{ $item->categoryUnit->name }}
                                     </td>
 
                                     <td>
-                                        {{ \Carbon\Carbon::parse($item->dataInstrument->tanggal_audit)->translatedFormat('d F Y') }}
+                                        {{ \Carbon\Carbon::parse($item->tanggal_audit)->translatedFormat('d F Y') }}
                                     </td>
 
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('admin.report-ami.detail-ami', $item->id) }}"
+                                            <a href="{{ route('menu-kepala-p4mp.report-ami.detail-ami', $item->id) }}"
                                                 class="btn btn-sm btn-secondary">
                                                 <i class="bi bi-eye"></i>
                                             </a>

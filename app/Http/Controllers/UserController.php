@@ -29,9 +29,8 @@ class UserController extends Controller
      */
     public function create()
     {
-        $title = 'Form Tambah User';
+        $title = 'User';
         $roles = Role::all();
-
         return view('admin.user.form', [
             'title' => $title,
             'roles' => $roles,
@@ -53,7 +52,7 @@ class UserController extends Controller
 
         $user->assignRole($roles);
 
-        return redirect()->route('admin.user.index')->with('success', 'Data User Berhasil Ditambahkan');
+        return redirect()->route('admin.user.index')->success('data berhasil');
     }
 
     /**
@@ -69,7 +68,7 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        $title = 'Form Edit User';
+        $title = 'User';
         $user = User::find($id);
         $roles = Role::oldest('name')->get();
 
@@ -107,6 +106,7 @@ class UserController extends Controller
         $user=User::find($id);
         $user->delete();
 
-        return redirect()->back();
+        return response()->json(['success','Data Berhasil Dihapus']);
+
     }
 }

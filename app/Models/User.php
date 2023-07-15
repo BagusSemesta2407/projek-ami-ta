@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -54,11 +55,21 @@ class User extends Authenticatable
 
     public function auditor()
     {
-        return $this->hasMany(Auditee::class);
+        return $this->hasMany(Auditor::class);
     }
 
     public function dataInstrument()
     {
         return $this->hasMany(DataInstrument::class);
     }
+
+    /**
+     * Get all of the ppppmp for the User
+     *
+     */
+    public function ppppmp()
+    {
+        return $this->hasMany(Ppppmp::class);
+    }
+
 }

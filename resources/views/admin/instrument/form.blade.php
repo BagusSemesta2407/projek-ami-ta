@@ -24,11 +24,11 @@
 
                     @if (@$instrument->exists)
                         <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                            action="{{ route('admin.instrument.update', $instrument) }}">
+                            action="{{ route('admin.instrument.update', $instrument) }}" id="form">
                             @method('PUT')
                         @else
                             <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                                action="{{ route('admin.instrument.store') }}">
+                                action="{{ route('admin.instrument.store') }}" id="form">
                     @endif
                     {{ csrf_field() }}
                     <div class="card-content">
@@ -40,15 +40,15 @@
                                             <label for="name" class="col-sm-3 col-form-label">
                                                 Pilih Unit <sup class="text-danger">*</sup>
                                             </label>
-        
+
                                             <div class="col-md-12">
                                                 <div class="input-group">
                                                     <select name="category_unit_id"
                                                         class="choices form-select @error('category_unit_id') is-invalid @enderror">
                                                         <option value="" selected="" disabled="">
-                                                            Pilih Kategori Artikel
+                                                            Pilih Kategori Audit
                                                         </option>
-        
+
                                                         @foreach ($categoryUnit as $item)
                                                             <option value="{{ $item->id }}"
                                                                 {{ old('category_unit_id', @$instrument->category_unit_id) == $item->id ? 'selected' : '' }}>
@@ -58,12 +58,13 @@
                                                     </select>
                                                 </div>
                                                 @if ($errors->has('category_unit_id'))
-                                                    <span class="text-danger">{{ $errors->first('category_unit_id') }}</span>
+                                                    <span
+                                                        class="text-danger">{{ $errors->first('category_unit_id') }}</span>
                                                 @endif
                                             </div>
                                         </div>
                                         <div class="form-group">
-                                            <label for="first-name-vertical">Pertanyaan</label>
+                                            <label for="first-name-vertical">Instrument/Butir Mutu</label>
                                             <input type="text" id="first-name-vertical"
                                                 class="form-control @error('name')
                                                 is-invalid
@@ -91,12 +92,18 @@
                                         <div class="form-group">
                                             <label for="first-name-vertical">Standar AMI</label>
                                             <select class="choices form-select" name="status_standar" id="status_standar">
-                                                <option value="" selected="" disabled="">Masukkan Standar</option>
-                                                <option value="Pendidikan" {{ old('Pendidikan', @$instrument->status_standar) == 'Pendidikan' ? 'selected' : ''}}>Pendidikan</option>
-                                                <option value="Penelitian" {{ old('Penelitian', @$instrument->status_standar) == 'Penelitian' ? 'selected' : ''}}>Penelitian</option>
-                                                <option value="Pengabdian Kepada Masyarakat" {{ old('Pengabdian Kepada Masyarakat', @$instrument->status_standar) == 'Pengabdian Kepada Masyarakat' ? 'selected' : ''}}>Pengabdian Kepada Masyaraket</option>
+                                                <option value="" selected="" disabled="">Masukkan Standar
+                                                </option>
+                                                <option value="Pendidikan"
+                                                    {{ old('Pendidikan', @$instrument->status_standar) == 'Pendidikan' ? 'selected' : '' }}>
+                                                    Pendidikan</option>
+                                                <option value="Penelitian"
+                                                    {{ old('Penelitian', @$instrument->status_standar) == 'Penelitian' ? 'selected' : '' }}>
+                                                    Penelitian</option>
+                                                <option value="Pengabdian Kepada Masyarakat"
+                                                    {{ old('Pengabdian Kepada Masyarakat', @$instrument->status_standar) == 'Pengabdian Kepada Masyarakat' ? 'selected' : '' }}>
+                                                    Pengabdian Kepada Masyaraket</option>
                                             </select>
-
                                             @if ($errors->has('status_standar'))
                                                 <span class="text-danger">{{ $errors->first('status_standar') }}</span>
                                             @endif
@@ -106,14 +113,13 @@
                             </div>
                         </div>
                     </div>
-                    
+
                 </div>
                 <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary me-1 mb-1" id="btnSubmit">
+                    <button type="submit" class="btn btn-outline-primary me-1 mb-1" id="btnSubmit">
                         {{ $aksi }}
                         <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;"
                             role="status">
-                            <span class="sr-only">Loading...</span>
                         </span>
                     </button>
                 </div>

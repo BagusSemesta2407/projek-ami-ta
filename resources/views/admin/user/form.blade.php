@@ -17,7 +17,7 @@
                                     $aksi = 'Tambah';
                                 @endphp
                             @endif
-                            Data Unit Kerja
+                            Data User
                         </h4>
                     </div>
 
@@ -73,14 +73,14 @@
                                                 <option value="" selected disabled>Masukkan Role</option>
                                                 @foreach ($roles as $item)
                                                     <option value="{{ $item->id }}"
-                                                        {{ old('roles', @$item->id) == $item->id ? 'selected' : '' }}>
+                                                        {{ old('roles', @$user->id) == $item->id ? 'selected' : '' }}>
                                                         {{ $item->name }}
                                                     </option>
                                                 @endforeach
-                                                {{-- <option value="admin" {{ old('admin', $roles->name) == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                <option value="auditee" {{ old('auditee', $roles->name) == 'auditee' ? 'selected' : '' }}>Auditee</option>
-                                                <option value="auditor" {{ old('auditor', $roles->name) == 'auditor' ? 'selected' : '' }}>Auditor</option>
-                                                <option value="kepala_p4mp" {{ old('kepala_p4mp', $roles->name) == 'kepala_p4mp' ? 'selected' : '' }}>Kepala P4MP</option> --}}
+                                                {{-- <option value="admin" {{ old('admin', @$user->roles->getRoleNames()) == 'admin' ? 'selected' : '' }}>Admin</option>
+                                                <option value="auditee" {{ old('auditee', @$user->roles->name) == 'auditee' ? 'selected' : '' }}>Auditee</option>
+                                                <option value="auditor" {{ old('auditor', @$user->roles->name) == 'auditor' ? 'selected' : '' }}>Auditor</option>
+                                                <option value="kepala_p4mp" {{ old('kepala_p4mp', @$user->roles->name) == 'kepala_p4mp' ? 'selected' : '' }}>Kepala P4MP</option> --}}
                                             </select>
 
                                             @if ($errors->has('roles'))
@@ -96,11 +96,10 @@
                     </div>
                 </div>
                 <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary me-1 mb-1" id="top-right">
+                    <button type="submit" class="btn btn-outline-primary me-1 mb-1" id="btnSubmit">
                         {{ $aksi }}
                         <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;"
                             role="status">
-                            <span class="sr-only">Loading...</span>
                         </span>
                     </button>
                 </div>

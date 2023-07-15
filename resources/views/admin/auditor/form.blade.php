@@ -23,11 +23,11 @@
 
                     @if (@$auditor->exists)
                         <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                            action="{{ route('admin.auditor.update', $auditor) }}">
+                            action="{{ route('admin.auditor.update', $auditor) }}" id="form">
                             @method('PUT')
                         @else
                             <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                                action="{{ route('admin.auditor.store') }}">
+                                action="{{ route('admin.auditor.store') }}" id="form">
                     @endif
                     {{ csrf_field() }}
                     <div class="card-content">
@@ -41,7 +41,7 @@
                                                 class="form-control @error('name')
                                             is-invalid
                                         @enderror"
-                                                name="name" placeholder="Masukkan Nama Kategori Unit Kerja"
+                                                name="name" placeholder="Masukkan Nama Auditor"
                                                 value="{{ old('name', @$auditor->user->name) }}">
 
                                             @if ($errors->has('name'))
@@ -55,7 +55,7 @@
                                                 class="form-control @error('email')
                                             is-invalid
                                         @enderror"
-                                                name="email" placeholder="Masukkan Nama Kategori Unit Kerja"
+                                                name="email" placeholder="Masukkan Email"
                                                 value="{{ old('email', @$auditor->user->email) }}">
 
                                             @if ($errors->has('email'))
@@ -66,7 +66,7 @@
                                         <div class="form-group">
                                             <label for="first-name-vertical">Jabatan</label>
                                             <select
-                                                class="form-control @error('auditor')
+                                                class="form-control @error('jabatan')
                                                 is-invalid
                                             @enderror"
                                                 name="jabatan" id="">
@@ -82,17 +82,20 @@
                                                 </option>
                                             </select>
 
-                                            @if ($errors->has('auditor'))
-                                                <span class="text-danger">{{ $errors->first('auditor') }}</span>
+                                            @if ($errors->has('jabatan'))
+                                                <span class="text-danger">{{ $errors->first('jabatan') }}</span>
                                             @endif
                                         </div>
 
                                         <div class="form-group">
                                             <label for="">Tugas</label>
-                                            <input type="text" class="form-control" name="tugas" placeholder="Masukkan Tugas Auditor" value="{{ old('tugas', @$auditor->tugas) }}">
+                                            <input type="text" class="form-control @error('tugas')
+                                                is-invalid
+                                            @enderror" name="tugas" placeholder="Masukkan Tugas Auditor" value="{{ old('tugas', @$auditor->tugas) }}">
+                                            @if ($errors->has('tugas'))
+                                                <span class="text-danger">{{ $errors->first('tugas') }}</span>
+                                            @endif
                                         </div>
-
-
                                     </div>
                                 </div>
                             </div>
@@ -100,11 +103,10 @@
                     </div>
                 </div>
                 <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary me-1 mb-1" id="top-right">
+                    <button type="submit" class="btn btn-outline-primary me-1 mb-1" id="btnSubmit">
                         {{ $aksi }}
                         <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;"
                             role="status">
-                            <span class="sr-only">Loading...</span>
                         </span>
                     </button>
                 </div>

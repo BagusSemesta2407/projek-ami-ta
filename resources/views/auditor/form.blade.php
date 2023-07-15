@@ -67,7 +67,7 @@
                             </label>
 
                             <div class="col-md-3">
-                                {{ @$dataInstrument->year }}
+                                {{ @$dataInstrument->tanggal_audit }}
                             </div>
                         </div>
                     </div>
@@ -97,9 +97,11 @@
                         {{-- </form> --}}
                         <div class="col-12 col-md-12">
                             @if ($dataInstrument->status == 'Sudah Di Jawab Auditee')
-                                    <button class="btn btn-md btn-outline-primary validate" data-url="{{ route('menu-auditor.index-instrument-auditor.validate', $dataInstrument) }}" data-status="{{ $dataInstrument->status }}">
-                                        <i class="bi bi-check2-circle"></i>
-                                    </button>
+                                <button class="btn btn-md btn-outline-primary validate"
+                                    data-url="{{ route('menu-auditor.index-instrument-auditor.validate', $dataInstrument) }}"
+                                    data-status="{{ $dataInstrument->status }}">
+                                    <i class="bi bi-check2-circle"></i>
+                                </button>
                             @elseif ($dataInstrument->status == 'Sudah Divalidasi Auditor')
                                 <button class="btn btn-md btn-outline-secondary validate" disabled>
                                     {{-- <i class="bi bi-check2-circle"></i> --}}
@@ -151,6 +153,14 @@
 
                                                 <td>
                                                     {{-- bukti --}}
+                                                    {{-- @if ($item->bukti_url)
+                                                        <a href="{{ $item->bukti_url }}" download title="Unduh">
+                                                            {{ $item->bukti }}
+                                                        </a>
+                                                    @endif --}}
+                                                    <a href="{{ $item->bukti }}"
+                                                        target="_blank">{{ $item->bukti }}</a>
+
                                                 </td>
 
                                                 <td>
@@ -209,7 +219,7 @@
 @section('script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $(document).on('click', '.validate', function(){
+        $(document).on('click', '.validate', function() {
             var url = $(this).data('url');
             var status = $(this).data('status');
             var icon = 'question';
@@ -222,28 +232,28 @@
 
             Swal.fire({
                 title: 'Apakah semua data sudah divalidasi?',
-                text:'Periksa kembali sebelum data divalidasi',
-                icon:'question',
+                text: 'Periksa kembali sebelum data divalidasi',
+                icon: 'question',
                 showCancelButton: true
-            }).then((action)=>{
+            }).then((action) => {
                 if (action.isConfirmed) {
                     console.log(action);
                     $.ajax({
-                        type:'POST',
-                        url:url,
-                        dataType:'json',
+                        type: 'POST',
+                        url: url,
+                        dataType: 'json',
                         success: function(data) {
                             Swal.fire('Berhasil', 'Data Berhasil Divalidasi', 'success')
-                            .then(function(){
-                                location.reload();
-                            })
+                                .then(function() {
+                                    location.reload();
+                                })
                         },
-                        error:function(data){
+                        error: function(data) {
                             console.log('Error : ' + data);
                         }
                     })
                 }
             })
-        }); 
+        });
     </script>
 @endsection

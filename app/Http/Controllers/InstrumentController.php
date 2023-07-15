@@ -28,7 +28,7 @@ class InstrumentController extends Controller
      */
     public function create()
     {
-        $title = 'Pertanyaan';
+        $title = 'Instrument';
         $categoryUnit = CategoryUnit::all();
 
         return view('admin.instrument.form', [
@@ -49,7 +49,7 @@ class InstrumentController extends Controller
             'status_standar' => $request->status_standar,
         ]);
 
-        return redirect()->route('admin.instrument.index')->with('success', 'Data Instrument Berhasil Ditambahkan');
+        return redirect()->route('admin.instrument.index')->with('success', 'Data Berhasil');
     }
 
     /**
@@ -65,7 +65,7 @@ class InstrumentController extends Controller
      */
     public function edit($id)
     {
-        $title = 'Form Edit Instrument';
+        $title = 'Instrument';
         $instrument = Instrument::find($id);
         $categoryUnit = CategoryUnit::oldest('name')->get();
 
@@ -102,6 +102,6 @@ class InstrumentController extends Controller
 
         $instrument->delete();
 
-        return redirect()->back();
+        return response()->json(['success','Data Berhasil Dihapus']);
     }
 }

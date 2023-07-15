@@ -18,7 +18,9 @@
             {{ request()->is('admin/auditor*') ? 'active' : '' }} ||
             {{ request()->is('admin/auditee*') ? 'active' : '' }} ||
             {{ request()->is('admin/document-standard*') ? 'active' : '' }} ||
-            {{ request()->is('admin/dokumen-standar*') ? 'active' : '' }}">
+            {{ request()->is('admin/dokumen-standar*') ? 'active' : '' }} ||
+            {{ request()->is('admin/p4mp*') ? 'active' : '' }} ||
+            ">
                 <a href="#" class='sidebar-link'>
                     <i class="bi bi-stack"></i>
                     <span>Master Data</span>
@@ -34,6 +36,17 @@
                             Auditor
                         </a>
                     </li>
+                    <li class="submenu-item {{ request()->is('admin/auditee*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.auditee.index') }}">
+                            Auditee
+                        </a>
+                    </li>
+
+                    <li class="submenu-item {{ request()->is('admin/p4mp*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.p4mp.index') }}">
+                            Tim P4MP
+                        </a>
+                    </li>
                     <li class="submenu-item {{ request()->is('admin/category-unit*') ? 'active' : '' }}">
                         <a href="{{ route('admin.category-unit.index') }}">
                             Unit/ ProgramStudi/ Jurusan
@@ -42,11 +55,6 @@
                     <li class="submenu-item {{ request()->is('admin/instrument*') ? 'active' : '' }}">
                         <a href="{{ route('admin.instrument.index') }}" class="sidebar-link">
                             Instrument
-                        </a>
-                    </li>
-                    <li class="submenu-item {{ request()->is('admin/document-standard*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.document-standard.index') }}" class="sidebar-link">
-                            Document Standard
                         </a>
                     </li>
                     <li class="submenu-item {{ request()->is('admin/dokumen-standar*') ? 'active' : '' }}">
@@ -64,18 +72,10 @@
                     <span>Data Penetapan AMI</span>
                 </a>
             </li>
-            <li class="sidebar-title">Report</li>
-
-            <li class="sidebar-item">
-                <a href="{{ route('admin.report-index') }}" class='sidebar-link'>
-                    <i class="bi bi-filetype-doc"></i>
-                    <span>Audit Mutu Internal</span>
-                </a>
-            </li>
         @endrole
 
         @role('auditee')
-        <li class="sidebar-title">Pelaksanaan</li>
+            <li class="sidebar-title">Pelaksanaan</li>
 
             <li class="sidebar-item 
         {{ request()->is('menu-auditee/instruments-auditee*') ? 'active' : '' }}">
@@ -84,13 +84,20 @@
                     <span>Evaluasi Diri</span>
                 </a>
             </li>
+
+            <li class="sidebar-item 
+        {{ request()->is('menu-auditee/evaluasi-diri*') ? 'active' : '' }}">
+                <a href="{{ route('menu-auditee.evaluasi-diri.index') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Evaluasi Diri Fix</span>
+                </a>
+            </li>
         @endrole
 
         @role('auditor')
-        <li class="sidebar-title">Pelaksanaan AMI</li>
+            <li class="sidebar-title">Pelaksanaan AMI</li>
 
-            <li
-                class="sidebar-item 
+            <li class="sidebar-item 
         {{ request()->is('menu-auditor/index-audit-dokumen*') ? 'active' : '' }}">
                 <a href="{{ route('menu-auditor.index-audit-dokumen') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
@@ -106,17 +113,67 @@
                     <span>Audit Lapangan</span>
                 </a>
             </li>
+
+            <li class="sidebar-item 
+        {{ request()->is('menu-auditor/audit-dokumen*') ? 'active' : '' }}">
+                <a href="{{ route('menu-auditor.audit-dokumen.index') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Audit Dokumen FIX</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item 
+        {{ request()->is('menu-auditor/audit-lapangan*') ? 'active' : '' }}">
+                <a href="{{ route('menu-auditor.audit-lapangan.index') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Audit Lapangan FIX</span>
+                </a>
+            </li>
         @endrole
 
-        @role('kepala_p4mp')
-        <li class="sidebar-title">Penetapan</li>
-
-            <li
-                class="sidebar-item 
-        {{ request()->is('menu-kepala-p4mp/approval-data-ami*') ? 'active' : '' }}">
-                <a href="{{ route('menu-kepala-p4mp.approval-data-ami') }}" class='sidebar-link'>
+        @role('P4MP')
+            <li class="sidebar-title">Penetapan</li>
+            <li class="sidebar-item 
+                {{ request()->is('menu-p4mp/approval-data-ami*') ? 'active' : '' }}">
+                <a href="{{ route('menu-p4mp.approval-data-ami') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
                     <span>Konfirmasi Data AMI</span>
+                </a>
+            </li>
+
+            <li class="sidebar-title">Tinjauan Manajemen</li>
+            <li class="sidebar-item {{ request()->is('menu-p4mp/rapat-tinjauan*') ? 'active' : '' }}">
+                <a href="{{ route('menu-p4mp.rapat-tinjauan') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Pengendalian</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item {{ request()->is('menu-p4mp/peningkatan*') ? 'active' : '' }}">
+                <a href="{{ route('menu-p4mp.index-peningkatan') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Peningkatan</span>
+                </a>
+            </li>
+            <li class="sidebar-title"> Report</li>
+
+            <li class="sidebar-item {{ request()->is('menu-p4mp/report-ami*') ? 'active' : '' }}">
+                <a href="{{ route('menu-p4mp.report-ami') }}" class='sidebar-link'>
+                    <i class="bi bi-filetype-doc"></i>
+                    <span>Audit Mutu Internal</span>
+                </a>
+            </li>
+
+            <li class="sidebar-item ">
+                <a href="{{ route('menu-p4mp.index-pengendalian') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Pengendalian</span>
+                </a>
+            </li>
+            <li class="sidebar-item ">
+                <a href="{{ route('menu-p4mp.index-peningkatan-rtm') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Peningkatan</span>
                 </a>
             </li>
         @endrole

@@ -40,7 +40,10 @@
                             <label for="disabledInput">Bukti</label>
                             {{-- <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
                                 value="{{ $instrumentAuditee->proof_id }}" disabled> --}}
-                            <p>bukti</p>
+                            <div class="col-12">
+                                <a href="{{ $instrumentAuditee->bukti }}"
+                                    target="_blank">{{ $instrumentAuditee->bukti }}</a>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -59,7 +62,7 @@
                         <div class="form-group">
                             <label for="disabledInput">Status Temuan Audit</label>
                             <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
-                            value="{{ $instrumentAuditee->status_temuan_audit }}" disabled>
+                                value="{{ $instrumentAuditee->status_temuan_audit }}" disabled>
                             {{-- <textarea class="col-12" disabled>{{ strip_tags($instrumentAuditee->hasil_temuan_audit) }}</textarea> --}}
                         </div>
                         <div class="form-group">

@@ -7,9 +7,9 @@
             <div class="card-header">
                 Data User
 
-                <a href="{{ route('admin.user.create') }}" class="btn btn-outline-primary block float-end">
+                {{-- <a href="{{ route('admin.user.create') }}" class="btn btn-outline-primary block float-end">
                     Tambah
-                </a>
+                </a> --}}
 
             </div>
 
@@ -21,7 +21,7 @@
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Role</th>
-                            <th>Action</th>
+                            {{-- <th>Action</th> --}}
                         </tr>
                     </thead>
 
@@ -47,29 +47,27 @@
                                         Auditee
                                     @elseif ($item->getRoleNames()[0] == 'auditor')
                                         Auditor
-                                    @elseif ($item->getRoleNames()[0] == 'kepala_p4mp')
-                                        Kepala P4MP
+                                    @elseif ($item->getRoleNames()[0] == 'P4MP')
+                                        Tim P4MP
+                                    @else
+                                        Tidak Memiliki Role
                                     @endif
                                 </td>
 
 
-                                <td>
+                                {{-- <td>
                                     <div class="d-flex ">
                                         <a href="{{ route('admin.user.edit', $item->id) }}"
                                             class="btn btn-sm btn-outline-warning">
                                             <i class="bi bi-pen"></i>
                                         </a>
                                         &nbsp;
-                                        <form method="POST" action="{{ route('admin.user.destroy', $item->id) }}">
-                                            @csrf
-                                            <input name="_method" type="hidden" value="DELETE">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger btn-flat show_confirm" data-toggle="tooltip" title='Delete'>
-                                                <i class="bi bi-trash3"></i>
-                                            </button>
-                                        </form>
+                                        <button class="btn btn-sm btn-outline-danger delete" data-url="{{ route('admin.user.destroy', $item->id) }}">
+                                            <i class="bi bi-trash3"></i>
+                                        </button>
 
                                     </div>
-                                </td>
+                                </td> --}}
                             </tr>
                         @endforeach
                     </tbody>

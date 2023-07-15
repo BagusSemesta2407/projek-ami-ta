@@ -29,7 +29,7 @@ class RoleSeeder extends Seeder
         ]);
 
         Role::create([
-            'name' => 'kepala_p4mp',
+            'name' => 'P4MP',
             'guard_name' => 'web',
         ]);
     }
