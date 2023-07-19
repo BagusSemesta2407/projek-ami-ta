@@ -18,12 +18,13 @@ class AuditLapanganController extends Controller
     public function index()
     {
         $title = 'Audit Lapangan';
-        $userId=Auth::id();
+        $userId = Auth::id();
 
         $dataInstrument = DataInstrument::with(['categoryUnit'])
-        // ->where('auditor_id', $userId)
-        ->where('status', 'Audit Lapangan')
-        ->get();
+            ->where('status', 'Audit Lapangan')
+            // ->WhereIn('auditor_id', $userId)
+            // ->WhereIn('auditor2_id', $userId)
+            ->get();
 
         return view('auditLapangan.index', [
             'title' => $title,
@@ -36,34 +37,38 @@ class AuditLapanganController extends Controller
         $title = 'Audit Lapangan';
 
         $dataInstrument = DataInstrument::find($id);
-        $auditDokumen=AuditDokumen::all();
+        $auditDokumen = AuditDokumen::with(['evaluasiDiri'])
+            ->whereHas('evaluasiDiri', function ($q) use ($dataInstrument) {
+                $q->where('data_instrument_id', $dataInstrument->id);
+            })->get();
+
         return view('auditLapangan.dataAuditLapangan.index', [
             'title' => $title,
             'dataInstrument' => $dataInstrument,
-            'auditDokumen'  => $auditDokumen
+            'auditDokumen'  => $auditDokumen,
         ]);
     }
 
     public function createDataAuditLapangan($id)
     {
-        $title='Audit Lapangan';
-        $auditDokumen=AuditDokumen::find($id);
-        $instrument=$auditDokumen->evaluasiDiri->instrument->status_ketercapaian;
-        $auditLapangan=AuditLapangan::where('audit_dokumen_id', $id)->first();
+        $title = 'Audit Lapangan';
+        $auditDokumen = AuditDokumen::find($id);
+        $instrument = $auditDokumen->evaluasiDiri->instrument->status_ketercapaian;
+        $auditLapangan = AuditLapangan::where('audit_dokumen_id', $id)->first();
 
-        return view('auditLapangan.dataAuditLapangan.createDataAuditLapangan',[
+        return view('auditLapangan.dataAuditLapangan.createDataAuditLapangan', [
             'title' => $title,
-            'auditDokumen'=> $auditDokumen,
-            'instrument'=>$instrument,
-            'auditLapangan'=>$auditLapangan
+            'auditDokumen' => $auditDokumen,
+            'instrument' => $instrument,
+            'auditLapangan' => $auditLapangan
         ]);
     }
 
     public function postDataAuditLapangan(Request $request, $auditDokumen, $instrument)
     {
-        $dataAuditDokumen=AuditDokumen::find($auditDokumen);
+        $dataAuditDokumen = AuditDokumen::find($auditDokumen);
 
-        $instrument=$request->status_ketercapaian;
+        $instrument = $request->status_ketercapaian;
 
         $data = [
             'audit_dokumen_id'   => $auditDokumen,
@@ -71,7 +76,7 @@ class AuditLapanganController extends Controller
             'rekomendasi'   => $request->rekomendasi
         ];
 
-        $updateStatusInstrument=[
+        $updateStatusInstrument = [
             'status_ketercapaian'    => $instrument
         ];
 
@@ -84,17 +89,17 @@ class AuditLapanganController extends Controller
 
     public function postUpdateDataAuditLapangan(Request $request, $auditDokumen, $instrument, $auditLapangan)
     {
-        $dataAuditDokumen=AuditDokumen::find($auditDokumen);
+        $dataAuditDokumen = AuditDokumen::find($auditDokumen);
 
-        $instrument=$request->status_ketercapaian;
-        $data=[
+        $instrument = $request->status_ketercapaian;
+        $data = [
             'audit_dokumen_id'   => $auditDokumen,
             'hasil_temuan_audit' => $request->hasil_temuan_audit,
             'rekomendasi'   => $request->rekomendasi
         ];
-        
+
         $updateStatusInstrument = [
-            'status_ketercapaian'=> $instrument
+            'status_ketercapaian' => $instrument
         ];
 
         AuditLapangan::where('id', $auditLapangan)->update($data);
@@ -105,14 +110,14 @@ class AuditLapanganController extends Controller
 
     public function detailAuditLapangan($id)
     {
-        $title='Audit Lapangan';
-        $auditDokumen=AuditDokumen::find($id);
-        $instrument=$auditDokumen->evaluasiDiri->instrument->status_ketercapaian;
-        $auditLapangan=AuditLapangan::where('audit_dokumen_id', $id)->first();
+        $title = 'Audit Lapangan';
+        $auditDokumen = AuditDokumen::find($id);
+        $instrument = $auditDokumen->evaluasiDiri->instrument->status_ketercapaian;
+        $auditLapangan = AuditLapangan::where('audit_dokumen_id', $id)->first();
 
-        return view('auditLapangan.dataAuditLapangan.detail',[
+        return view('auditLapangan.dataAuditLapangan.detail', [
             'title' => $title,
-            'auditDokumen'=>$auditDokumen,
+            'auditDokumen' => $auditDokumen,
             'auditLapangan'  => $auditLapangan,
             'instrument'    => $instrument
         ]);
@@ -123,12 +128,33 @@ class AuditLapanganController extends Controller
         $title = 'Audit Lapangan';
         // $auditDokumen = AuditDokumen::where('id', $id)->get();
         $dataInstrument = DataInstrument::find($id);
-        $auditLapangan = AuditLapangan::all();
+        // $auditLapangan = AuditLapangan::all();
+        $auditLapangan=AuditLapangan::with(['auditDokumen.evaluasiDiri'])
+        ->whereHas('auditDokumen.evaluasiDiri', function($q) use ($dataInstrument){
+            $q->where('data_instrument_id', $dataInstrument->id);
+        })->get();
+        
+        // $dataInstrument=$auditLapangan->auditDokumen->evaluasiDiri->data;
         return view('auditLapangan.validasi', [
             'auditLapangan' => $auditLapangan,
             'title' => $title,
             'dataInstrument' => $dataInstrument
         ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function updateStatusDataInstrument($id)
+    {
+        $dataInstrument = DataInstrument::findOrFail($id);
+        if ($dataInstrument->status == 'Audit Lapangan') {
+            $dataInstrument->status = 'Selesai';
+        }
+
+        $dataInstrument->save();
+
+        return response()->json(['success', 'Data Berhasil Divalidasi']);
     }
     /**
      * Show the form for creating a new resource.

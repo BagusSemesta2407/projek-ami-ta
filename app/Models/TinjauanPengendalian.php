@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class TinjauanPengendalian extends Model
 {
@@ -22,5 +23,15 @@ class TinjauanPengendalian extends Model
     public function auditLapangan(): BelongsTo
     {
         return $this->belongsTo(AuditLapangan::class);
+    }
+
+    /**
+     * Get all of the tinjauanPeningkatan for the TinjauanPengendalian
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tinjauanPeningkatan(): HasMany
+    {
+        return $this->hasMany(TinjauanPeningkatan::class);
     }
 }

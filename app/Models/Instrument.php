@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Instrument extends Model
 {
@@ -33,6 +34,16 @@ class Instrument extends Model
     {
         return $this->hasMany(EvaluasiDiri::class);
     }
+
+    // /**
+    //  * Get the evaluasiDiri associated with the Instrument
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    //  */
+    // public function evaluasiDiri(): HasOne
+    // {
+    //     return $this->hasOne(EvaluasiDiri::class, 'instrument_id', 'id');
+    // }
 
     /**
      * Scope Filter.

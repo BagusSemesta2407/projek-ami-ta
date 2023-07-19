@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('audit_lapangans', function (Blueprint $table) {
+        Schema::create('tinjauan_peningkatans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('audit_dokumen_id')->constrained();
-            $table->text('hasil_temuan_audit')->nullable();
-            // $table->enum('stat   us_temuan_audit', ['Tercapai', 'Tidak Tercapai'])->nullable();
-            $table->text('rekomendasi')->nullable();
+            $table->foreignId('dokumen_standar_id')->constrained();
+            $table->foreignId('tinjauan_pengendalian_id')->constrained();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('audit_lapangans');
+        Schema::dropIfExists('tinjauan_peningkatans');
     }
 };

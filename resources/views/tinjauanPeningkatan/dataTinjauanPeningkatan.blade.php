@@ -5,7 +5,7 @@
         <section class="row">
             <div class="card">
                 <div class="card-header">
-                    Data Audit Mutu Internal
+                    Data Audit Dokumen
 
                 </div>
 
@@ -14,34 +14,42 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Unit/Program Studi/Jurusan</th>
-                                <th>Tanggal Audit</th>
+                                <th>Standar SPMI</th>
+                                <th>Butir Mutu</th>
+                                <th>Indikator dan Target</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @foreach ($dataInstrument as $item)
+                            @foreach ($tinjauanPengendalian as $item)
                                 <tr>
                                     <td>
                                         {{ $loop->iteration }}
                                     </td>
 
                                     <td>
-                                        {{ $item->categoryUnit->name }}
+                                        {{ $item->auditLapangan->auditDokumen->evaluasiDiri->instrument->status_standar }}
+                                    </td>
+                                    <td>
+                                        {{ $item->auditLapangan->auditDokumen->evaluasiDiri->instrument->name }}
                                     </td>
 
                                     <td>
-                                        {{ \Carbon\Carbon::parse($item->tanggal_audit)->translatedFormat('d F Y') }}
+                                        {{ $item->auditLapangan->auditDokumen->evaluasiDiri->instrument->target }}
                                     </td>
 
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('menu-p4mp.report-ami.detail-ami', $item->id) }}"
-                                                class="btn btn-sm btn-outline-success">
-                                                <i class="bi bi-eye"></i>
+                                            <a href="{{ route('menu-p4mp.tinjauan-peningkatan.create-tinjauan-peningkatan', $item->id) }}"
+                                                class="btn btn-sm btn-outline-secondary">
+                                                <i class="bi bi-pen"></i>
                                             </a>
                                             &nbsp;
+                                            {{-- <a href="{{ route('menu-auditor.index-audit-dokumen.detail-data-audit-dokumen', $item->id) }}"
+                                                class="btn btn-sm btn-outline-success">
+                                                <i class="bi bi-eye-fill"></i>
+                                            </a> --}}
                                         </div>
                                     </td>
                                 </tr>
@@ -54,5 +62,4 @@
         </section>
     </div>
 @endsection
-
 

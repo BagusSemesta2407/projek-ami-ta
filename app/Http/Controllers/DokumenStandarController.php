@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DokumenStandarRequest;
 use App\Models\DokumenStandar;
 use App\Models\TypeDokumenMutuStandar;
 use Illuminate\Http\Request;
@@ -37,7 +38,7 @@ class DokumenStandarController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(DokumenStandarRequest $request)
     {
         $file=DokumenStandar::saveFile($request);
         DokumenStandar::create([

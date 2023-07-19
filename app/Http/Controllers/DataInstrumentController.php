@@ -8,6 +8,8 @@ use App\Models\DataInstrument;
 use App\Models\DocumentStandard;
 use App\Models\DokumenStandar;
 use App\Models\Instrument;
+use App\Models\Lingkup;
+use App\Models\Tujuan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -22,7 +24,7 @@ class DataInstrumentController extends Controller
         $title = 'Data Instrument';
 
         $dataInstrument = DataInstrument::with(['auditor', 'auditee', 'categoryUnit'])
-        ->get();
+            ->get();
 
 
         return view('admin.instrumentData.index', [
@@ -49,7 +51,7 @@ class DataInstrumentController extends Controller
 
         $categoryUnit = CategoryUnit::all();
 
-        $dokumenStandar=DokumenStandar::all();
+        $dokumenStandar = DokumenStandar::all();
         return view('admin.instrumentData.form', [
             'title' => $title,
             'categoryUnit' => $categoryUnit,
@@ -65,7 +67,7 @@ class DataInstrumentController extends Controller
      */
     public function store(DataInstrumentRequest $request)
     {
-        DataInstrument::create([
+        $dataInstrument = DataInstrument::create([
             'auditor_id' => $request->auditor_id,
             'auditor2_id' => $request->auditor2_id,
             'auditee_id' => $request->auditee_id,
@@ -75,8 +77,24 @@ class DataInstrumentController extends Controller
             'dokumenStandar'  => $request->dokumenStandar
         ]);
 
-        return redirect()->route('admin.data-instruments.index')->with('success', 'Data Berhasil Ditambah');
+        $tujuan = $request->deskripsi_tujuan;
+        $lingkup = $request->deskripsi_lingkup;
 
+        foreach ($tujuan as $value) {
+            Tujuan::create([
+                'data_instrument_id'    => $dataInstrument->id,
+                'deskripsi_tujuan'  => $value,
+            ]);
+        }
+
+        foreach ($lingkup as $key) {
+            # code...
+            Lingkup::create([
+                'data_instrument_id'    => $dataInstrument->id,
+                'deskripsi_lingkup' => $key
+            ]);
+        }
+        return redirect()->route('admin.data-instruments.index')->with('success', 'Data Berhasil Ditambah');
     }
 
     /**
@@ -93,7 +111,7 @@ class DataInstrumentController extends Controller
     public function edit($id)
     {
         $title = 'Data Penetapan AMI';
-        $dataInstrument=DataInstrument::find($id);
+        $dataInstrument = DataInstrument::find($id);
         $userAuditor = User::whereHas('roles', function ($q) {
             $q->whereIn('name', ['auditor']);
         })
@@ -105,16 +123,16 @@ class DataInstrumentController extends Controller
         $categoryUnit = CategoryUnit::all();
         $instrument = Instrument::all();
         // $dokumenStandar=$dataInstrument->dokumenStandar;
-        $dokumenStandar=DokumenStandar::oldest('file')->get();
+        $dokumenStandar = DokumenStandar::oldest('file')->get();
 
-        return view('admin.instrumentData.form',[
+        return view('admin.instrumentData.form', [
             'dataInstrument' => $dataInstrument,
             'title' => $title,
             'userAuditor' => $userAuditor,
             'userAuditee' => $userAuditee,
             'categoryUnit' => $categoryUnit,
             'instrument' => $instrument,
-            'dokumenStandar'=> $dokumenStandar
+            'dokumenStandar' => $dokumenStandar
         ]);
     }
 
@@ -123,7 +141,7 @@ class DataInstrumentController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data=[
+        $data = [
             'auditor_id' => $request->auditor_id,
             'auditee_id' => $request->auditee_id,
             'category_unit_id' => $request->category_unit_id,
@@ -132,7 +150,26 @@ class DataInstrumentController extends Controller
             'dokumenStandar'  => $request->dokumenStandar
         ];
 
-        DataInstrument::where('id', $id)->update($data);
+        // $dataInstrument = DataInstrument::where('id', $id)->update($data);
+        $dataInstrument = DataInstrument::findOrFail($id);
+        $dataInstrument->update($data);
+        $tujuan = $request->deskripsi_tujuan;
+        $lingkup = $request->deskripsi_lingkup;
+
+        $dataInstrument->tujuan()->delete(); // Hapus semua tujuan audit yang ada sebelumnya
+        $dataInstrument->lingkup()->delete(); // Hapus semua lingkup audit yang ada sebelumnya
+
+        foreach ($tujuan as $value) {
+            $dataInstrument->tujuan()->create([
+                'deskripsi_tujuan' => $value
+            ]);
+        }
+
+        foreach ($lingkup as $value) {
+            $dataInstrument->lingkup()->create([
+                'deskripsi_lingkup' => $value
+            ]);
+        }
 
         return redirect()->route('admin.data-instruments.index');
     }
@@ -146,7 +183,7 @@ class DataInstrumentController extends Controller
 
         $dataInstrument->delete();
 
-        return response()->json(['success','Data Berhasil Dihapus']);
+        return response()->json(['success', 'Data Berhasil Dihapus']);
     }
 
     /**
@@ -155,8 +192,8 @@ class DataInstrumentController extends Controller
     public function indexKepalaP4mp(DataInstrument $dataInstrument)
     {
         $title = 'Konfirmasi Data Penetapan AMI';
-        $dataInstrument=DataInstrument::with(['categoryUnit'])
-        ->get();
+        $dataInstrument = DataInstrument::with(['categoryUnit'])
+            ->get();
 
         return view('kepalaP4mp.index', [
             'title' => $title,
@@ -170,10 +207,10 @@ class DataInstrumentController extends Controller
     public function ApproveKepalaP4mp($id)
     {
         $title = 'Konfirmasi Data Penetapan AMI';
-        $dataInstrument=DataInstrument::find($id);
+        $dataInstrument = DataInstrument::find($id);
         // dd($dataInstrument);
 
-        return view('kepalaP4mp.approve',[
+        return view('kepalaP4mp.approve', [
             'dataInstrument'    =>  $dataInstrument,
             'title' => $title
         ]);
@@ -184,7 +221,7 @@ class DataInstrumentController extends Controller
      */
     public function updateStatusDataInstrument(Request $request, $id)
     {
-        $data =[
+        $data = [
             'status'    => $request->status,
         ];
 
@@ -202,7 +239,9 @@ class DataInstrumentController extends Controller
             'category_unit_id' => $instrument->id,
         ];
 
-        $instrument = Instrument::filter($filter)->get();
+        $instrument = Instrument::filter($filter)
+        ->where('status_ketercapaian', 'Tidak Tercapai')
+        ->get();
 
         return response()->json($instrument);
     }

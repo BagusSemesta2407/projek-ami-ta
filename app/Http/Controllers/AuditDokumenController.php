@@ -146,7 +146,10 @@ class AuditDokumenController extends Controller
         $title = 'Audit Dokumen';
         // $auditDokumen = AuditDokumen::where('id', $id)->get();
         $dataInstrument = DataInstrument::find($id);
-        $auditDokumen = AuditDokumen::all();
+        $auditDokumen=AuditDokumen::with(['evaluasiDiri'])
+        ->whereHas('evaluasiDiri', function($q) use ($dataInstrument){
+            $q->where('data_instrument_id', $dataInstrument->id);
+        })->get();
         return view('auditDokumen.validasiAuditDokumen', [
             'auditDokumen' => $auditDokumen,
             'title' => $title,

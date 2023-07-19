@@ -28,11 +28,11 @@
 
                     @if (@$dokumenStandar->exists)
                         <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                            action="{{ route('admin.dokumen-standar.update', $dokumenStandar) }}">
+                            action="{{ route('admin.dokumen-standar.update', $dokumenStandar) }}" id="form">
                             @method('PUT')
                         @else
                             <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                                action="{{ route('admin.dokumen-standar.store') }}" id="repeater-form">
+                                action="{{ route('admin.dokumen-standar.store') }}" id="form">
                     @endif
                     {{ csrf_field() }}
                     <div class="card-content">
@@ -42,7 +42,9 @@
                                     <div class="col-lg-6">
                                         <div class="form-group">
                                             <label for="first-name-vertical">Tipe Standar Mutu</label>
-                                            <select name="type_dokumen_mutu_standar_id" id="" class="choices form-select">
+                                            <select name="type_dokumen_mutu_standar_id" id="" class="form-select select2 @error('type_dokumen_mutu_standar_id')
+                                                is-invalid
+                                            @enderror">
                                                 <option value="" selected disabled>
                                                     Pilih Tipe Standar Mutu
                                                 </option>
@@ -53,6 +55,9 @@
                                                     </option>
                                                 @endforeach
                                             </select>
+                                            @if ($errors->has('type_dokumen_mutu_standar_id'))
+                                                    <span class="text-danger">{{ $errors->first('type_dokumen_mutu_standar_id') }}</span>
+                                                @endif
                                         </div>
                                         <div class="form-group">
                                             <label for="first-name-vertical">File</label>
@@ -75,11 +80,10 @@
                     </div>
                 </div>
                 <div class="col-12 d-flex justify-content-end">
-                    <button type="submit" class="btn btn-primary me-1 mb-1" id="btnSubmit" value="submit">
+                    <button type="submit" class="btn btn-outline-primary me-1 mb-1" id="btnSubmit">
                         {{ $aksi }}
                         <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;"
                             role="status">
-                            <span class="sr-only">Loading...</span>
                         </span>
                     </button>
                 </div>

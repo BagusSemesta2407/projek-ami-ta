@@ -89,7 +89,6 @@
                                 Submit
                                 <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;"
                                     role="status">
-                                    <span class="sr-only">Loading...</span>
                                 </span>
                             </button>
                         </div>

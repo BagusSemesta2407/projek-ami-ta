@@ -324,9 +324,11 @@
         <div class="container">
             <div class="row mb-5">
                 <div class="col-lg-3 py-3">
-                    <h3>SEOGram</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero amet, repellendus eius blanditiis
-                        in iusto eligendi iure.</p>
+                    <h3>P4MP</h3>
+                    <p>Pusat Pengembangan Pembelajaran dan Penjaminan Mutu Pendidikan (P4MP) di Politeknik Negeri Subang
+                        (POLSUB) mempunyai tugas dalam Penetapan, Pelaksanaan, Evaluasi pelaksanaan, Pengendalian
+                        pelaksanaan, dan Peningkatan (PPEPP) serta melaksanakan kegiatan peningkatan dan pengembangan
+                        pembelajaran serta penjaminan mutu pendidikan.</p>
 
                     <div class="social-media-button">
                         <a href="#"><span class="mai-logo-facebook-f"></span></a>
@@ -362,8 +364,7 @@
                 </div>
             </div>
 
-            <p class="text-center" id="copyright">Copyright &copy; 2020. This template design and develop by <a
-                    href="https://macodeid.com/" target="_blank">MACode ID</a></p>
+            <p class="text-center" id="copyright">Copyright &copy; {{ date('Y') }}. Politeknik Negeri Subang</p>
         </div>
     </footer>
 

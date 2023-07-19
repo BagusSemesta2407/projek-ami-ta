@@ -63,6 +63,26 @@ class DataInstrument extends Model implements HasMedia
         return $this->hasMany(EvaluasiDiri::class);
     }
 
+    /**
+     * Get all of the tujuan for the DataInstrument
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tujuan(): HasMany
+    {
+        return $this->hasMany(Tujuan::class);
+    }
+
+    /**
+     * Get all of the lingkup for the DataInstrument
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function lingkup(): HasMany
+    {
+        return $this->hasMany(Lingkup::class);
+    }
+
 
     public function getFileDokumenStandarAttribute()
     {

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditLapangan;
 use App\Models\Auditor;
 use App\Models\DataInstrument;
 use App\Models\InstrumentAuditee;
@@ -14,12 +15,7 @@ class ReportController extends Controller
     public function index()
     {
         $title='Laporan AMI';
-        // $instrumentAuditee=InstrumentAuditee::whereHas('dataInstrument', function($q){
-        //     $q->whereIn('status', ['Sudah Divalidasi Auditor']);
-        // })
-        // ->latest()
-        // ->get();
-        $dataInstrument=DataInstrument::where('status', 'Sudah Divalidasi Auditor')->get();
+        $dataInstrument=DataInstrument::where('status', 'Selesai')->get();
 
         return view('report.index',[
             // 'instrumentAuditee'=>$instrumentAuditee,
@@ -30,15 +26,17 @@ class ReportController extends Controller
 
     public function detailReportAMI($id)
     {
-        $title='Detail';
-        // $instrumentAuditee=InstrumentAuditee::find($id);
-        $dataInstrument=DataInstrument::find($id);
-        $instrumentAuditee=InstrumentAuditee::where('data_instrument_id',$dataInstrument->id)->get();
+        $title='Laporan AMI';
+        $dataInstrument = DataInstrument::find($id);
+        $auditLapangan=AuditLapangan::with(['auditDokumen.evaluasiDiri'])
+        ->whereHas('auditDokumen.evaluasiDiri', function($q) use ($dataInstrument){
+            $q->where('data_instrument_id', $dataInstrument->id);
+        })->get();
 
         return view('report.detail',[
             'title'=> $title,
             'dataInstrument'    => $dataInstrument,
-            'instrumentAuditee'=>$instrumentAuditee
+            'auditLapangan'  => $auditLapangan
         ]);
     }
 

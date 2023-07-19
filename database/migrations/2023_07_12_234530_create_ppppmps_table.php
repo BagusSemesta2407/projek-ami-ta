@@ -18,7 +18,7 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
-            $table->enum('jabatan',['Kepala P4MP', 'Admin P4MP', 'Koordinator Bidang Pengembangan Pembelajaran', 'Koordinator Sistem Penjaminan Mutu Internal', 'Koodinator Bidang Pangkalan Data dan Penjaminan Mutu']);
+            $table->enum('jabatan',['Kepala P4MP', 'Admin P4MP']);
             $table->timestamps();
         });
     }

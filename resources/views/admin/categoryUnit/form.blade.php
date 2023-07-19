@@ -39,7 +39,7 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="">Kategori Audit</label>
-                                            <select name="kategori_audit" id="kategori-unit" class="form-select @error('kategori_auidt')
+                                            <select name="kategori_audit" id="kategori-unit" class="form-select select2 @error('kategori_auidt')
                                                 is-invalid
                                             @enderror">
                                                 <option value="" selected disabled>Pilih Kategori Yang Akan Di Audit

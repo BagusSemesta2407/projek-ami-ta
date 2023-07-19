@@ -19,7 +19,7 @@ return new class extends Migration
             $table->enum('status_ketercapaian',['Tercapai', 'Tidak Tercapai'])->nullable();
             $table->text('deskripsi_ketercapaian')->nullable()->comment('for auditee');
             $table->string('bukti')->nullable();
-            $table->string('catatan')->nullable();
+            $table->text('catatan')->nullable();
             $table->timestamps();
         });
     }

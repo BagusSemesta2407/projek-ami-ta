@@ -16,10 +16,10 @@ return new class extends Migration
             $table->foreignId('audit_lapangan_id')->constrained()->nullable();
             $table->enum('important', ['Important','Not Important']);
             $table->text('deskripsi_important')->nullable();
-            $table->enum('urgent',['Urgent','Not Urgent']);
-            $table->text('deskripi_urgent')->nullable();
+            $table->enum('urgent', ['Urgent','Not Urgent']);
+            $table->text('deskripsi_urgent')->nullable();
             $table->text('rencana_tindak_lanjut')->nullable();
-            $table->text('anggaran',['Anggaran','Non Anggaran']);
+            $table->text('anggaran')->nullable();
             $table->timestamps();
         });
     }

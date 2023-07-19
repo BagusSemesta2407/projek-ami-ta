@@ -28,7 +28,7 @@
                                         {{ $loop->iteration }}
                                     </td>
                                     <td>
-                                        {{ $item->typeDokumenMutuStandar->name }}
+                                        {{ @$item->typeDokumenMutuStandar->name }}
                                     </td>
                                     <td>
                                         @if ($item->file_url)

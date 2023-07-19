@@ -18,6 +18,7 @@ class EvaluasiDiriController extends Controller
         $title='Evaluasi Diri';
         $userId=Auth::id();
         $dataInstrument=DataInstrument::with(['categoryUnit'])
+        ->where('status', 'On Progress')
         ->where('auditee_id', $userId)
         ->latest()
         ->get();
@@ -36,36 +37,110 @@ class EvaluasiDiriController extends Controller
             'category_unit_id'=>$dataInstrument->category_unit_id
         ];
 
-        $instrument=Instrument::filter($filter)->get();
+        $instrument=Instrument::filter($filter)
+        ->where('status_ketercapaian', 'Tidak Tercapai')
+        ->get();
+
+        // $evaluasiDiri=EvaluasiDiri::with(['evaluasiDiri.dataInstrument'])->first();
+        // dd($evaluasiDiri)
 
         return view('evaluasiDiri.dataEvaluasiDiri.index',[
             'title'=>$title,
             'dataInstrument'=>$dataInstrument,
-            'instrument' => $instrument
+            'instrument' => $instrument,
         ]);
     }
 
-    public function postDataEvaluasiDiri(Request $request, $id)
+    public function createEvaluasiDiri($dataInstrument, $instrument)
     {
-        foreach ($request->data as $key => $value)
-        {
-            EvaluasiDiri::create([
-                'data_instrument_id' => $id,
-                'instrument_id'=> $key,
-                'status_ketercapaian'    => $value['status_ketercapaian'],
-                'deskripsi_ketercapaian'    => $value['deskripsi_ketercapaian'],
-                'bukti'=>$value['bukti'],
-                'catatan'=>$value['catatan']
-            ]);
+        $title = 'Evaluasi Diri';
+        $getDataInstrument=DataInstrument::find($dataInstrument);
+        $getInstrument=Instrument::find($instrument);
+        $evaluasiDiri=EvaluasiDiri::with(['instrument', 'dataInstrument'])->where('data_instrument_id', $dataInstrument)->where('instrument_id', $instrument)->first();
+        return view('evaluasiDiri.dataEvaluasiDiri.form',[
+            'title' => $title,
+            'evaluasiDiri'=>$evaluasiDiri,
+            'getInstrument'=>$getInstrument,
+            'getDataInstrument'=>$getDataInstrument
+        ]);
+    }
 
+    public function postDataEvaluasiDiri(Request $request, $dataInstrument, $instrument)
+    {
+        $getDataInstrumen=DataInstrument::find($dataInstrument);
+        $getInstrument=Instrument::find($instrument);
+        $data = [
+            'data_instrument_id' => $dataInstrument,
+            'instrument_id' =>$instrument,
+            'status_ketercapaian' => $request->status_ketercapaian,
+            'deskripsi_ketercapaian'=> $request->deskripsi_ketercapaian,
+            'bukti' => $request->bukti,
+            'catatan'=> $request->catatan
+        ];
+
+        EvaluasiDiri::create($data);
+        return redirect()->route('menu-auditee.evaluasi-diri.index');
+    }
+
+    // public function editEvaluasiDiri($dataInstrument, )
+    // {
+    //     $title='Edit Evaluasi Diri';
+    //     $evaluasiDiri=EvaluasiDiri::find($id);
+
+    //     return view('evaluasiDiri.dataEvaluasiDiri.edit',[
+    //         'title' => $title,
+    //         'evaluasiDiri'=> $evaluasiDiri
+    //     ]);
+    // }
+    public function updateDataEvaluasiDiri(Request $request, $dataInstrument, $instrument, $evaluasiDiri)
+    {
+        
+        $getDataInstrumen=DataInstrument::find($dataInstrument);
+        $getInstrument=Instrument::find($instrument);
+        $data = [
+            'data_instrument_id' => $dataInstrument,
+            'instrument_id' =>$instrument,
+            'status_ketercapaian' => $request->status_ketercapaian,
+            'deskripsi_ketercapaian'=> $request->deskripsi_ketercapaian,
+            'bukti' => $request->bukti,
+            'catatan'=> $request->catatan
+        ];
+
+        EvaluasiDiri::where('id',$evaluasiDiri)->update($data);
+        return redirect()->route('menu-auditee.evaluasi-diri.index');
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function updateStatusDataInstrument($id)
+    {
+        $dataInstrument = DataInstrument::findOrFail($id);
+
+        if ($dataInstrument->status == 'On Progress') {
+            $dataInstrument->status = 'Sudah Di Jawab Auditee';
         }
 
-        DataInstrument::where('id', $id)->update([
-            'status'    =>  'Sudah Di Jawab Auditee'
-        ]);
+        $dataInstrument->save();
 
-        return redirect()->route('menu-auditee.evaluasi-diri.index');
-        
+        // return redirect()->back();
+        return response()->json(['success', 'Data Berhasil Divalidasi']);
+    }
+
+    public function validateDataEvaluasiDiri($id)
+    {
+        $title = 'Audit Dokumen';
+        // $auditDokumen = AuditDokumen::where('id', $id)->get();
+        $dataInstrument = DataInstrument::find($id);
+        $evaluasiDiri=EvaluasiDiri::with(['dataInstrument'])
+        ->whereHas('dataInstrument', function($q) use ($dataInstrument){
+            $q->where('data_instrument_id', $dataInstrument->id);
+        })->get();
+        return view('evaluasiDiri.dataEvaluasiDiri.validasi', [
+            'evaluasiDiri' => $evaluasiDiri,
+            'title' => $title,
+            'dataInstrument' => $dataInstrument
+        ]);
     }
 
     public function detailDataEvaluasiDiri($id)

@@ -119,6 +119,12 @@
         <div class="row">
             <div class="col-12">
                 <div class="card">
+                    <div class="card-header">
+                        Data Audit Lapangan
+                        <a href="{{ route('menu-auditor.audit-lapangan.validasi-audit-lapangan', $dataInstrument->id) }}" class="btn btn-md btn-outline-primary float-end">
+                            <i class="bi bi-check2-circle"></i>
+                        </a>
+                    </div>
                     <div class="card-body">
                         {{-- <div class="col-12 col-md-12">
                             @if ($dataInstrument->status == 'Sudah Di Jawab Auditee')
@@ -133,6 +139,7 @@
                                 </button>
                             @endif
                         </div> --}}
+                        
                         <div class="card-body">
                             <table class="table" id="table1">
                                 <thead>

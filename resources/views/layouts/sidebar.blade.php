@@ -75,21 +75,21 @@
         @endrole
 
         @role('auditee')
-            <li class="sidebar-title">Pelaksanaan</li>
+            <li class="sidebar-title">Pelaksanaan ED</li>
 
-            <li class="sidebar-item 
+            {{-- <li class="sidebar-item 
         {{ request()->is('menu-auditee/instruments-auditee*') ? 'active' : '' }}">
                 <a href="{{ route('menu-auditee.instruments-auditee.index') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
                     <span>Evaluasi Diri</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="sidebar-item 
         {{ request()->is('menu-auditee/evaluasi-diri*') ? 'active' : '' }}">
                 <a href="{{ route('menu-auditee.evaluasi-diri.index') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
-                    <span>Evaluasi Diri Fix</span>
+                    <span>Evaluasi Diri</span>
                 </a>
             </li>
         @endrole
@@ -97,7 +97,7 @@
         @role('auditor')
             <li class="sidebar-title">Pelaksanaan AMI</li>
 
-            <li class="sidebar-item 
+            {{-- <li class="sidebar-item 
         {{ request()->is('menu-auditor/index-audit-dokumen*') ? 'active' : '' }}">
                 <a href="{{ route('menu-auditor.index-audit-dokumen') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
@@ -112,13 +112,13 @@
                     <i class="bi bi-ui-checks"></i>
                     <span>Audit Lapangan</span>
                 </a>
-            </li>
+            </li> --}}
 
             <li class="sidebar-item 
         {{ request()->is('menu-auditor/audit-dokumen*') ? 'active' : '' }}">
                 <a href="{{ route('menu-auditor.audit-dokumen.index') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
-                    <span>Audit Dokumen FIX</span>
+                    <span>Audit Dokumen</span>
                 </a>
             </li>
 
@@ -126,7 +126,7 @@
         {{ request()->is('menu-auditor/audit-lapangan*') ? 'active' : '' }}">
                 <a href="{{ route('menu-auditor.audit-lapangan.index') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
-                    <span>Audit Lapangan FIX</span>
+                    <span>Audit Lapangan</span>
                 </a>
             </li>
         @endrole
@@ -142,7 +142,7 @@
             </li>
 
             <li class="sidebar-title">Tinjauan Manajemen</li>
-            <li class="sidebar-item {{ request()->is('menu-p4mp/rapat-tinjauan*') ? 'active' : '' }}">
+            {{-- <li class="sidebar-item {{ request()->is('menu-p4mp/rapat-tinjauan*') ? 'active' : '' }}">
                 <a href="{{ route('menu-p4mp.rapat-tinjauan') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
                     <span>Pengendalian</span>
@@ -151,6 +151,18 @@
 
             <li class="sidebar-item {{ request()->is('menu-p4mp/peningkatan*') ? 'active' : '' }}">
                 <a href="{{ route('menu-p4mp.index-peningkatan') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Peningkatan</span>
+                </a>
+            </li> --}}
+            <li class="sidebar-item {{ request()->is('menu-p4mp/tinjauan-pengendalian*') ? 'active' : '' }}">
+                <a href="{{ route('menu-p4mp.index-tinjauan-pengendalian') }}" class='sidebar-link'>
+                    <i class="bi bi-ui-checks"></i>
+                    <span>Pengendalian</span>
+                </a>
+            </li>
+            <li class="sidebar-item {{ request()->is('menu-p4mp/tinjauan-peningkatan*') ? 'active' : '' }}">
+                <a href="{{ route('menu-p4mp.index-tinjauan-peningkatan') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
                     <span>Peningkatan</span>
                 </a>
@@ -163,8 +175,27 @@
                     <span>Audit Mutu Internal</span>
                 </a>
             </li>
+            <li class="sidebar-item has-sub">
 
-            <li class="sidebar-item ">
+                <a href="#" class='sidebar-link'>
+                    <i class="bi bi-stack"></i>
+                    <span>Tinjauan Manajemen</span>
+                </a>
+                <ul class="submenu">
+                    <li class="submenu-item">
+                        <a href="">
+                            Pengendalian
+                        </a>
+                    </li>
+                    <li class="submenu-item">
+                        <a href="">
+                            Peningkatan
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+            {{-- <li class="sidebar-item ">
                 <a href="{{ route('menu-p4mp.index-pengendalian') }}" class='sidebar-link'>
                     <i class="bi bi-ui-checks"></i>
                     <span>Pengendalian</span>
@@ -175,7 +206,7 @@
                     <i class="bi bi-ui-checks"></i>
                     <span>Peningkatan</span>
                 </a>
-            </li>
+            </li> --}}
         @endrole
     </ul>
 </div>

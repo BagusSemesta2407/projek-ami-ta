@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('audit_lapangans', function (Blueprint $table) {
+        Schema::create('tujuans', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('audit_dokumen_id')->constrained();
-            $table->text('hasil_temuan_audit')->nullable();
-            // $table->enum('stat   us_temuan_audit', ['Tercapai', 'Tidak Tercapai'])->nullable();
-            $table->text('rekomendasi')->nullable();
+            $table->foreignId('data_instrument_id')->constrained()->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('deskripsi_tujuan')->nullable();
             $table->timestamps();
         });
     }
@@ -26,6 +24,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('audit_lapangans');
+        Schema::dropIfExists('tujuans');
     }
 };

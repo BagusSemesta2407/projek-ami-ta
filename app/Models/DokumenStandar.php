@@ -26,6 +26,16 @@ class DokumenStandar extends Model
         return $this->belongsTo(TypeDokumenMutuStandar::class);
     }
 
+    /**
+     * Get all of the tinjauanPeningkatan for the DokumenStandar
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function tinjauanPeningkatan(): HasMany
+    {
+        return $this->hasMany(TinjauanPeningkatan::class);
+    }
+
     protected $appends = ['file_url'];
 
 

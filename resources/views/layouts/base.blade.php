@@ -116,7 +116,7 @@
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                                 <li class="nav-item dropdown me-3">
-                                    <a class="nav-link active dropdown-toggle" href="#"
+                                    <a class="nav-link active" href="#"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class='bi bi-bell bi-sub fs-4 text-gray-600'></i>
                                     </a>
@@ -388,6 +388,14 @@
             height: 120,
         })
         $('#summernote1').summernote({
+            tabsize: 2,
+            height: 120,
+        })
+        $('#summernote2').summernote({
+            tabsize: 2,
+            height: 120,
+        })
+        $('#summernote3').summernote({
             tabsize: 2,
             height: 120,
         })

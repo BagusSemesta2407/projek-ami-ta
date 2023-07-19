@@ -22,12 +22,12 @@ class DataInstrumentRequest extends FormRequest
     public function rules(): array
     {
         $rules =[
-            'auditee_id' => 'required|unique:data_instruments,auditee_id',
-            'auditor_id'    => 'different:auditor2_id|required|unique:data_instruments,auditor_id',
-            'auditor2_id'   => 'required|different:auditor_id|unique:data_instruments,auditor_id',
+            'auditee_id' => 'required',
+            'auditor_id'    => 'different:auditor2_id|required',
+            'auditor2_id'   => 'required|different:auditor_id',
             'category_unit_id'  => 'required',
             'dokumenStandar'=> 'required',
-            'tanggal_audit'=> 'required'
+            'tanggal_audit'=> 'required|unique:data_instruments,tanggal_audit'
         ];
 
         return $rules;
@@ -42,8 +42,8 @@ class DataInstrumentRequest extends FormRequest
             'auditor2_id.required'  => 'Auditor 2 Wajib Diisi',
             'auditor_id.different'   => 'Auditor 1 Yang Dipilih Tidak Boleh Sama Dengan Auditor 2',
             'auditor2_id.different'  => 'Auditor 2 Yang Dipilih Tidak Boleh Sama Dengan Auditor 1',
-            'auditor_id.unique'   => 'Sudah Ada Data Auditor 1 Pada Data Sebelumnya',
-            'auditor2_id.unique'  => 'Sudah Ada Data Auditor 2 Pada Data Sebelumnya',
+            // 'auditor_id.unique'   => 'Sudah Ada Data Auditor 1 Pada Data Sebelumnya',
+            // 'auditor2_id.unique'  => 'Sudah Ada Data Auditor 2 Pada Data Sebelumnya',
             'category_unit_id.required'  => 'Unit Wajib Diisi',
             'dokumenStandar.required'    => 'Dokumen Standar Wajib Diisi',
             'tanggal_audit.required'    => 'Tanggal Audit Wajib Diisi'

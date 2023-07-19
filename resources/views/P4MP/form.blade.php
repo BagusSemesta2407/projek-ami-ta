@@ -66,7 +66,7 @@
                                         <div class="form-group">
                                             <label for="first-name-vertical">Jabatan</label>
                                             <select
-                                                class="form-control @error('jabatan')
+                                                class="form-select select2 @error('jabatan')
                                                 is-invalid
                                             @enderror"
                                                 name="jabatan" id="">
@@ -76,15 +76,6 @@
                                                 </option>
                                                 <option value="Admin P4MP" {{ old('Admin P4MP', @$ppppmp->jabatan) == 'Admin P4MP' ? 'selected' : '' }}>
                                                     Admin P4MP
-                                                </option>
-                                                <option value="Koordinator Bidang Pengembangan Pembelajaran" {{ old('Koordinator Bidang Pengembangan Pembelajaran', @$ppppmp->jabatan) == 'Koordinator Bidang Pengembangan Pembelajaran' ? 'selected' : '' }}>
-                                                    Koordinator Bidang Pengembangan Pembelajaran
-                                                </option>
-                                                <option value="Koordinator Sistem Penjaminan Mutu Internal" {{ old('Koordinator Sistem Penjaminan Mutu Internal', @$ppppmp->jabatan) == 'Koordinator Sistem Penjaminan Mutu Internal' ? 'selected' : '' }}>
-                                                    Koordinator Sistem Penjaminan Mutu Internal
-                                                </option>
-                                                <option value="Koodinator Bidang Pangkalan Data dan Penjaminan Mutu" {{ old('Koodinator Bidang Pangkalan Data dan Penjaminan Mutu', @$ppppmp->jabatan) == 'Koodinator Bidang Pangkalan Data dan Penjaminan Mutu' ? 'selected' : '' }}>
-                                                    Koodinator Bidang Pangkalan Data dan Penjaminan Mutu
                                                 </option>
                                             </select>
 

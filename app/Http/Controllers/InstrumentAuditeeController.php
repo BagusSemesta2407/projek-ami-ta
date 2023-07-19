@@ -338,7 +338,7 @@ class InstrumentAuditeeController extends Controller
      */
     public function rapatTinjauan()
     {
-        $title='Rapat Tinjauan Manajemen Pengendalian';
+            $title='Rapat Tinjauan Manajemen Pengendalian';
         // $instrumentAuditee=InstrumentAuditee::whereHas('dataInstrument', function($q){
         //     $q->whereIn('status', ['Sudah Divalidasi Auditor']);
         // })->get();

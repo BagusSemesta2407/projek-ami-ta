@@ -44,7 +44,7 @@
                                             <div class="col-md-12">
                                                 <div class="input-group">
                                                     <select name="category_unit_id"
-                                                        class="choices form-select @error('category_unit_id') is-invalid @enderror">
+                                                        class="select2 form-select @error('category_unit_id') is-invalid @enderror">
                                                         <option value="" selected="" disabled="">
                                                             Pilih Kategori Audit
                                                         </option>
@@ -91,7 +91,7 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="first-name-vertical">Standar AMI</label>
-                                            <select class="choices form-select" name="status_standar" id="status_standar">
+                                            <select class="select2 form-select" name="status_standar" id="status_standar">
                                                 <option value="" selected="" disabled="">Masukkan Standar
                                                 </option>
                                                 <option value="Pendidikan"

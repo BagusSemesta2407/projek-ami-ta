@@ -16,7 +16,6 @@
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <div class="d-flex align-items-center mb-3 pb-1">
-                                            {{-- <i class="fas fa-cubes fa-2x me-3" style="color: #ff6219;"></i> --}}
                                             <span class="h1 fw-bold mb-0">Audit Mutu Internal</span>
                                         </div>
 
@@ -58,20 +57,7 @@
                                                 {{ __('Login') }}
                                             </button>
                                         </div>
-
-                                        {{-- <a class="small text-muted" href="#!">
-                                            @if (Route::has('password.request'))
-                                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                                    {{ __('Forgot Your Password?') }}
-                                                </a>
-                                            @endif
-                                        </a> --}}
-                                        {{-- <p class="mb-5 pb-lg-2" style="color: #393f81;">Don't have an account? <a
-                                                href="#!" style="color: #393f81;">Register here</a></p>
-                                        <a href="#!" class="small text-muted">Terms of use.</a>
-                                        <a href="#!" class="small text-muted">Privacy policy</a> --}}
                                     </form>
-
                                 </div>
                             </div>
                         </div>

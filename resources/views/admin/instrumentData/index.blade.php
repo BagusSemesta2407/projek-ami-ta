@@ -5,7 +5,7 @@
         <section class="row">
             <div class="card">
                 <div class="card-header">
-                    Data Unit Kerja
+                    Data Instrument
 
                     <a href="{{ route('admin.data-instruments.create') }}" class="btn btn-outline-primary block float-end">
                         Tambah
@@ -23,7 +23,7 @@
                                 <th>Auditor 2</th>
                                 <th>Unit</th>
                                 <th>Tahun</th>
-                                <th>Document Standard</th>
+                                <th>Dokumen Standar</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -54,22 +54,66 @@
                                     </td>
 
                                     <td>
-                                        @if ($item->dokumenStandar)
-                                            {{-- {{ $item->dokumenStandar }} --}}
+                                        {{-- @if ($item->dokumenStandar)
                                             @foreach ($item->dokumenStandar as $items)
                                                 <a href="{{ asset('storage/public/file/dokumenStandar/' . $items) }}">
-                                                    <option value="{{ $items }}">{{ $items }}</option>
+                                                    <div class="d-flex">
+                                                        <i class="bi bi-filetype-docx"></i>
+                                                        <option value="{{ $items }}">{{ $items }}</option>
+                                                    </div>
                                                 </a>
                                             @endforeach
-                                        @endif
+                                        @endif --}}
+                                        <a href="#" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModalLong{{ $loop->index }}"><i>Klik
+                                                Disini</i></a>
+                                        <div class="modal fade" id="exampleModalLong{{ $loop->index }}" tabindex="-1"
+                                            role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title" id="exampleModalLongTitle">Dokumen Standar
+                                                        </h5>
+                                                        <button type="button" class="close" data-bs-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <i data-feather="x"></i>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        @if ($item->dokumenStandar)
+                                                            @foreach ($item->dokumenStandar as $items)
+                                                                <a
+                                                                    href="{{ asset('storage/public/file/dokumenStandar/' . $items) }}">
+                                                                    <div class="d-flex">
+                                                                        <span class="badge bg-light-secondary"><i
+                                                                                class="bi bi-filetype-docx"></i></span>
+                                                                        <option value="{{ $items }}">
+                                                                            {{ $items }}</option>
+                                                                    </div>
+                                                                </a>
+                                                            @endforeach
+                                                        @endif
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-light-secondary"
+                                                            data-bs-dismiss="modal">
+                                                            <i class="bx bx-x d-block d-sm-none"></i>
+                                                            <span class="d-none d-sm-block">Close</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </td>
 
                                     <td class="badges">
                                         @if ($item->status == 'On Progress')
                                             <span class="badge bg-secondary">On Progress</span>
                                         @elseif ($item->status == 'Sudah Di Jawab Auditee')
-                                            <span class="badge bg-warning">Menunggu Validasi Auditor</span>
-                                        @elseif ($item->status == 'Sudah Divalidasi Auditor')
+                                            <span class="badge bg-info">Audit Dokumen</span>
+                                        @elseif ($item->status == 'Audit Lapangan')
+                                            <span class="badge bg-warning">Audit Lapangan</span>
+                                        @elseif ($item->status == 'Selesai')
                                             <span class="badge bg-success">
                                                 Selesai
                                             </span>
@@ -91,7 +135,8 @@
                                                 <i class="bi bi-pen"></i>
                                             </a>
                                             &nbsp;
-                                            <button class="btn btn-sm btn-outline-danger delete" data-url="{{ route('admin.data-instruments.destroy', $item->id) }}">
+                                            <button class="btn btn-sm btn-outline-danger delete"
+                                                data-url="{{ route('admin.data-instruments.destroy', $item->id) }}">
                                                 <i class="bi bi-trash3"></i>
                                             </button>
                                         </div>
@@ -100,7 +145,6 @@
                             @endforeach
                         </tbody>
                     </table>
-
                 </div>
             </div>
         </section>
