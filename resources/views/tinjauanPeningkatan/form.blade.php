@@ -145,7 +145,7 @@
             </div>
         </div>
         {{-- </form> --}}
-        @if ($tinjauanPengendalian->auditLapangan->auditDokumen->evaluasiDiri->instrument->status_ketercapaian == 'Tercapai')
+        {{-- @if ($tinjauanPengendalian->auditLapangan->auditDokumen->evaluasiDiri->instrument->status_ketercapaian == 'Tercapai') --}}
             
         <div class="card">
             <div class="card-header">
@@ -209,7 +209,7 @@
                 </div>
             </div>
         </div>
-        @endif
+        {{-- @endif --}}
 
     </section>
 @endsection

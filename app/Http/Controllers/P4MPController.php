@@ -46,14 +46,6 @@ class P4MPController extends Controller
 
         $user->assignRole('p4mp');
 
-        $data =[
-            'user_id'   => $user->id,
-            'jabatan'   => $request->jabatan,
-        ];
-
-        $p4MP=P4MP::create($data);
-
-
         return redirect()->route('admin.p4mp.index');
     }
 
@@ -71,10 +63,10 @@ class P4MPController extends Controller
     public function edit($id)
     {
         $title = 'P4MP';
-        $p4MP=P4MP::findOrFail($id);
+        $user=User::findOrFail($id);
 
         return view('p4mp.form',[
-            'p4MP'=> $p4MP,
+            'user'=> $user,
             'title' => $title
         ]);
     }
@@ -84,13 +76,7 @@ class P4MPController extends Controller
      */
     public function update(Request $request, P4MP $p4MP)
     {
-        dd($p4MP);
-        $data = [
-            'jabatan'=>$request->jabatan,
-        ];
-
-        P4MP::where('id', $p4MP->id)->update($data);
-        User::whereId($p4MP->user_id)->update([
+        User::where('id', $p4MP)->update([
             'name'  =>  $request->name,
             'email' =>  $request->email,
         ]);

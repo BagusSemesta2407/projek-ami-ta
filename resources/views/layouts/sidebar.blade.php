@@ -117,7 +117,7 @@
             <li class="sidebar-item 
         {{ request()->is('menu-auditor/audit-dokumen*') ? 'active' : '' }}">
                 <a href="{{ route('menu-auditor.audit-dokumen.index') }}" class='sidebar-link'>
-                    <i class="bi bi-ui-checks"></i>
+                    <i class="bi bi-clipboard-fill"></i>
                     <span>Audit Dokumen</span>
                 </a>
             </li>
@@ -125,7 +125,7 @@
             <li class="sidebar-item 
         {{ request()->is('menu-auditor/audit-lapangan*') ? 'active' : '' }}">
                 <a href="{{ route('menu-auditor.audit-lapangan.index') }}" class='sidebar-link'>
-                    <i class="bi bi-ui-checks"></i>
+                    <i class="bi bi-clipboard2-pulse-fill"></i>
                     <span>Audit Lapangan</span>
                 </a>
             </li>
@@ -136,7 +136,7 @@
             <li class="sidebar-item 
                 {{ request()->is('menu-p4mp/approval-data-ami*') ? 'active' : '' }}">
                 <a href="{{ route('menu-p4mp.approval-data-ami') }}" class='sidebar-link'>
-                    <i class="bi bi-ui-checks"></i>
+                    <i class="bi bi-check2-square"></i>
                     <span>Konfirmasi Data AMI</span>
                 </a>
             </li>
@@ -157,13 +157,13 @@
             </li> --}}
             <li class="sidebar-item {{ request()->is('menu-p4mp/tinjauan-pengendalian*') ? 'active' : '' }}">
                 <a href="{{ route('menu-p4mp.index-tinjauan-pengendalian') }}" class='sidebar-link'>
-                    <i class="bi bi-ui-checks"></i>
+                    <i class="bi bi-menu-button-fill"></i>
                     <span>Pengendalian</span>
                 </a>
             </li>
             <li class="sidebar-item {{ request()->is('menu-p4mp/tinjauan-peningkatan*') ? 'active' : '' }}">
                 <a href="{{ route('menu-p4mp.index-tinjauan-peningkatan') }}" class='sidebar-link'>
-                    <i class="bi bi-ui-checks"></i>
+                    <i class="bi bi-bar-chart-line-fill"></i>
                     <span>Peningkatan</span>
                 </a>
             </li>
@@ -175,21 +175,16 @@
                     <span>Audit Mutu Internal</span>
                 </a>
             </li>
-            <li class="sidebar-item has-sub">
+            <li class="sidebar-item has-sub {{ request()->is('menu-p4mp/report-pengendalian*') ? 'active' : '' }}">
 
                 <a href="#" class='sidebar-link'>
                     <i class="bi bi-stack"></i>
                     <span>Tinjauan Manajemen</span>
                 </a>
                 <ul class="submenu">
-                    <li class="submenu-item">
-                        <a href="">
+                    <li class="submenu-item {{ request()->is('menu-p4mp/report-pengendalian*') ? 'active' : '' }}">
+                        <a href="{{ route('menu-p4mp.index-pengendalian') }}">
                             Pengendalian
-                        </a>
-                    </li>
-                    <li class="submenu-item">
-                        <a href="">
-                            Peningkatan
                         </a>
                     </li>
                 </ul>

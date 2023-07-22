@@ -6,6 +6,7 @@ use App\Models\AuditLapangan;
 use App\Models\Auditor;
 use App\Models\DataInstrument;
 use App\Models\InstrumentAuditee;
+use App\Models\TinjauanPengendalian;
 // use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use PDF;
@@ -56,18 +57,12 @@ class ReportController extends Controller
 
     }
 
-    public function indexPeningkatan()
+    public function indexPengendalian()
     {
         $title='Laporan AMI';
-        // $instrumentAuditee=InstrumentAuditee::whereHas('dataInstrument', function($q){
-        //     $q->whereIn('status', ['Sudah Divalidasi Auditor']);
-        // })
-        // ->latest()
-        // ->get();
-        $dataInstrument=DataInstrument::where('status', 'Sudah Divalidasi Auditor')->get();
+        $dataInstrument=DataInstrument::where('status', 'Selesai')->get();
 
         return view('report.indexPengendalian',[
-            // 'instrumentAuditee'=>$instrumentAuditee,
             'dataInstrument'=>$dataInstrument,
             'title' => $title
         ]);
@@ -75,15 +70,17 @@ class ReportController extends Controller
 
     public function detailReportPengendalian($id)
     {
-        $title='Detail';
+        $title='Laporan Tinjauan Manajemen Pengendalian';
         // $instrumentAuditee=InstrumentAuditee::find($id);
         $dataInstrument=DataInstrument::find($id);
-        $countauditor=Auditor::count();
+        $tinjauanPengendalian=TinjauanPengendalian::with(['auditLapangan.auditDokumen.evaluasiDiri'])
+        ->whereHas('auditLapangan.auditDokumen.evaluasiDiri', function($q) use ($dataInstrument){
+            $q->where('data_instrument_id', $dataInstrument->id);
+        })->get();
         return view('report.detailPengendalian',[
             'title'=> $title,
             'dataInstrument'    => $dataInstrument,
-            'countAuditor'=>$countauditor
-            // 'instrumentAuditee'=>$instrumentAuditee
+            'tinjauanPengendalian'   =>  $tinjauanPengendalian
         ]);
     }
 

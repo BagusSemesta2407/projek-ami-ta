@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditLapangan;
 use App\Models\DataInstrument;
 use App\Models\EvaluasiDiri;
 use App\Models\Instrument;
+use App\Models\TinjauanPengendalian;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -57,11 +59,22 @@ class EvaluasiDiriController extends Controller
         $getDataInstrument=DataInstrument::find($dataInstrument);
         $getInstrument=Instrument::find($instrument);
         $evaluasiDiri=EvaluasiDiri::with(['instrument', 'dataInstrument'])->where('data_instrument_id', $dataInstrument)->where('instrument_id', $instrument)->first();
+
+        // $auditLapangan=AuditLapangan::with(['auditDokumen.evaluasiDiri'])
+        // ->whereHas('auditDokumen.evaluasiDiri', function($q) use ($getDataInstrument){
+        //     $q->where('instrument_id', $getDataInstrument->id);
+        // })->first();
+        $tinjauanPengendalian=TinjauanPengendalian::with(['auditLapangan.auditDokumen.evaluasiDiri'])
+        ->whereHas('auditLapangan.auditDokumen.evaluasiDiri', function($q) use ($getInstrument){
+            $q->where('instrument_id', $getInstrument->id);
+        })->first();
+        // dd($tinjauanPengendalian);
         return view('evaluasiDiri.dataEvaluasiDiri.form',[
             'title' => $title,
             'evaluasiDiri'=>$evaluasiDiri,
             'getInstrument'=>$getInstrument,
-            'getDataInstrument'=>$getDataInstrument
+            'getDataInstrument'=>$getDataInstrument,
+            'tinjauanPengendalian'=> $tinjauanPengendalian
         ]);
     }
 

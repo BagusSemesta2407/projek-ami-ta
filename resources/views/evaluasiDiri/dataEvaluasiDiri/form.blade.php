@@ -8,13 +8,22 @@
                     {{ isset($evaluasiDiri) ? 'Edit' : 'Tambah' }} Evaluasi Diri
                 </h4>
 
+
                 <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                    action="{{ isset($evaluasiDiri) ? route('menu-auditee.evaluasi-diri.update-data-evaluasi-diri', [$getDataInstrument, $getInstrument, $evaluasiDiri]) : route('menu-auditee.evaluasi-diri.post-data-evaluasi-diri', [$getDataInstrument, $getInstrument]) }}" id="form">
+                    action="{{ isset($evaluasiDiri) ? route('menu-auditee.evaluasi-diri.update-data-evaluasi-diri', [$getDataInstrument, $getInstrument, $evaluasiDiri]) : route('menu-auditee.evaluasi-diri.post-data-evaluasi-diri', [$getDataInstrument, $getInstrument]) }}"
+                    id="form">
                     {{ csrf_field() }}
                     @if (isset($evaluasiDiri))
                         @method('PUT')
                     @endif
                     <div class="card-body">
+                        @if (isset($tinjauanPengendalian))
+                            <div class="alert alert-secondary"><i class="bi bi-star"></i>
+                                {{ strip_tags($tinjauanPengendalian->rencana_tindak_lanjut) }}.</div>
+                        @else
+                        <div class="alert alert-secondary"><i class="bi bi-star"></i>
+                            (belum ada rencana tindak lanjut)</div>
+                        @endif
                         <div class="row">
                             <div class="col-12">
                                 <b>
@@ -48,13 +57,13 @@
                                         <input type="radio" class="form-check-input" id="flexRadioDefault"
                                             name="status_ketercapaian" value="Tercapai"
                                             {{ old('Tercapai', @$evaluasiDiri->status_ketercapaian) == 'Tercapai' ? 'checked' : '' }}>
-                                        <label for="">Penting</label>
+                                        <label for="">Tercapai</label>
                                     </div>
                                     <div class="col-md-12">
                                         <input type="radio" class="form-check-input" id="flexRadioDefault1"
                                             name="status_ketercapaian" value="Tidak Tercapai"
                                             {{ old('Tidak Tercapai', @$evaluasiDiri->status_ketercapaian) == 'Tidak Tercapai' ? 'checked' : '' }}>
-                                        <label for="">Tidak Penting</label>
+                                        <label for="">Tidak Tercapai</label>
                                     </div>
                                 </div>
                                 <br>
@@ -68,7 +77,8 @@
                                 <div class="form-group">
                                     <label for="">Bukti</label>
                                     <div class="col-12">
-                                        <input type="text" name="bukti" class="form-control" value="{{ @$evaluasiDiri->bukti }}">
+                                        <input type="text" name="bukti" class="form-control"
+                                            value="{{ @$evaluasiDiri->bukti }}">
                                         {{-- <textarea name="deskripsi_ketercapaian" id="summernote" class="col-12">{{ @$evaluasiDiri->deskripsi_ketercapaian }}</textarea> --}}
                                     </div>
                                 </div>
@@ -82,11 +92,10 @@
                         </div>
                     </div>
                     <div class="col-12 d-flex justify-content-end">
-                        <button type="submit" class="btn btn-outline-primary me-1 mb-1 float-end"
-                            id="btnSubmit">
+                        <button type="submit" class="btn btn-outline-primary me-1 mb-1 float-end" id="btnSubmit">
                             {{ isset($evaluasiDiri) ? 'Edit' : 'Tambah' }}
-                            <span class="spinner-border ml-2 d-none" id="loader"
-                                style="width: 1rem; height: 1rem;" role="status">
+                            <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;"
+                                role="status">
                             </span>
                         </button>
                     </div>

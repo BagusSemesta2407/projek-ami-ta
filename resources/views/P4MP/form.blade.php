@@ -6,7 +6,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">
-                            @if (@$ppppmp->exists)
+                            @if (@$user->exists)
                                 Edit
                                 @php
                                     $aksi = 'Edit';
@@ -21,9 +21,9 @@
                         </h4>
                     </div>
 
-                    @if (@$ppppmp->exists)
+                    @if (@$user->exists)
                         <form class="form form-vertical" enctype="multipart/form-data" method="POST"
-                            action="{{ route('admin.p4mp.update', $ppppmp) }}" id="form">
+                            action="{{ route('admin.p4mp.update', $user) }}" id="form">
                             @method('PUT')
                         @else
                             <form class="form form-vertical" enctype="multipart/form-data" method="POST"
@@ -42,7 +42,7 @@
                                             is-invalid
                                         @enderror"
                                                 name="name" placeholder="Masukkan Nama"
-                                                value="{{ old('name', @$ppppmp->user->name) }}">
+                                                value="{{ old('name', @$user->name) }}">
 
                                             @if ($errors->has('name'))
                                                 <span class="text-danger">{{ $errors->first('name') }}</span>
@@ -56,14 +56,14 @@
                                             is-invalid
                                         @enderror"
                                                 name="email" placeholder="Masukkan Email"
-                                                value="{{ old('email', @$ppppmp->user->email) }}">
+                                                value="{{ old('email', @$user->email) }}">
 
                                             @if ($errors->has('email'))
                                                 <span class="text-danger">{{ $errors->first('email') }}</span>
                                             @endif
                                         </div>
 
-                                        <div class="form-group">
+                                        {{-- <div class="form-group">
                                             <label for="first-name-vertical">Jabatan</label>
                                             <select
                                                 class="form-select select2 @error('jabatan')
@@ -82,7 +82,7 @@
                                             @if ($errors->has('jabatan'))
                                                 <span class="text-danger">{{ $errors->first('jabatan') }}</span>
                                             @endif
-                                        </div>
+                                        </div> --}}
                                     </div>
                                 </div>
                             </div>

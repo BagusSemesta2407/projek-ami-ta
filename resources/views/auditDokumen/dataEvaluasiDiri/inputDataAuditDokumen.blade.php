@@ -45,7 +45,7 @@
                         <div class="form-group">
                             <label for="disabledInput">Deskripsi Ketercapaian Standard</label>
                             <div class="col-12">
-                                <textarea disabled class="col-12">{{ $evaluasiDiri->deskripsi_ketercapaian }}</textarea>
+                                <textarea disabled class="col-12">{{ strip_tags($evaluasiDiri->deskripsi_ketercapaian) }}</textarea>
                             </div>
                             {{-- <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
                                 value="{{ $evaluasiDiri->deskripsi_ketercapaian }}" disabled> --}}

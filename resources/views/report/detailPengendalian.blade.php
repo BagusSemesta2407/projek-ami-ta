@@ -25,16 +25,20 @@
                 font-size: 16px;
             }
 
-            table,
-            tr,
-            td {
+            .list,
+            .th,
+            .td {
+                border: 1px solid black;
                 border-collapse: collapse;
-                border: none;
+                font-size: 12pt;
+                margin-top: 1.5em;
+                margin-left: 0.4em;
+                text-align: center;
             }
         </style>
     </head>
     <section class="section">
-        <a href="{{ route('menu-kepala-p4mp.report-pengendalian.cetak', $dataInstrument->id) }}" class="btn btn-warning btn-lg">Cetak</a>
+        {{-- <a href="{{ route('menu-kepala-p4mp.report-pengendalian.cetak', $dataInstrument->id) }}" class="btn btn-warning btn-lg">Cetak</a> --}}
         <div class="card">
             <div class="card-body">
                 <div class="page-header">
@@ -47,56 +51,47 @@
                     POLITEKNIK NEGERI SUBANG
                 </div>
 
-                <div class="container">
-                    <ol class="sub-menu">
-                        <li>
-                            <h3>RISALAH Rapat</h3>
-                        </li>
-                    </ol>
-                    <table class="table table border">
-                        <tr>
-                            <td>
-                                Pelaksanaan audit mutu internal
-                            </td>
+                <br>
+                <div class="table-responsive">
+                    Waktu AMI :{{ \Carbon\Carbon::parse($dataInstrument->tanggal_audit)->translatedFormat('d F Y') }}
 
-                            <td>
-                                audit mutu internal telah di laksanakan di lingkungan   politeknik negeri subang  di mulai tanggal                                         {{ \Carbon\Carbon::parse($dataInstrument->tanggal_audit)->translatedFormat('d F Y') }}
-
-                            </td>
-                            
-                        </tr>
-                        <tr>
-                            <td>
-                                Jumlah Auditor  
-                            </td>
-
-                            <td>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                Tanggal Audit : 
-                            </td>
-
-                            <td>
-                                {{ \Carbon\Carbon::parse($dataInstrument->tanggal_audit)->translatedFormat('d F Y') }}
-
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                 {{-- Auditor :  --}}
-                            </td>
-
-                            <td>
-                                {{-- {{ $dataInstrument->auditor->name }} --}}
-                            </td>
-                        </tr>
+                    <table class="table align-items-center mb-0" id="example">
+                        <thead>
+                            <tr>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">No</th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Important
+                                </th>
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Urgent</th>
+                                {{-- @foreach ($criteria as $item) --}}
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Rencana
+                                    Tindak Lanjut</th>
+                                {{-- @endforeach --}}
+                                <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Anggaran
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($tinjauanPengendalian as $value)
+                                <tr>
+                                    <td>
+                                        {{ $loop->iteration }}
+                                    </td>
+                                    <td>
+                                        {{ $value->important }}
+                                    </td>
+                                    <td>
+                                        {{ $value->urgent }}
+                                    </td>
+                                    <td>
+                                        {{ strip_tags($value->rencana_tindak_lanjut) }}
+                                    </td>
+                                    <td>
+                                        {{ strip_tags($value->anggaran)}}
+                                    </td>
+                                </tr>
+                            @endforeach
+                        </tbody>
                     </table>
-                </div>
-
-                <div class="container">
-                    
                 </div>
             </div>
         </div>

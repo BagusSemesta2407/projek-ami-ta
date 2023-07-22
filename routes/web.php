@@ -271,7 +271,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                     }
                 );
 
-                Route::get('report-pengendalian', [ReportController::class, 'indexPeningkatan'])->name('index-pengendalian');
+                Route::get('report-pengendalian', [ReportController::class, 'indexPengendalian'])->name('index-pengendalian');
                 Route::group(
                     [
                         'as' => 'report-pengendalian.',

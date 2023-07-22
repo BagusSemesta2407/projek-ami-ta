@@ -47,7 +47,7 @@
                                             <b>
                                                 Deskripsi Ketercapaian Standar :
                                             </b>
-                                            {{ $item->auditDokumen->evaluasiDiri->deskripsi_ketercapaian }}
+                                            {{ strip_tags($item->auditDokumen->evaluasiDiri->deskripsi_ketercapaian) }}
                                         </div>
                                         <div class="col-12">
                                             <b>

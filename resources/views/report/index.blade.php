@@ -38,7 +38,7 @@
                                     <td>
                                         <div class="d-flex">
                                             <a href="{{ route('menu-p4mp.report-ami.detail-ami', $item->id) }}"
-                                                class="btn btn-sm btn-outline-success">
+                                                class="btn btn-sm btn-warning">
                                                 <i class="bi bi-eye"></i>
                                             </a>
                                             &nbsp;

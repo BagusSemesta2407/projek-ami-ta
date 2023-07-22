@@ -37,8 +37,8 @@
 
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('menu-kepala-p4mp.report-pengendalian.detail-pengendalian', $item->id) }}"
-                                                class="btn btn-sm btn-secondary">
+                                            <a href="{{ route('menu-p4mp.report-pengendalian.detail-pengendalian', $item->id) }}"
+                                                class="btn btn-sm btn-warning">
                                                 <i class="bi bi-eye"></i>
                                             </a>
                                             &nbsp;

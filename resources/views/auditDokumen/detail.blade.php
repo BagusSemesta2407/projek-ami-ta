@@ -53,13 +53,13 @@
                             <div class="form-group">
                                 <label for="">Hasil Audit Dokumen Auditor</label>
                                 <div class="col-12">
-                                    <textarea disabled class="col-12">{{ strip_tags($auditDokumen->deskripsi_auditor_1) }}</textarea>
+                                    <textarea disabled class="col-12">{{ strip_tags(@$auditDokumen->deskripsi_auditor_1) }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="">Daftar Tilik Auditor </label>
                                 <div class="col-12">
-                                    <textarea disabled class="col-12">{{ strip_tags($auditDokumen->daftar_tilik_auditor_1) }}</textarea>
+                                    <textarea disabled class="col-12">{{ strip_tags(@$auditDokumen->daftar_tilik_auditor_1) }}</textarea>
                                 </div>
                             </div>
                         @endif
@@ -68,13 +68,13 @@
                             <div class="form-group">
                                 <label for="">Hasil Audit Dokumen Auditor </label>
                                 <div class="col-12">
-                                    <textarea disabled class="col-12">{{ strip_tags($auditDokumen->deskripsi_auditor_2) }}</textarea>
+                                    <textarea disabled class="col-12">{{ strip_tags(@$auditDokumen->deskripsi_auditor_2) }}</textarea>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="">Daftar Tilik Auditor </label>
                                 <div class="col-12">
-                                    <textarea disabled class="col-12">{{ strip_tags($auditDokumen->daftar_tilik_auditor_2) }}</textarea>
+                                    <textarea disabled class="col-12">{{ strip_tags(@$auditDokumen->daftar_tilik_auditor_2) }}</textarea>
                                 </div>
                             </div>
                         @endif

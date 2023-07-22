@@ -39,12 +39,15 @@ class HomeController extends Controller
         // $userLogin=User::whereHas('roles', function($q){
         //     $q->where('name', )
         // })
+
+        $listDataInstrument=DataInstrument::orderByRaw("FIELD(status, 'Menunggu Konfirmasi Kepala P4MP','Ditolak Kepala P4MP', 'On Progress', 'Sudah Di Jawab Auditee', 'Audit Lapangan', 'Selesai') ASC")->get();
         return view('admin.dashboard.index', [
             'title' => $title,
             'user'=>$user,
             'categoryUnit'=> $categoryUnit,
             'userAuditor'=>$userAuditor,
-            'dataInstrument'=>$dataInstrument
+            'dataInstrument'=>$dataInstrument,
+            'listDataInstrument'=>$listDataInstrument
         ]);
     }
 }
