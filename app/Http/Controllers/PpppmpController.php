@@ -22,7 +22,7 @@ class PpppmpController extends Controller
             $q->whereIn('name', ['P4MP']);
         })->get();
 
-        return view('P4MP.index',[
+        return view('p4mp.index',[
             'title' => $title,
             'user'=> $user
         ]);
