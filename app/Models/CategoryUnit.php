@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class CategoryUnit extends Model
 {
@@ -21,6 +22,15 @@ class CategoryUnit extends Model
     public function dataInstrument()
     {
         return $this->hasMany(DataInstrument::class);
+    }
+
+    /**
+     * Get the user that owns the CategoryUnit
+     *
+     */
+    public function user()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
     
 

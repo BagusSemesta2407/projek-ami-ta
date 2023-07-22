@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PpppmpRequest;
 use App\Http\Requests\PpppmpUpdateRequest;
+use App\Models\P4MP;
 use App\Models\Ppppmp;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -16,11 +17,14 @@ class PpppmpController extends Controller
     public function index()
     {
         $title='P4MP';
-        $ppppmp=Ppppmp::all();
+        // $ppppmp=Ppppmp::all();
+        $user=User::whereHas('roles',  function($q){
+            $q->whereIn('name', ['P4MP']);
+        })->get();
 
         return view('P4MP.index',[
             'title' => $title,
-            'ppppmp'=> $ppppmp
+            'user'=> $user
         ]);
     }
 
@@ -47,14 +51,6 @@ class PpppmpController extends Controller
         ]);
 
         $user->assignRole('P4MP');
-
-        $data =[
-            'user_id'   => $user->id,
-            'jabatan'   => $request->jabatan,
-        ];
-
-        $ppppmp=Ppppmp::create($data);
-
 
         return redirect()->route('admin.p4mp.index');
     }

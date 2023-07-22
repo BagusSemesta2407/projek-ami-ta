@@ -72,4 +72,13 @@ class User extends Authenticatable
         return $this->hasMany(Ppppmp::class);
     }
 
+    /**
+     * Get all of the categoryUnit for the User
+     *
+     */
+    public function categoryUnit()
+    {
+        return $this->hasMany(CategoryUnit::class);
+    }
+
 }

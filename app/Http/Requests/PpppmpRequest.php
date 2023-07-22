@@ -24,7 +24,6 @@ class PpppmpRequest extends FormRequest
         $rules = [
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
-            'jabatan'=> 'required',
         ];
 
         return $rules;
@@ -37,7 +36,6 @@ class PpppmpRequest extends FormRequest
             'email.required' => 'Email Wajib Diisi',
             'email.email' => 'Email Tidak Valid',
             'email.unique' => 'Email Sudah Terdaftar',
-            'jabatan.required'=> 'Jabatan Wajib Diisi',
         ];
     }
 }

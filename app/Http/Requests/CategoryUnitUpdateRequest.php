@@ -26,11 +26,12 @@ class CategoryUnitUpdateRequest extends FormRequest
             'name' => 'required',
             'kepala'=> 'required',
             'kategori_audit'    => 'required',
-            'nama_auditee'  => 'required',
-            'email' => ['required|email|unique:users,email' ,
-                Rule::unique('users')->ignore($this->user)
-            ]
+            // 'email' => ['required|email|unique:users,email' ,
+            //     Rule::unique('users')->ignore($this->categoryUnit->user)
+            // ]
+            'email' =>'required|email|unique:users,email,' . $this->category_unit->user->id,
         ];
+        
 
         return $rules;
     }
@@ -41,7 +42,6 @@ class CategoryUnitUpdateRequest extends FormRequest
             'name.required' => 'Nama Kategori Unit Wajib Diisi',
             'kepala.required' => 'Nama Kepala Unit Wajib Diisi',
             'kategori_audit.required' => 'Nama Kategori Audit Wajib Diisi',
-            'nama_auditee.required'=> 'Nama Auditee Wajib Diisi',
             'email.required' => 'Email Wajib Diisi',
             'email.email' => 'Email Tidak Valid',
             'email.unique' => 'Email Sudah Terdaftar',

@@ -58,7 +58,6 @@ class DataInstrumentController extends Controller
             'userAuditor' => $userAuditor,
             'userAuditee' => $userAuditee,
             'dokumenStandar'    => $dokumenStandar
-            // 'documentStandard' => $documentStandard,
         ]);
     }
 
@@ -244,5 +243,14 @@ class DataInstrumentController extends Controller
         ->get();
 
         return response()->json($instrument);
+    }
+
+    public function getAuditee($id)
+    {
+        $user=User::find($id);
+
+        $categoryUnit=CategoryUnit::where('id', $user->id)->get();
+
+        return response()->json($categoryUnit);
     }
 }

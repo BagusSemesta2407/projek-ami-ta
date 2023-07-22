@@ -25,31 +25,17 @@
                         </thead>
 
                         <tbody>
-                            @foreach (@$ppppmp as $item)
+                            @foreach (@$user as $item)
                                 <tr>
                                     <td>
                                         {{ $loop->iteration }}
                                     </td>
 
                                     <td>
-                                        {{ $item->user->name }}
+                                        {{ $item->name }}
                                     </td>
                                     <td>
-                                        {{ $item->user->email }}
-                                    </td>
-
-                                    <td>
-                                        @if ($item->jabatan == 'Kepala P4MP')
-                                            Kepala P4MP
-                                        @elseif ($item->jabatan == 'Admin P4MP')
-                                            Admin P4MP
-                                        @elseif($item->jabatan == 'Koordinator Bidang Pengembangan Pembelajaran')
-                                            Koordinator Bidang Pengembangan Pembelajaran
-                                        @elseif($item->jabatan == 'Koordinator Sistem Penjaminan Mutu Internal')
-                                            Koordinator Sistem Penjaminan Mutu Internal
-                                        @elseif($item->jabatan == 'Koodinator Bidang Pangkalan Data dan Penjaminan Mutu')
-                                            Koodinator Bidang Pangkalan Data dan Penjaminan Mutu
-                                        @endif
+                                        {{ $item->email }}
                                     </td>
 
                                     <td>

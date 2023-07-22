@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\CategoryUnitRequest;
+use App\Http\Requests\CategoryUnitUpdateRequest;
 use App\Models\CategoryUnit;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -42,7 +43,16 @@ class CategoryUnitController extends Controller
      */
     public function store(CategoryUnitRequest $request)
     {
+        $user=User::create([
+            'name'=>$request->name,
+            'email'=>$request->email,
+            'password'=>bcrypt('12345678')
+        ]);
+
+        $user->assignRole('auditee');
+
         CategoryUnit::create([
+            'user_id'=>$user->id,
             'name' => $request->name,
             'kategori_audit'    => $request->kategori_audit,
             'kepala'    => $request->kepala
@@ -65,7 +75,7 @@ class CategoryUnitController extends Controller
     public function edit($id)
     {
         $title = 'Form Data Unit Kerja';
-        $categoryUnit = CategoryUnit::find($id);
+        $categoryUnit = CategoryUnit::findOrFail($id);
 
         return view('admin.categoryUnit.form', [
             'categoryUnit' => $categoryUnit,
@@ -78,7 +88,7 @@ class CategoryUnitController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(CategoryUnitUpdateRequest $request, CategoryUnit $categoryUnit)
     {
         $data = [
             'name' => $request->name,
@@ -86,7 +96,13 @@ class CategoryUnitController extends Controller
             'kepala'    => $request->kepala
         ];
 
-        CategoryUnit::where('id', $id)->update($data);
+        CategoryUnit::where('id', $categoryUnit->id)->update($data);
+
+        User::whereId($categoryUnit->user_id)->update([
+            'name'  =>$request->name,
+            'email'=>$request->email,
+        ]);
+
 
         return redirect()->route('admin.category-unit.index')->with('success', 'Data Berhasil Diubah!');
     }
@@ -101,6 +117,8 @@ class CategoryUnitController extends Controller
         $categoryUnit->delete();
 
         // return redirect()->back();
+        User::where('id', $categoryUnit->user_id)->delete();
+
         return response()->json(['success','Data Berhasil Dihapus']);
     }
 }

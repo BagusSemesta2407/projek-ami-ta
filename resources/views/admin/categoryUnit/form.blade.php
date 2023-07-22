@@ -39,7 +39,8 @@
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="">Kategori Audit</label>
-                                            <select name="kategori_audit" id="kategori-unit" class="form-select select2 @error('kategori_auidt')
+                                            <select name="kategori_audit" id="kategori-unit"
+                                                class="form-select select2 @error('kategori_auidt')
                                                 is-invalid
                                             @enderror">
                                                 <option value="" selected disabled>Pilih Kategori Yang Akan Di Audit
@@ -59,11 +60,11 @@
                                             </select>
 
                                             @if ($errors->has('kategori_audit'))
-                                            <span class="text-danger">{{ $errors->first('kategori_audit') }}</span>
-                                        @endif
+                                                <span class="text-danger">{{ $errors->first('kategori_audit') }}</span>
+                                            @endif
                                         </div>
 
-                                        
+
                                         <div class="form-group">
                                             <label for="first-name-vertical">Unit/Program Studi/Jurusan</label>
                                             <input type="text" id="first-name-vertical"
@@ -79,10 +80,27 @@
 
                                         <div class="form-group" id="kepala-unit">
                                             <label for="">Nama Kepala Unit/Program Studi/Jurusan</label>
-                                            <input type="text" class="form-control" name="kepala"
+                                            <input type="text" class="form-control @error('kepala')
+                                                is-invalid
+                                            @enderror" name="kepala"
                                                 placeholder="Masukkan Kepala Unit"
                                                 value="{{ old('kepala', @$categoryUnit->kepala) }}">
+                                            @if ($errors->has('kepala'))
+                                                <span class="text-danger">{{ $errors->first('kepala') }}</span>
+                                            @endif
                                         </div>
+
+                                        <div class="form-group" id="kepala-unit">
+                                            <label for="">Tambahkan Akun Pengguna</label>
+                                            <input type="text" class="form-control @error('email')
+                                                is-invalid
+                                            @enderror" name="email"
+                                                placeholder="Masukkan Akun Pengguna"
+                                                value="{{ old('email', @$categoryUnit->user->email) }}">
+                                                @if ($errors->has('email'))
+                                                <span class="text-danger">{{ $errors->first('email') }}</span>
+                                            @endif
+                                            </div>
                                     </div>
                                 </div>
                             </div>
@@ -94,8 +112,7 @@
         <div class="col-12 d-flex justify-content-end">
             <button type="submit" class="btn btn-outline-primary me-1 mb-1" id="btnSubmit">
                 {{ $aksi }}
-                <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;"
-                    role="status">
+                <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;" role="status">
                 </span>
             </button>
         </div>

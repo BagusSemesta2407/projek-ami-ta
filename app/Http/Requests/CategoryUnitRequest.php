@@ -25,6 +25,7 @@ class CategoryUnitRequest extends FormRequest
             'name' => 'required',
             'kepala'=> 'required',
             'kategori_audit'    => 'required',
+            'email' => 'required|email|unique:users,email',
         ];
 
         return $rules;
@@ -36,6 +37,9 @@ class CategoryUnitRequest extends FormRequest
             'name.required' => 'Nama Kategori Unit Wajib Diisi',
             'kepala.required' => 'Nama Kepala Unit Wajib Diisi',
             'kategori_audit.required' => 'Nama Kategori Audit Wajib Diisi',
+            'email.required' => 'Email Wajib Diisi',
+            'email.email' => 'Email Tidak Valid',
+            'email.unique' => 'Email Sudah Terdaftar',
         ];
     }
 }

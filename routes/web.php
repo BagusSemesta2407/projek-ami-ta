@@ -73,6 +73,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 //data-instrument
                 Route::resource('data-instruments', DataInstrumentController::class);
                 Route::get('getDataInstrumentId/{id}', [DataInstrumentController::class, 'getDataInstrumentId'])->name('get-data-instrument-id');
+                Route::get('getAuditee/{user}', [DataInstrumentController::class, 'getAuditee'])->name('get-auditee');
             }
         );
 

@@ -16,7 +16,7 @@ class P4MPController extends Controller
         $title='P4MP';
         $p4MP=P4MP::all();
 
-        return view('P4MP.index',[
+        return view('p4mp.index',[
             'title' => $title,
             'p4MP' => $p4MP
         ]);

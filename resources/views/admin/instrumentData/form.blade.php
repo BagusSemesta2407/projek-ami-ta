@@ -67,27 +67,6 @@
                                             </div>
 
                                             <div class="form-group">
-                                                <label for="auditee_id" class="col-sm-3 col-form-label">
-                                                    Auditee <sup class="text-danger">*</sup>
-                                                </label>
-                                                <div class="col-md-12">
-                                                    <select name="auditee_id"
-                                                        class="form-select select2 @error('auditee_id') is-invalid @enderror">
-                                                        <option value="" disabled selected>Pilih Auditee</option>
-                                                        @foreach ($userAuditee as $item)
-                                                            <option value="{{ $item->id }}"
-                                                                {{ old('auditee_id', @$dataInstrument->auditee_id) == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->name }}
-                                                            </option>
-                                                        @endforeach
-                                                    </select>
-                                                    @error('auditee_id')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group">
                                                 <label for="category_unit_id" class="col-sm-3 col-form-label">
                                                     Pilih Unit/Program Studi/Jurusan <sup class="text-danger">*</sup>
                                                 </label>
@@ -105,6 +84,27 @@
                                                         @endforeach
                                                     </select>
                                                     @error('category_unit_id')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <label for="auditee_id" class="col-sm-3 col-form-label">
+                                                    Auditee <sup class="text-danger">*</sup>
+                                                </label>
+                                                <div class="col-md-12">
+                                                    <select name="auditee_id"
+                                                        class="form-select select2 @error('auditee_id') is-invalid @enderror" disabled id="user-auditee">
+                                                        <option value="" disabled selected>Pilih Auditee</option>
+                                                        @foreach ($userAuditee as $item)
+                                                            <option value="{{ $item->id }}"
+                                                                {{ old('auditee_id', @$dataInstrument->auditee_id) == $item->id ? 'selected' : '' }}>
+                                                                {{ $item->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                    @error('auditee_id')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
                                                 </div>
@@ -270,7 +270,7 @@
         $(document).ready(function() {
             $('#select-unit').on('change', function() {
                 var unitId = $(this).val();
-
+                $('#user-auditee').empty();
                 $.ajax({
                     type: "GET",
                     url: "/admin/getDataInstrumentId/" + unitId,
@@ -308,7 +308,39 @@
                         console.log(error);
                     }
                 });
+
+                if (unitId) {
+                // Lakukan permintaan ke server untuk mendapatkan data user berdasarkan category unit
+                $.ajax({
+                    type: "GET",
+                    url: "/admin/getAuditee/" + unitId,
+                    dataType: 'json',
+                    success: function(response) {
+                        if (response.length > 0) {
+                            // Tambahkan opsi untuk setiap user auditee yang diterima dari server
+                            response.forEach(function(user) {
+                                $('#user-auditee').append('<option value="' + user.id + '">' + user.name + '</option>');
+                            });
+
+                            // Aktifkan kembali dropdown auditee
+                            $('#user-auditee').prop('disabled', false);
+                        } else {
+                            // Tampilkan pesan jika tidak ada user auditee yang ditemukan
+                            $('#user-auditee').append('<option value="" disabled selected>Tidak Ada User Auditee</option>');
+                            $('#user-auditee').prop('disabled', true);
+                        }
+                    },
+                    error: function(error) {
+                        console.log(error);
+                    }
+                });
+            } else {
+                // Nonaktifkan dropdown auditee jika tidak ada unit yang dipilih
+                $('#user-auditee').prop('disabled', true);
+            }
             });
+
+           
 
             $('#add-row').click(function() {
                 var html = '<div class="repeater-items">' +
@@ -345,6 +377,11 @@
             $('#repeater-lingkup').on('click', '.remove-lingkup', function() {
                 $(this).closest('.repeater-items-lingkup').remove();
             });
+
+            // $('#select-unit').on('change', function(){
+            //     var 
+            // })
         });
+
     </script>
 @endsection
