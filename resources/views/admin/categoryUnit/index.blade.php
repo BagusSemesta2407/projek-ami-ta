@@ -20,6 +20,7 @@
                                 <th>No</th>
                                 <th>Nama Unit</th>
                                 <th>Kepala</th>
+                                <th>Akun Auditee</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -32,10 +33,13 @@
                                     </td>
 
                                     <td>
+                                        {{ $item->kepala }}
+                                    </td>
+                                    <td>
                                         {{ $item->name }}
                                     </td>
                                     <td>
-                                        {{ $item->kepala }}
+                                        {{ $item->user->email }}
                                     </td>
 
                                     <td>

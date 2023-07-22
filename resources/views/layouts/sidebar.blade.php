@@ -31,14 +31,14 @@
                             User
                         </a>
                     </li>
+                    {{-- <li class="submenu-item {{ request()->is('admin/auditee*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.auditee.index') }}">
+                            Auditee
+                        </a>
+                    </li> --}}
                     <li class="submenu-item {{ request()->is('admin/auditor*') ? 'active' : '' }}">
                         <a href="{{ route('admin.auditor.index') }}">
                             Auditor
-                        </a>
-                    </li>
-                    <li class="submenu-item {{ request()->is('admin/auditee*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.auditee.index') }}">
-                            Auditee
                         </a>
                     </li>
 

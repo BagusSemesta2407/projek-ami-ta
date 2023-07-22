@@ -6,9 +6,9 @@
             <div class="card">
                 <div class="card-header">
                     Data Auditee
-                    <a href="{{ route('admin.auditee.create') }}" class="btn btn-outline-primary block float-end">
+                    {{-- <a href="{{ route('admin.auditee.create') }}" class="btn btn-outline-primary block float-end">
                         Tambah
-                    </a>
+                    </a> --}}
                 </div>
 
                 <div class="card-body">
@@ -17,7 +17,7 @@
                             <tr>
                                 <th>No</th>
                                 <th>Nama Auditee</th>
-                                <th>Action</th>
+                                <th>Email</th>
                             </tr>
                         </thead>
 
@@ -31,9 +31,12 @@
                                     <td>
                                         {{ $item->name }}
                                     </td>
+                                    <td>
+                                        {{ $item->email }}
+                                    </td>
 
                                     <td>
-                                        <div class="d-flex">
+                                        {{-- <div class="d-flex">
                                             <a href="{{ route('admin.auditee.edit', $item->id) }}"
                                                 class="btn btn-sm btn-outline-warning">
                                                 <i class="bi bi-pen"></i>
@@ -43,7 +46,7 @@
                                                 <i class="bi bi-trash3"></i>
                                             </button>
 
-                                        </div>
+                                        </div> --}}
                                     </td>
                                 </tr>
                             @endforeach

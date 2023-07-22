@@ -91,11 +91,11 @@
                                         </div>
 
                                         <div class="form-group" id="kepala-unit">
-                                            <label for="">Tambahkan Akun Pengguna</label>
+                                            <label for="">Tambahkan Email Pengguna</label>
                                             <input type="text" class="form-control @error('email')
                                                 is-invalid
                                             @enderror" name="email"
-                                                placeholder="Masukkan Akun Pengguna"
+                                                placeholder="Masukkan Email Pengguna"
                                                 value="{{ old('email', @$categoryUnit->user->email) }}">
                                                 @if ($errors->has('email'))
                                                 <span class="text-danger">{{ $errors->first('email') }}</span>
