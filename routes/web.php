@@ -41,6 +41,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
     // });
     Route::get('/', [BerandaController::class, 'index'])->name('beranda');
     Route::get('/p4mp', [P4MPLandingPageController::class, 'index'])->name('p4mp');
+    Route::get('/hasil-ami', [P4MPLandingPageController::class, 'indexHasilAmi'])->name('hasil-ami');
+    Route::get('/hasil-ami/{id}', [P4MPLandingPageController::class, 'listHasilAMI'])->name('list-hasil-ami');
+    Route::get('/cetak-hasil-ami/{id}', [P4MPLandingPageController::class, 'hasilAmi'])->name('cetak-hasil-ami');
 
     Route::get('/login', function () {
         return view('auth.login');

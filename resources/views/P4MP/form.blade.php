@@ -32,7 +32,6 @@
                     {{ csrf_field() }}
                     <div class="card-content">
                         <div class="card-body">
-                        {{$errors}}
                             <div class="form-body">
                                 <div class="row">
                                     <div class="col-12">

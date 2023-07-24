@@ -6,36 +6,39 @@ use App\Models\AuditLapangan;
 use App\Models\Auditor;
 use App\Models\DataInstrument;
 use App\Models\InstrumentAuditee;
+use App\Models\Lingkup;
 use App\Models\TinjauanPengendalian;
+use App\Models\Tujuan;
 // use Barryvdh\DomPDF\PDF;
 use Illuminate\Http\Request;
 use PDF;
+use Dompdf\Dompdf;
 
 class ReportController extends Controller
 {
     public function index()
     {
-        $title='Laporan AMI';
-        $dataInstrument=DataInstrument::where('status', 'Selesai')->get();
+        $title = 'Laporan AMI';
+        $dataInstrument = DataInstrument::where('status', 'Selesai')->get();
 
-        return view('report.index',[
+        return view('report.index', [
             // 'instrumentAuditee'=>$instrumentAuditee,
-            'dataInstrument'=>$dataInstrument,
+            'dataInstrument' => $dataInstrument,
             'title' => $title
         ]);
     }
 
     public function detailReportAMI($id)
     {
-        $title='Laporan AMI';
+        $title = 'Laporan AMI';
         $dataInstrument = DataInstrument::find($id);
-        $auditLapangan=AuditLapangan::with(['auditDokumen.evaluasiDiri'])
-        ->whereHas('auditDokumen.evaluasiDiri', function($q) use ($dataInstrument){
-            $q->where('data_instrument_id', $dataInstrument->id);
-        })->get();
+        $auditLapangan = AuditLapangan::with(['auditDokumen.evaluasiDiri'])
+            ->whereHas('auditDokumen.evaluasiDiri', function ($q) use ($dataInstrument) {
+                $q->where('data_instrument_id', $dataInstrument->id);
+            })->get();
 
-        return view('report.detail',[
-            'title'=> $title,
+        return view('report.detail', [
+            'title' => $title,
             'dataInstrument'    => $dataInstrument,
             'auditLapangan'  => $auditLapangan
         ]);
@@ -43,42 +46,78 @@ class ReportController extends Controller
 
     public function cetakHasilAmi($id)
     {
-        $dataInstrument=DataInstrument::find($id);
-        $instrumentAuditee=InstrumentAuditee::where('data_instrument_id',$dataInstrument->id)->get();
+        $auditor=Auditor::all();
+        $dataInstrument = DataInstrument::find($id);
+        $tinjauanPengendalian = TinjauanPengendalian::whereHas('auditLapangan.auditDokumen.evaluasiDiri', function ($q) use ($dataInstrument) {
+            $q->where('data_instrument_id', $dataInstrument->id);
+        })->get();
+        $auditLapangan = AuditLapangan::with(['auditDokumen.evaluasiDiri'])
+            ->whereHas('auditDokumen.evaluasiDiri', function ($q) use ($dataInstrument) {
+                $q->where('data_instrument_id', $dataInstrument->id);
+            })->get();
 
-        $pdf = PDF::loadView(
-            'report.hasilAmi',
-            [
-                'dataInstrument' => $dataInstrument,
-                'instrumentAuditee'=> $instrumentAuditee
-            ]
-        )->setPaper('A4', 'portrait');
+        $tujuan =Tujuan::where('data_instrument_id', $id)->get();
+        $lingkup =Lingkup::where('data_instrument_id', $id)->get();
+
+        // Template untuk cover halaman
+        $coverData = [
+            'coverImageUrl'=> "public/assetReport/cover.jpg"
+        ];
+
+        $contenData = [
+            'dataInstrument' => $dataInstrument,
+            'tinjauanPengendalian' => $tinjauanPengendalian,
+            'auditor'=>$auditor
+        ];
+
+        $contenDataPendahuluan = [
+            'dataInstrument' => $dataInstrument,
+            'tinjauanPengendalian' => $tinjauanPengendalian,
+            'auditor'=>$auditor
+        ];
+
+        $contenDataTujuan = [
+            'dataInstrument' => $dataInstrument,
+            'tinjauanPengendalian' => $tinjauanPengendalian,
+            'auditLapangan' => $auditLapangan,
+            'tujuan'=>$tujuan,
+            'lingkup'=> $lingkup
+        ];
+        $coverPage =view('report.berkas.cover', $coverData)->render();
+
+        // Template untuk isi halaman
+        $contentPage = view('report.berkas.content', $contenData)->render();
+
+        $contentPagePendahuluan = view('report.berkas.content-pendahuluan', $contenDataPendahuluan)->render();
+        $contentPageTujuan = view('report.berkas.content-tujuan', $contenDataTujuan)->render();
+
+        $pdf = PDF::loadHTML($coverPage . $contentPage . $contentPagePendahuluan . $contentPageTujuan)->setPaper('A4', 'portrait');
+
         return $pdf->stream();
-
     }
 
     public function indexPengendalian()
     {
-        $title='Laporan AMI';
-        $dataInstrument=DataInstrument::where('status', 'Selesai')->get();
+        $title = 'Laporan AMI';
+        $dataInstrument = DataInstrument::where('status', 'Selesai')->get();
 
-        return view('report.indexPengendalian',[
-            'dataInstrument'=>$dataInstrument,
+        return view('report.indexPengendalian', [
+            'dataInstrument' => $dataInstrument,
             'title' => $title
         ]);
     }
 
     public function detailReportPengendalian($id)
     {
-        $title='Laporan Tinjauan Manajemen Pengendalian';
+        $title = 'Laporan Tinjauan Manajemen Pengendalian';
         // $instrumentAuditee=InstrumentAuditee::find($id);
-        $dataInstrument=DataInstrument::find($id);
-        $tinjauanPengendalian=TinjauanPengendalian::with(['auditLapangan.auditDokumen.evaluasiDiri'])
-        ->whereHas('auditLapangan.auditDokumen.evaluasiDiri', function($q) use ($dataInstrument){
-            $q->where('data_instrument_id', $dataInstrument->id);
-        })->get();
-        return view('report.detailPengendalian',[
-            'title'=> $title,
+        $dataInstrument = DataInstrument::find($id);
+        $tinjauanPengendalian = TinjauanPengendalian::with(['auditLapangan.auditDokumen.evaluasiDiri'])
+            ->whereHas('auditLapangan.auditDokumen.evaluasiDiri', function ($q) use ($dataInstrument) {
+                $q->where('data_instrument_id', $dataInstrument->id);
+            })->get();
+        return view('report.detailPengendalian', [
+            'title' => $title,
             'dataInstrument'    => $dataInstrument,
             'tinjauanPengendalian'   =>  $tinjauanPengendalian
         ]);
@@ -86,7 +125,7 @@ class ReportController extends Controller
 
     public function cetakDetailReportPengendalian($id)
     {
-        $dataInstrument=DataInstrument::find($id);
+        $dataInstrument = DataInstrument::find($id);
 
         $pdf = PDF::loadView(
             'report.cetakPengendalian',
@@ -98,14 +137,12 @@ class ReportController extends Controller
     }
     public function indexPeningkatanRTM()
     {
-        $title='peningkatan';
-        $instrumentAuditee=InstrumentAuditee::all();
+        $title = 'peningkatan';
+        $instrumentAuditee = InstrumentAuditee::all();
 
-        return view('report.indexPeningkatan',[
-            'instrumentAuditee'=>$instrumentAuditee,
+        return view('report.indexPeningkatan', [
+            'instrumentAuditee' => $instrumentAuditee,
             'title' => $title
         ]);
     }
-
-
 }

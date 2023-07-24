@@ -115,7 +115,7 @@
 
                         <div class="collapse navbar-collapse" id="navbarSupportedContent">
                             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                                <li class="nav-item dropdown me-3">
+                                {{-- <li class="nav-item dropdown me-3">
                                     <a class="nav-link active" href="#"
                                         data-bs-toggle="dropdown" aria-expanded="false">
                                         <i class='bi bi-bell bi-sub fs-4 text-gray-600'></i>
@@ -126,14 +126,15 @@
                                         </li>
                                         <li><a class="dropdown-item">No notification available</a></li>
                                     </ul>
-                                </li>
+                                </li> --}}
                             </ul>
                             <div class="dropdown">
                                 <a href="#" data-bs-toggle="dropdown" aria-expanded="false">
                                     <div class="user-menu d-flex">
                                         <div class="user-name text-end me-3">
                                             <h6 class="mb-0 text-gray-600">{{ Auth()->user()->name }}</h6>
-                                            <p class="mb-0 text-sm text-gray-600">Administrator</p>
+                                            <p class="mb-0 text-sm text-gray-600">
+                                                {{ Auth()->user()->getRoleNames()[0] }}</p>
                                         </div>
                                         <div class="user-img d-flex align-items-center">
                                             <div class="avatar avatar-md">
@@ -383,10 +384,17 @@
 
     <script src="{{ asset('assets/extensions/summernote/summernote-lite.min.js') }}"></script>
     <script>
-        $('#summernote').summernote({
-            tabsize: 2,
-            height: 120,
+        const summernote = document.querySelectorAll('#summernote');
+        summernote.forEach(element => {
+            $(element).summernote({
+                tabsize: 2,
+                height: 120,
+            })
         })
+        // $('#summernote').summernote({
+        //     tabsize: 2,
+        //     height: 120,
+        // })
         $('#summernote1').summernote({
             tabsize: 2,
             height: 120,

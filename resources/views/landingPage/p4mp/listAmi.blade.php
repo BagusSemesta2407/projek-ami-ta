@@ -40,34 +40,13 @@
             </ul>
             <div class="page-section" id="about">
                 <div class="container">
-                    @foreach ($dokumenStandar as $item)
+                    {{-- @foreach ($dataInstrument as $value)
                         <td>
-                            @if ($item->file_url)
-                                <a href="{{ $item->file_url }}" download title="Unduh">
-                                    {{ $item->typeDokumenMutuStandar->name }}
-                                </a>
-                            @endif
-                            {{-- {{ $item->file }} --}}
+                            <a href="{{ route('cetak-hasil-ami', $value->id) }}">
+                                AMI 
+                            </a>
                         </td>
-                    @endforeach
-                    {{-- <div class="row align-items-center">
-                        <div class="col-lg-6 py-3 wow fadeInUp">
-                            <span class="subhead">About us</span>
-                            <h2 class="title-section">The number #1 SEO Service Company</h2>
-                            <div class="divider"></div>
-        
-                            <p>Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt
-                                ut labore et dolore magna aliquyam erat, sed diam voluptua.</p>
-                            <p>At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren.</p>
-                            <a href="about.html" class="btn btn-primary mt-3">Read More</a>
-                        </div>
-                        <div class="col-lg-6 py-3 wow fadeInRight">
-                            <div class="img-fluid py-3 text-center">
-                                <img src="{{ asset('logo-polsub.png') }}" width="500" alt="">
-                                <img src="{{ asset('po') }}" width="500" alt="">
-                            </div>
-                        </div>
-                    </div> --}}
+                    @endforeach --}}
                 </div> <!-- .container -->
             </div>
         </div>

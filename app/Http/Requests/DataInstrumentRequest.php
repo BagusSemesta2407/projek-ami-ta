@@ -37,7 +37,7 @@ class DataInstrumentRequest extends FormRequest
     {
         return [
             'auditee_id.required'   => 'Auditee Wajib Diisi',
-            'auditee_id.unique'   => 'Sudah Ada Data Auditee Pada Data Sebelumnya',
+            // 'auditee_id.unique'   => 'Sudah Ada Data Auditee Pada Data Sebelumnya',
             'auditor_id.required'   => 'Auditor 1 Wajib Diisi',
             'auditor2_id.required'  => 'Auditor 2 Wajib Diisi',
             'auditor_id.different'   => 'Auditor 1 Yang Dipilih Tidak Boleh Sama Dengan Auditor 2',

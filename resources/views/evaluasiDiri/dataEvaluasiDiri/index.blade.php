@@ -19,7 +19,7 @@
                             </label>
 
                             <div class="col-md-3">
-                                {{ @$dataInstrument->auditee->name }}
+                                {{ @$dataInstrument->categoryUnit->name }}
                             </div>
 
                             <label for="" class="col-md-3 text-black">

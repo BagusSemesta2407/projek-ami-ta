@@ -40,14 +40,16 @@
             </ul>
             <div class="page-section" id="about">
                 <div class="container">
-                    @foreach ($dokumenStandar as $item)
+                    @foreach ($dataInstrument as $item)
                         <td>
-                            @if ($item->file_url)
+                            {{-- @if ($item->file_url)
                                 <a href="{{ $item->file_url }}" download title="Unduh">
                                     {{ $item->typeDokumenMutuStandar->name }}
                                 </a>
-                            @endif
-                            {{-- {{ $item->file }} --}}
+                            @endif --}}
+                            <a href="{{ route('list-hasil-ami', $item->id) }}">
+                                {{ $item->categoryUnit->name }}
+                            </a>
                         </td>
                     @endforeach
                     {{-- <div class="row align-items-center">

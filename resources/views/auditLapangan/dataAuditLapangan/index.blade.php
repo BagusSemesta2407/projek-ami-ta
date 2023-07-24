@@ -14,7 +14,7 @@
                             </label>
 
                             <div class="col-md-3">
-                                {{ @$dataInstrument->auditee->name }}
+                                {{ @$dataInstrument->categoryUnit->name }}
                             </div>
 
                             <label for="" class="col-md-3 text-black">
@@ -49,7 +49,7 @@
                                 {{ @$dataInstrument->categoryUnit->name }}
                             </div>
 
-                            
+
                         </div>
 
                         <div class="row">
@@ -104,7 +104,8 @@
                                 @if ($dataInstrument->dokumenStandar)
                                     {{-- {{ $dataInstrument->dokumenStandar }} --}}
                                     @foreach ($dataInstrument->dokumenStandar as $items)
-                                        <a href="{{ asset('storage/public/file/dokumenStandar/' . $items) }}" class="text-primary">
+                                        <a href="{{ asset('storage/public/file/dokumenStandar/' . $items) }}"
+                                            class="text-primary">
                                             <option value="{{ $items }}">{{ $items }}</option>
                                         </a>
                                     @endforeach
@@ -121,9 +122,12 @@
                 <div class="card">
                     <div class="card-header">
                         Data Audit Lapangan
-                        <a href="{{ route('menu-auditor.audit-lapangan.validasi-audit-lapangan', $dataInstrument->id) }}" class="btn btn-md btn-outline-primary float-end">
-                            <i class="bi bi-check2-circle"></i>
-                        </a>
+                        @if ($userId == $dataInstrument->auditor_id)
+                            <a href="{{ route('menu-auditor.audit-lapangan.validasi-audit-lapangan', $dataInstrument->id) }}"
+                                class="btn btn-md btn-outline-primary float-end">
+                                <i class="bi bi-check2-circle"></i>
+                            </a>
+                        @endif
                     </div>
                     <div class="card-body">
                         {{-- <div class="col-12 col-md-12">
@@ -139,7 +143,7 @@
                                 </button>
                             @endif
                         </div> --}}
-                        
+
                         <div class="card-body">
                             <table class="table" id="table1">
                                 <thead>

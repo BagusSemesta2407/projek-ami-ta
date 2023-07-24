@@ -37,7 +37,7 @@
                         <div class="form-group">
                             <label for="disabledInput">Deskripsi Ketercapaian Standard</label>
                             <div class="col-12">
-                                <textarea disabled class="col-12">{{ @$auditDokumen->evaluasiDiri->deskripsi_ketercapaian }}</textarea>
+                                <textarea disabled class="col-12">{{ strip_tags(@$auditDokumen->evaluasiDiri->deskripsi_ketercapaian) }}</textarea>
                             </div>
                         </div>
 

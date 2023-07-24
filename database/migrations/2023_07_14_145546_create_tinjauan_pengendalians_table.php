@@ -19,7 +19,8 @@ return new class extends Migration
             $table->enum('urgent', ['Urgent','Not Urgent']);
             $table->text('deskripsi_urgent')->nullable();
             $table->text('rencana_tindak_lanjut')->nullable();
-            $table->text('anggaran')->nullable();
+            $table->enum('anggaran', ['Anggaran','Non Anggaran']);
+            $table->integer('jumlah_anggaran')->nullable();
             $table->timestamps();
         });
     }

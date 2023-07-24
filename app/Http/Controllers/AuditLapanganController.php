@@ -36,6 +36,8 @@ class AuditLapanganController extends Controller
     {
         $title = 'Audit Lapangan';
 
+        $userId = Auth::id();
+
         $dataInstrument = DataInstrument::find($id);
         $auditDokumen = AuditDokumen::with(['evaluasiDiri'])
             ->whereHas('evaluasiDiri', function ($q) use ($dataInstrument) {
@@ -46,6 +48,7 @@ class AuditLapanganController extends Controller
             'title' => $title,
             'dataInstrument' => $dataInstrument,
             'auditDokumen'  => $auditDokumen,
+            'userId'=> $userId
         ]);
     }
 

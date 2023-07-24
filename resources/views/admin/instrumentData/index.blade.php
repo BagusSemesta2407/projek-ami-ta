@@ -18,10 +18,10 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Auditee</th>
+                                <th>Unit</th>
+                                <th>Akun Auditee</th>
                                 <th>Auditor 1</th>
                                 <th>Auditor 2</th>
-                                <th>Unit</th>
                                 <th>Tahun</th>
                                 <th>Dokumen Standar</th>
                                 <th>Status</th>
@@ -37,16 +37,16 @@
                                     </td>
 
                                     <td>
-                                        {{ @$item->auditee->name }}
+                                        {{ @$item->categoryUnit->name }}
+                                    </td>
+                                    <td>
+                                        {{ @$item->categoryUnit->user->email }}
                                     </td>
                                     <td>
                                         {{ @$item->auditor->name }}
                                     </td>
                                     <td>
                                         {{ @$item->auditor2->name }}
-                                    </td>
-                                    <td>
-                                        {{ @$item->categoryUnit->name }}
                                     </td>
 
                                     <td>

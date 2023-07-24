@@ -19,12 +19,14 @@ class EvaluasiDiriController extends Controller
     {
         $title='Evaluasi Diri';
         $userId=Auth::id();
-        $dataInstrument=DataInstrument::with(['categoryUnit'])
+        $dataInstrument=DataInstrument::with(['categoryUnit.user'])
         ->where('status', 'On Progress')
-        ->where('auditee_id', $userId)
+        // ->where('auditee_id', $userId)
+        ->whereHas('categoryUnit.user', function ($query) use ($userId) {
+            $query->where('id', $userId);
+        })
         ->latest()
         ->get();
-       
         return view('evaluasiDiri.index',[
             'title'=>$title,
             'dataInstrument'=>$dataInstrument,
@@ -92,7 +94,9 @@ class EvaluasiDiriController extends Controller
         ];
 
         EvaluasiDiri::create($data);
+        // return redirect()->route('menu-auditee.evaluasi-diri.data-evaluasi-diri', $getInstrument);
         return redirect()->route('menu-auditee.evaluasi-diri.index');
+
     }
 
     // public function editEvaluasiDiri($dataInstrument, )
@@ -120,6 +124,7 @@ class EvaluasiDiriController extends Controller
         ];
 
         EvaluasiDiri::where('id',$evaluasiDiri)->update($data);
+        // return redirect()->route('menu-auditee.evaluasi-diri.data-evaluasi-diri', $getInstrument);
         return redirect()->route('menu-auditee.evaluasi-diri.index');
     }
 

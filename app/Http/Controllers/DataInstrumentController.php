@@ -66,10 +66,19 @@ class DataInstrumentController extends Controller
      */
     public function store(DataInstrumentRequest $request)
     {
+        // $categoryUnit=CategoryUnit::all();
+        // $user=User::create([
+        //     'name'=>$request->name,
+        //     'email'=>$request->email,
+        //     'password'=>bcrypt('12345678')
+        // ]);
+
+        // $user->assignRole('auditee');
+
         $dataInstrument = DataInstrument::create([
             'auditor_id' => $request->auditor_id,
             'auditor2_id' => $request->auditor2_id,
-            'auditee_id' => $request->auditee_id,
+            // 'auditee_id' => $request->auditee_id,
             'category_unit_id' => $request->category_unit_id,
             'status' => 'Menunggu Konfirmasi Kepala P4MP',
             'tanggal_audit' => $request->tanggal_audit,

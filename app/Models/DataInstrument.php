@@ -42,7 +42,7 @@ class DataInstrument extends Model implements HasMedia
 
     public function auditee()
     {
-        return $this->belongsTo(User::class, 'auditee_id', 'id');
+        return $this->hasOne(User::class, 'id', 'auditee_id');
     }
 
     public function categoryUnit()

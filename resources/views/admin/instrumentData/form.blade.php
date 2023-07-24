@@ -7,7 +7,7 @@
                 <div class="card">
                     <div class="card-header">
                         <h4 class="card-title">
-                            {{ isset($dataInstrument) ? 'Edit' : 'Tambah' }} Instrument Pertanyaan
+                            {{ isset($dataInstrument) ? 'Edit' : 'Tambah' }} Data Penetapan AMI
                         </h4>
                     </div>
 
@@ -95,14 +95,14 @@
                                                 </label>
                                                 <div class="col-md-12">
                                                     <select name="auditee_id"
-                                                        class="form-select select2 @error('auditee_id') is-invalid @enderror" disabled id="user-auditee">
+                                                        class="form-select select2 @error('auditee_id') is-invalid @enderror" id="user-auditee">
                                                         <option value="" disabled selected>Pilih Auditee</option>
-                                                        @foreach ($userAuditee as $item)
+                                                        {{-- @foreach ($userAuditee as $item)
                                                             <option value="{{ $item->id }}"
                                                                 {{ old('auditee_id', @$dataInstrument->auditee_id) == $item->id ? 'selected' : '' }}>
                                                                 {{ $item->name }}
                                                             </option>
-                                                        @endforeach
+                                                        @endforeach --}}
                                                     </select>
                                                     @error('auditee_id')
                                                         <span class="text-danger">{{ $message }}</span>

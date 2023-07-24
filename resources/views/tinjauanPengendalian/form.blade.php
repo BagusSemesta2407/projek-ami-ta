@@ -163,11 +163,28 @@
                                     <textarea name="rencana_tindak_lanjut" id="summernote2" class="col-12">{{ @$tinjauanPengendalian->rencana_tindak_lanjut }}</textarea>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="form-group">
+                                    <label for="">Anggaran</label>
+                                    <div class="col-md-12">
+                                        <input type="radio" class="form-check-input" id="flexRadioDefault2"
+                                            name="anggaran" value="Anggaran"
+                                            {{ old('Anggaran', @$tinjauanPengendalian->anggaran) == 'Anggaran' ? 'checked' : '' }}>
+                                        <label for="">Mendesak</label>
+                                        <input type="radio" class="form-check-input" id="flexRadioDefault3"
+                                            name="Anggaran" value="Not Anggaran"
+                                            {{ old('Not Anggaran', @$tinjauanPengendalian->anggaran) == 'Not Anggaran' ? 'checked' : '' }}>
+                                        <label for="">Tidak Mendesak</label>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label for="">Anggaran</label>
                                 {{-- <input type="text" class="form-control"> --}}
                                 <div class="col-12">
-                                    <textarea name="anggaran" id="summernote3" class="col-12">{{ @$tinjauanPengendalian->anggaran }}</textarea>
+                                    {{-- <textarea name="anggaran" id="summernote3" class="col-12">{{ @$tinjauanPengendalian->anggaran }}</textarea> --}}
+                                    <input name="deksripsi_anggaran" type="text" class="form-control">
                                 </div>
                             </div>
 

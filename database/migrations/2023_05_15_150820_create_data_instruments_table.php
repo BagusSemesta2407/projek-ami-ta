@@ -15,24 +15,18 @@ return new class extends Migration
             $table->id();
             $table->foreignId('auditor_id')
                 ->nullable()
-                ->constrained('users')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+                ->constrained('users');
             $table->foreignId('auditor2_id')
                 ->nullable()
-                ->constrained('users')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
-            $table->foreignId('auditee_id')
-                ->nullable()
-                ->constrained('users')
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+                ->constrained('users');
+            // $table->foreignId('auditee_id')
+            //     ->nullable()
+            //     ->constrained('users')
+            //     ->cascadeOnDelete()
+            //     ->cascadeOnUpdate();
             $table->foreignId('category_unit_id')
                 ->nullable()
-                ->constrained()
-                ->cascadeOnDelete()
-                ->cascadeOnUpdate();
+                ->constrained();
             $table->enum('status', ['Menunggu Konfirmasi Kepala P4MP','Ditolak Kepala P4MP','On Progress', 'Sudah Di Jawab Auditee', 'Audit Lapangan', 'Selesai']);
             $table->json('dokumenStandar')->nullable();
             $table->date('tanggal_audit')->nullable();
