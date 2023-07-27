@@ -42,7 +42,7 @@ class AuditDokumenController extends Controller
     {
         $title = 'Audit Dokumen';
 
-        $userId = Auth::id();
+        $userId = Auth::user()->id;
         $dataInstrument = DataInstrument::find($id);
         $evaluasiDiri = EvaluasiDiri::with(['instrument'])->where('data_instrument_id', $id)
             ->whereHas('dataInstrument', function ($q) {
@@ -100,8 +100,8 @@ class AuditDokumenController extends Controller
                 $data['deskripsi_auditor_1'] = $value['deskripsi_auditor_1'];
                 $data['daftar_tilik_auditor_1'] = $value['daftar_tilik_auditor_1'];
             }else{
-                $data['deskripsi_auditor_2'] = $value['deskripsi_auditor_1'];
-                $data['daftar_tilik_auditor_2'] = $value['daftar_tilik_auditor_1'];
+                $data['deskripsi_auditor_2'] = $value['deskripsi_auditor_2'];
+                $data['daftar_tilik_auditor_2'] = $value['daftar_tilik_auditor_2'];
             }
 
             AuditDokumen::updateOrCreate(['evaluasi_diri_id' => $key], $data);

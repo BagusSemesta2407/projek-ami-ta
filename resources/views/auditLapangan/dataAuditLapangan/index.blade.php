@@ -269,7 +269,18 @@
                                     </div>
                                 </div>
 
-                                @foreach ($auditLapangan as $al)
+                                {{-- @if ($auditLapangan === null)
+                                    <div class="col-md-5">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
+                                            name="data[{{ $item->id }}][hasil_temuan_audit]"></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
+                                            name="data[{{ $item->id }}][rekomendasi]"></textarea>
+                                    </div>
+                                @endif
+
+                                @foreach (@$auditLapangan as $al)
                                     @if ($al->audit_dokumen_id == $item->id)
                                         <div class="col-md-5">
                                             <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
@@ -280,7 +291,34 @@
                                                 name="data[{{ $item->id }}][rekomendasi]">{{ @$al->rekomendasi }}</textarea>
                                         </div>
                                     @endif
-                                @endforeach
+                                @endforeach --}}
+
+                                @if ($auditLapangan === null || count($auditLapangan) === 0)
+                                    <div class="col-md-5">
+                                        <textarea class="form-control" id="hasil_temuan_{{ $item->id }}" rows="2"
+                                            name="data[{{ $item->id }}][hasil_temuan_audit]"></textarea>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <textarea class="form-control" id="rekomendasi_{{ $item->id }}" rows="2"
+                                            name="data[{{ $item->id }}][rekomendasi]"></textarea>
+                                    </div>
+                                @else
+                                    @foreach ($auditLapangan as $al)
+                                        @if ($al->audit_dokumen_id == $item->id)
+                                            <div class="col-md-5">
+                                                <textarea class="form-control" id="hasil_temuan_{{ $item->id }}" rows="2"
+                                                    name="data[{{ $item->id }}][hasil_temuan_audit]">{{ $al->hasil_temuan_audit }}</textarea>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <textarea class="form-control" id="rekomendasi_{{ $item->id }}" rows="2"
+                                                    name="data[{{ $item->id }}][rekomendasi]">{{ @$al->rekomendasi }}</textarea>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                @endif
+
+
+
                             </div>
                         </div>
                         <br>

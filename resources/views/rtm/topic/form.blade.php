@@ -105,7 +105,7 @@
       <div class="repeater-item mb-3">
         <div class="row">
           <div class="col">
-            <input type="text" name="topik[]" class="form-control" placeholder="Topik Diskusi">
+            <input type="text" name="topik_diskusi[]" class="form-control" placeholder="Topik Diskusi">
           </div>
           <div class="col">
             <textarea name="deskripsi[]" class="form-control" placeholder="Deskripsi"></textarea>

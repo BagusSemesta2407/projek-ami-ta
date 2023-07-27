@@ -176,10 +176,10 @@
                             </div>
                         </div>
 
-                        @if ($dataInstrument->auditor_id)
+                        @if ($userId == $dataInstrument->auditor->user->id)
                             <div class="col-12">
                                 <div class="row">
-                                    <p>&nbsp; &nbsp;Form Audit Dokumen</p>
+                                    <p>&nbsp; &nbsp;Form Audit Dokumen auditor 1</p>
                                 </div>
                             </div>
 
@@ -236,10 +236,10 @@
                                     </div>
                                 </div>
                             </div>
-                        @elseif ($dataInstrument->auditor2_id)
+                        @elseif ($userId == $dataInstrument->auditor2->user->id)
                             <div class="col-12">
                                 <div class="row">
-                                    <p>&nbsp; &nbsp;Form Audit Dokumen</p>
+                                    <p>&nbsp; &nbsp;Form Audit Dokumen auditor 2</p>
                                 </div>
                             </div>
 
@@ -248,13 +248,7 @@
                                     <div class="row">
                                         &nbsp;
                                         &nbsp;
-                                        <div class="col-md-2">
-                                            <label for="" id="{{ $item->id }}">
-                                                <b>
-                                                    Status Ketercapaian
-                                                </b>
-                                            </label>
-                                        </div>
+                                            
 
                                         <div class="col-md-5">
                                             <label for="" id="{{ $item->id }}">
@@ -280,8 +274,7 @@
                                 <div class="row">
                                     &nbsp;
                                     &nbsp;
-                                    <div class="col-md-2">
-                                        {{-- input statusketercapaian --}}
+                                    {{-- <div class="col-md-2">
                                         <input type="radio" class="form-check-input"
                                             id="flexRadioDefault{{ $item->id }}"
                                             name="data[{{ $item->id }}][status_ketercapaian]" value="Tercapai"
@@ -295,7 +288,7 @@
                                                 {{ old('Tidak Tercapai', @$item->evaluasiDiri->status_ketercapaian) == 'Tidak Tercapai' ? 'checked' : '' }}>
                                             <label for="">Tidak Tercapai</label>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
                                     <div class="col-md-5">
                                         <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"

@@ -98,4 +98,23 @@ class DataInstrument extends Model implements HasMedia
     protected $casts = [
         'dokumenStandar' => 'array'
     ];
+
+    public function getDataPerBulan()
+    {
+        $data = [
+            'januari'   => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 1)->count(),
+            'februari'  => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 2)->count(),
+            'maret'     => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 3)->count(),
+            'april'     => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 4)->count(),
+            'mei'       => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 5)->count(),
+            'juni'      => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 6)->count(),
+            'juli'      => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 7)->count(),
+            'agustus'   => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 8)->count(),
+            'september' => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 9)->count(),
+            'oktober'   => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 10)->count(),
+            'november'  => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 11)->count(),
+            'desember'  => DataInstrument::whereYear('created_at', date('Y'))->whereMonth('created_at', 12)->count(),
+        ];
+        return $data;
+    }
 }
