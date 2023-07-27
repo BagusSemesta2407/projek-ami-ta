@@ -3,208 +3,299 @@
 @section('content')
     <section class="section">
         <div class="card">
-            <div class="card-body">
-                <div class="alert alert-secondary">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <label for="" class="col-md-3 text-black">
-                                <b>
-                                    Auditee
-                                </b>
-                            </label>
-
-                            <div class="col-md-3">
-                                {{ @$dataInstrument->categoryUnit->name }}
-                            </div>
-
-                            <label for="" class="col-md-3 text-black">
-                                <b>
-                                    Tanggal Audit
-                                </b>
-                            </label>
-
-                            <div class="col-md-3">
-                                {{ \Carbon\Carbon::parse($dataInstrument->tanggal_audit)->translatedFormat('d F Y') }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <label for="" class="col-md-3 text-black">
-                                <b>
-                                    Auditor 1
-                                </b>
-                            </label>
-
-                            <div class="col-md-3">
-                                {{ @$dataInstrument->auditor->name }}
-                            </div>
-
-                            <label for="" class="col-md-3 text-black">
-                                <b>
-                                    Unit Kerja
-                                </b>
-                            </label>
-
-                            <div class="col-md-3">
-                                {{ @$dataInstrument->categoryUnit->name }}
-                            </div>
-
-
-                        </div>
-
-                        <div class="row">
-
-                            <label for="" class="col-md-3 text-black">
-                                <b>
-                                    Auditor 2
-                                </b>
-                            </label>
-
-                            <div class="col-md-3">
-                                {{ @$dataInstrument->auditor2->name }}
-                            </div>
-
-                            <label for="" class="col-md-3 text-black">
-                                <b>
-                                    Status
-                                </b>
-                            </label>
-
-                            <div class="col-md-3 badges">
-                                @if ($dataInstrument->status == 'On Progress')
-                                    <span class="badge bg-secondary">On Progress</span>
-                                @elseif ($dataInstrument->status == 'Sudah Di Jawab Auditee')
-                                    <span class="badge bg-warning">Audit Dokumen</span>
-                                @elseif ($dataInstrument->status == 'Audit Lapangan')
-                                    <span class="badge bg-warning">Audit Lapangan</span>
-                                @elseif ($dataInstrument->status == 'Selesai')
-                                    <span class="badge bg-success">
-                                        Selesai
-                                    </span>
-                                @elseif ($dataInstrument->status == 'Menunggu Konfirmasi Kepala P4MP')
-                                    <span class="badge bg-primary">
-                                        Menunggu Konfirmasi Kepala P4MP
-                                    </span>
-                                @else
-                                    <span class="badge bg-danger">
-                                        Data AMI Ditolak
-                                    </span>
-                                @endif
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <label for="" class="col-md-3">
-                                <b>
-                                    Dokumen Standar
-                                </b>
-                            </label>
-
-                            <div class="col-md-3">
-                                @if ($dataInstrument->dokumenStandar)
-                                    {{-- {{ $dataInstrument->dokumenStandar }} --}}
-                                    @foreach ($dataInstrument->dokumenStandar as $items)
-                                        <a href="{{ asset('storage/public/file/dokumenStandar/' . $items) }}"
-                                            class="text-primary">
-                                            <option value="{{ $items }}">{{ $items }}</option>
-                                        </a>
-                                    @endforeach
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="card-header">
+                Data Evaluasi Diri
             </div>
-        </div>
+            <div class="card-body">
 
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header">
-                        Data Audit Lapangan
-                        @if ($userId == $dataInstrument->auditor_id)
-                            <a href="{{ route('menu-auditor.audit-lapangan.validasi-audit-lapangan', $dataInstrument->id) }}"
-                                class="btn btn-md btn-outline-primary float-end">
-                                <i class="bi bi-check2-circle"></i>
-                            </a>
-                        @endif
-                    </div>
-                    <div class="card-body">
-                        {{-- <div class="col-12 col-md-12">
-                            @if ($dataInstrument->status == 'Sudah Di Jawab Auditee')
-                                <button class="btn btn-md btn-outline-primary validate"
-                                    data-url="{{ route('menu-auditor.index-instrument-auditor.validate', $dataInstrument) }}"
-                                    data-status="{{ $dataInstrument->status }}">
-                                    <i class="bi bi-check2-circle"></i>
-                                </button>
-                            @elseif ($dataInstrument->status == 'Sudah Divalidasi Auditor')
-                                <button class="btn btn-md btn-outline-secondary validate" disabled>
-                                    <i class="bi bi-dash-circle-fill"></i>
-                                </button>
-                            @endif
-                        </div> --}}
-
-                        <div class="card-body">
-                            <table class="table" id="table1">
-                                <thead>
-                                    <tr>
-                                        <th>No</th>
-                                        <th>Standard SPMI</th>
-                                        <th>Pertanyaan/Butir Mutu</th>
-                                        <th>Indikator dan Target</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @forelse (@$auditDokumen as $item)
-                                        <tr>
-                                            <td>
-                                                {{ $loop->iteration }}
-                                            </td>
-
-                                            <td>
-                                                {{ $item->evaluasiDiri->instrument->status_standar }}
-                                            </td>
-                                            <td>
-                                                {{ $item->evaluasiDiri->instrument->name }}
-                                            </td>
-
-                                            <td>
-                                                {{ $item->evaluasiDiri->instrument->target }}
-                                            </td>
-
-                                            <td>
-                                                <div class="d-flex">
-                                                    <a href="{{ route('menu-auditor.audit-lapangan.create-audit-lapangan', $item->id) }}"
-                                                        class="btn btn-sm btn-outline-warning">
-                                                        <i class="bi bi-check-circle-fill"></i>
-                                                    </a>
-                                                    &nbsp;
-                                                    <a href="{{ route('menu-auditor.audit-lapangan.detail-audit-lapangan', $item->id) }}"
-                                                        class="btn btn-sm btn-outline-success">
-                                                        <i class="bi bi-eye-fill"></i>
-                                                    </a>
+                <form
+                    action="{{ route('menu-auditor.audit-lapangan.post-audit-lapangan', [$dataInstrument, $instrument->id]) }}"
+                    class="form form-vertical" enctype="multipart/form-data" method="POST" id="form">
+                    {{ csrf_field() }}
+                    @foreach ($auditDokumen as $item)
+                        <div class="collapse-icon accordion-icon-rotate">
+                            <div class="alert alert-secondary">
+                                <div class="accordion" id="cardAccordion">
+                                    <div class="d-flex" class="card-header" id="headingOne" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
+                                        role="button">
+                                        <label for="">{{ $loop->iteration }}.</label>
+                                        <div class="col-12">
+                                            <div class="row">
+                                                <div class="col-md-2">
+                                                    <label for="" id="{{ $item->id }}">
+                                                        <b>
+                                                            Standar SPMI
+                                                        </b>
+                                                    </label>
                                                 </div>
-                                            </td>
-                                        </tr>
-                                    @empty
-                                        <td class="text-center col-12" colspan="8">
-                                            <img src="{{ asset('empty.svg') }}" alt="" class="m-4">
-                                            <p>
-                                                Instrument Menunggu Validasi
-                                            </p>
-                                            <a href="{{ route('menu-auditee.instruments-auditee.detail-instrument-auditee', $dataInstrument->id) }}"
-                                                class="dropdown-item">
-                                                Klik Untuk Lihat Detail Instrument
-                                            </a>
-                                        </td>
-                                    @endforelse
-                                </tbody>
-                            </table>
+
+                                                <div class="col-md-6">
+                                                    <label for="" id="{{ $item->id }}">
+                                                        <b>
+                                                            Instrument/Butir Mutu
+                                                        </b>
+                                                    </label>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <label for="" id="{{ $item->id }}">
+                                                        <b>
+                                                            Indikator/Target
+                                                        </b>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-12">
+                                        <div class="row">
+                                            &nbsp;
+                                            &nbsp;
+                                            <div class="col-md-2">
+                                                <label for=""
+                                                    id="{{ $item->id }}">{{ $item->evaluasiDiri->instrument->status_standar }}</label>
+                                            </div>
+
+                                            <div class="col-md-6">
+                                                <label for=""
+                                                    id="{{ $item->id }}">{{ $item->evaluasiDiri->instrument->name }}</label>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <label for=""
+                                                    id="{{ $item->id }}">{{ $item->evaluasiDiri->instrument->target }}</label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="alert alert-secondary">
+                                        <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
+                                            data-parent="#cardAccordion">
+                                            <div class="d-flex">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Bukti
+                                                                </b>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Deskripsi Ketercapaian
+                                                                </b>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Catatan
+                                                                </b>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        <a href="{{ $item->evaluasiDiri->bukti }}" target="_blank"
+                                                            class="text-primary" style="text-decoration: underline">
+                                                            klik disini
+                                                        </a>
+                                                    </div>
+
+                                                    <div class="col-md-6" id="{{ $item->id }}">
+                                                        {{ $item->evaluasiDiri->deskripsi_ketercapaian }}
+                                                    </div>
+
+                                                    <div class="col-md-3" id="{{ $item->id }}">
+                                                        {{ $item->evaluasiDiri->catatan }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Auditor 1
+                                                                </b>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Hasil Audit Dokumen
+                                                                </b>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Daftar Tilik
+                                                                </b>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        {{-- <a href="{{ $item->evaluasiDiri->bukti }}" target="_blank"
+                                                            class="text-primary" style="text-decoration: underline">
+                                                            klik disini
+                                                        </a> --}}
+                                                    </div>
+
+                                                    <div class="col-md-6" id="{{ $item->id }}">
+                                                        {{ $item->deskripsi_auditor_1 }}
+                                                    </div>
+
+                                                    <div class="col-md-3" id="{{ $item->id }}">
+                                                        {{ $item->daftar_tilik_auditor_1 }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="d-flex">
+                                                <div class="col-12">
+                                                    <div class="row">
+                                                        <div class="col-md-2">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Auditor 2
+                                                                </b>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Hasil Audit Dokumen
+                                                                </b>
+                                                            </label>
+                                                        </div>
+                                                        <div class="col-md-3">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Daftar Tilik
+                                                                </b>
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-12">
+                                                <div class="row">
+                                                    <div class="col-md-2">
+                                                        {{-- <a href="{{ $item->evaluasiDiri->bukti }}" target="_blank"
+                                                            class="text-primary" style="text-decoration: underline">
+                                                            klik disini
+                                                        </a> --}}
+                                                    </div>
+
+                                                    <div class="col-md-6" id="{{ $item->id }}">
+                                                        {{ $item->deskripsi_auditor_2 }}
+                                                    </div>
+
+                                                    <div class="col-md-3" id="{{ $item->id }}">
+                                                        {{ $item->daftar_tilik_auditor_2 }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
                         </div>
+
+                        <div class="col-12">
+                            <div class="row">
+                                <p>&nbsp; &nbsp;Form Audit Dokumen (Auditor 2)</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="col-12">
+                                <div class="row">
+                                    &nbsp;
+                                    &nbsp;
+                                    <div class="col-md-2">
+                                        <label for="" id="{{ $item->id }}">
+                                            <b>
+                                                Status Ketercapaian
+                                            </b>
+                                        </label>
+                                    </div>
+
+                                    <div class="col-md-5">
+                                        <label for="" id="{{ $item->id }}">
+                                            <b>
+                                                Deskripsi Ketercapaian
+                                            </b>
+                                        </label>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="" id="{{ $item->id }}">
+                                            <b>
+                                                Catatan
+                                            </b>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12">
+                            <div class="row">
+                                &nbsp;
+                                &nbsp;
+                                <div class="col-md-2">
+                                    {{-- input statusketercapaian --}}
+                                    <input type="radio" class="form-check-input"
+                                        id="flexRadioDefault{{ $item->id }}"
+                                        name="data[{{ $item->id }}][status_ketercapaian]" value="Tercapai"
+                                        {{ old('Tercapai', @$item->evaluasiDiri->instrument->status_ketercapaian) == 'Tercapai' ? 'checked' : '' }}>
+                                    <label for="">Tercapai</label>
+                                    <div>
+                                        <input type="radio" class="form-check-input"
+                                            id="flexRadioDefault{{ $item->id }}"
+                                            name="data[{{ $item->id }}][status_ketercapaian]" value="Tidak Tercapai"
+                                            {{ old('Tidak Tercapai', @$item->evaluasiDiri->instrument->status_ketercapaian) == 'Tidak Tercapai' ? 'checked' : '' }}>
+                                        <label for="">Tidak Tercapai</label>
+                                    </div>
+                                </div>
+
+                                @foreach ($auditLapangan as $al)
+                                    @if ($al->audit_dokumen_id == $item->id)
+                                        <div class="col-md-5">
+                                            <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
+                                                name="data[{{ $item->id }}][hasil_temuan_audit]">{{ $al->hasil_temuan_audit }}</textarea>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
+                                                name="data[{{ $item->id }}][rekomendasi]">{{ @$al->rekomendasi }}</textarea>
+                                        </div>
+                                    @endif
+                                @endforeach
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                    @endforeach
+                    <div class="col-12 d-flex justify-content-end">
+                        <button type="submit" class="btn btn-outline-primary me-1 mb-1" id="btnSubmit">
+                            {{-- {{ isset($dataInstrument) ? 'Edit' : 'Tambah' }} --}}
+
+                            Submit
+                            <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;"
+                                role="status"></span>
+                        </button>
                     </div>
-                </div>
-                {{-- </form> --}}
+                </form>
             </div>
         </div>
     </section>

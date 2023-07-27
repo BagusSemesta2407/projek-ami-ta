@@ -398,8 +398,8 @@
         </div>
     </div>
     <div class="text-md-right pb-4">
-        <form action="{{ route('menu-p4mp.report-ami.cetak-ami', $dataInstrument->id) }}" method="GET" target="_blank">
-            {{-- {{ csrf_field() }} --}}
+        <form action="{{ route('menu-p4mp.report-ami.cetak-ami2', $dataInstrument->id) }}" method="GET" target="_blank">
+            {{ csrf_field() }}
             <button class="btn btn-warning btn-icon icon-left">
                 <i class="fas fa-print"></i>
                 Cetak

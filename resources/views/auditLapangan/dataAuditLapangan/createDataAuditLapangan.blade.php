@@ -130,14 +130,12 @@
 
                 <div class="form-group">
                     <label for="">Hasil Temuan Audit</label>
-                    <textarea name="hasil_temuan_audit" id="summernote">{{ @$auditLapangan->hasil_temuan_audit }}</textarea>
+                    <textarea name="hasil_temuan_audit" class="form-control">{{ @$auditLapangan->hasil_temuan_audit }}</textarea>
                 </div>
                 <div class="form-group">
                     <label for="">Rekomendasi</label>
                     <div class="col-12">
-                        <textarea class="form-control" name="rekomendasi" id="summernote1" class="col-12">
-                                        {{ @$auditLapangan->rekomendasi }}
-                                    </textarea>
+                        <textarea class="form-control" name="rekomendasi">{{ @$auditLapangan->rekomendasi }}</textarea>
                     </div>
                 </div>
                 <button type="submit" class="btn btn-outline-primary float-end me-1 mb-1" id="btnSubmit">

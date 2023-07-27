@@ -13,17 +13,17 @@
                         <div class="form-group">
                             <label for="disabledInput">Auditee</label>
                             <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
-                                value="{{ @$dataInstrument->auditee->name }}" disabled>
+                                value="{{ @$dataInstrument->categoryUnit->user->name }}" disabled>
                         </div>
                         <div class="form-group">
                             <label for="disabledInput">Auditor 1</label>
                             <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
-                                value="{{ @$dataInstrument->auditor->name }}" disabled>
+                                value="{{ @$dataInstrument->auditor->user->name }}" disabled>
                         </div>
                         <div class="form-group">
                             <label for="disabledInput">Auditor 2</label>
                             <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
-                                value="{{ @$dataInstrument->auditor2->name }}" disabled>
+                                value="{{ @$dataInstrument->auditor2->user->name }}" disabled>
                         </div>
                         <div class="form-group">
                             <label for="disabledInput">Unit/Program Studi/Jurusan</label>
@@ -72,6 +72,11 @@
                                             Tolak</option>
                                     </select>
                                 </div>
+
+                                <div class="form-group" id="alasan">
+                                    <label for="">Alasan</label>
+                                    <input type="text" name="alasan_tolak" class="form-control" id="input-alasan">
+                                </div>
                     </div>
                 </div>
             </div>
@@ -79,8 +84,7 @@
         <div class="col-12 d-flex justify-content-end">
             <button type="submit" class="btn btn-outline-primary me-1 mb-1" id="btnSubmit">
                 Submit
-                <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;"
-                    role="status">
+                <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;" role="status">
                 </span>
             </button>
         </div>
@@ -88,4 +92,21 @@
         @endif
 
     </section>
+@endsection
+
+
+@section('script')
+    <script type="text/javascript">
+        $('#alasan').hide();
+
+        $('#status').on('change', function(){
+            var selectedVal = $(this).val();
+
+            if (selectedVal == 'Ditolak Kepala P4MP') {
+                $('#alasan').show();
+            } else {
+                $("#alasan").hide();
+            }
+        });
+    </script>
 @endsection

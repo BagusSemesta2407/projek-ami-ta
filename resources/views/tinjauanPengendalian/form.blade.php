@@ -126,7 +126,7 @@
                                         value="{{ old('deskripsi_important', @$tinjauanPengendalian->deskripsi_important) }}">
                                 </div> --}}
                                 <div class="col-12">
-                                    <textarea name="deskripsi_important" id="summernote" class="col-12">{{ @$tinjauanPengendalian->deskripsi_important }}</textarea>
+                                    <textarea name="deskripsi_important" class="col-12 form-control">{{ @$tinjauanPengendalian->deskripsi_important }}</textarea>
                                 </div>
                             </div>
 
@@ -152,7 +152,7 @@
                                 {{-- <input type="text" class="form-control" name="deskripsi_urgent"
                                     value="{{ old('deskripsi_urgent', @$tinjauanPengendalian->deskripsi_urgent) }}"> --}}
                                 <div class="col-12">
-                                    <textarea name="deskripsi_urgent" id="summernote1" class="col-12">{{ @$tinjauanPengendalian->deskripsi_urgent }}</textarea>
+                                    <textarea name="deskripsi_urgent" class="col-12 form-control">{{ @$tinjauanPengendalian->deskripsi_urgent }}</textarea>
                                 </div>
                             </div>
 
@@ -160,7 +160,7 @@
                                 <label for="">Rencana Tindak Lanjut</label>
                                 {{-- <input type="text" class="form-control"> --}}
                                 <div class="col-12">
-                                    <textarea name="rencana_tindak_lanjut" id="summernote2" class="col-12">{{ @$tinjauanPengendalian->rencana_tindak_lanjut }}</textarea>
+                                    <textarea name="rencana_tindak_lanjut" class="col-12 form-control">{{ @$tinjauanPengendalian->rencana_tindak_lanjut }}</textarea>
                                 </div>
                             </div>
 
@@ -168,39 +168,24 @@
                                 <div class="form-group">
                                     <label for="">Anggaran</label>
                                     <div class="col-md-12">
-                                        <input type="radio" class="form-check-input" id="flexRadioDefault2"
-                                            name="anggaran" value="Anggaran"
+                                        <input type="radio" class="form-check-input" id="anggaran" name="anggaran"
+                                            value="Anggaran"
                                             {{ old('Anggaran', @$tinjauanPengendalian->anggaran) == 'Anggaran' ? 'checked' : '' }}>
-                                        <label for="">Mendesak</label>
-                                        <input type="radio" class="form-check-input" id="flexRadioDefault3"
-                                            name="Anggaran" value="Not Anggaran"
-                                            {{ old('Not Anggaran', @$tinjauanPengendalian->anggaran) == 'Not Anggaran' ? 'checked' : '' }}>
-                                        <label for="">Tidak Mendesak</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="">Anggaran</label>
-                                {{-- <input type="text" class="form-control"> --}}
-                                <div class="col-12">
-                                    {{-- <textarea name="anggaran" id="summernote3" class="col-12">{{ @$tinjauanPengendalian->anggaran }}</textarea> --}}
-                                    <input name="deksripsi_anggaran" type="text" class="form-control">
-                                </div>
-                            </div>
-
-                            {{-- <div class="form-group">
-                                <div class="form-group">
-                                    <label for="">Anggaran</label>
-                                    <div class="col-md-12">
-                                        <input type="radio" class="form-check-input" id="flexRadioDefault" name="anggaran"
-                                            value="Anggaran">
                                         <label for="">Anggaran</label>
-                                        <input type="radio" class="form-check-input" id="flexRadioDefault" name="anggaran"
-                                            value="Non Anggaran">
+                                        <input type="radio" class="form-check-input" id="non-anggaran" name="anggaran"
+                                            value="Non Anggaran"
+                                            {{ old('Non Anggaran', @$tinjauanPengendalian->anggaran) == 'Non Anggaran' ? 'checked' : '' }}>
                                         <label for="">Non Anggaran</label>
                                     </div>
                                 </div>
-                            </div> --}}
+                            </div>
+                            <div class="form-group" id="jumlahAnggaran">
+                                <label for="">Anggaran</label>
+                                <div class="col-12">
+                                    <input name="jumlah_anggaran" type="text" class="form-control"
+                                        id="input-jumlahAnggaran">
+                                </div>
+                            </div>
                             <div class="col-12 d-flex justify-content-end">
                                 <button type="submit" class="btn btn-outline-primary me-1 mb-1 float-end"
                                     id="btnSubmit">
@@ -216,4 +201,23 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('script')
+    <script type="text/javascript">
+        $('#jumlahAnggaran').hide();
+
+        $('#anggaran').on('click', function() {
+            // console.log('masuk');
+
+            var clickVal = $(this).val();
+
+            if (clickVal == 'Anggaran') {
+                $('#jumlahAnggaran').show();
+            } else {
+                $('#jumlahAnggaran').hide();
+
+            }
+        })
+    </script>
 @endsection

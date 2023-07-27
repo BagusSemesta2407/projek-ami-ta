@@ -49,7 +49,7 @@
                             </div>
                         </div>
 
-                        @if ($userId == $dataInstrument->auditor_id)
+                        {{-- @if ($userId == $dataInstrument->auditor_id) --}}
                             <div class="form-group">
                                 <label for="">Hasil Audit Dokumen Auditor</label>
                                 <div class="col-12">
@@ -62,9 +62,9 @@
                                     <textarea disabled class="col-12">{{ strip_tags(@$auditDokumen->daftar_tilik_auditor_1) }}</textarea>
                                 </div>
                             </div>
-                        @endif
+                        {{-- @endif --}}
 
-                        @if ($userId == $dataInstrument->auditor2_id)
+                        {{-- @if ($userId == $dataInstrument->auditor2_id) --}}
                             <div class="form-group">
                                 <label for="">Hasil Audit Dokumen Auditor </label>
                                 <div class="col-12">
@@ -77,7 +77,7 @@
                                     <textarea disabled class="col-12">{{ strip_tags(@$auditDokumen->daftar_tilik_auditor_2) }}</textarea>
                                 </div>
                             </div>
-                        @endif
+                        {{-- @endif --}}
 
                     </div>
                 </div>

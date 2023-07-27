@@ -15,6 +15,7 @@ class UserSeeder extends Seeder
         //
         $user = User::create([
             'name' => 'Bagus Semesta',
+            'nip'=>'123456',
             'email' => 'semestabagus24@gmail.com',
             'password' => bcrypt('12345678'),
         ]);
@@ -22,6 +23,7 @@ class UserSeeder extends Seeder
         $user->assignRole('admin');
         $user = User::create([
             'name' => 'Superadmin',
+            'nip'=> '098765',
             'email' => 'admin@polsub.com',
             'password' => bcrypt('12345678'),
         ]);
@@ -30,6 +32,7 @@ class UserSeeder extends Seeder
 
         $user = User::create([
             'name' => 'Auditee',
+            'nip'=> '3465465',
             'email' => 'auditee@polsub.com',
             'password' => bcrypt('12345678'),
         ]);
@@ -38,6 +41,7 @@ class UserSeeder extends Seeder
 
         $user = User::create([
             'name' => 'Auditor',
+            'nip'=> '1979487',
             'email' => 'auditor@polsub.com',
             'password' => bcrypt('12345678'),
         ]);
@@ -46,6 +50,7 @@ class UserSeeder extends Seeder
 
         $user = User::create([
             'name' => 'Kepala P4MP',
+            'nip'=> '7639493',
             'email' => 'kepala@polsub.com',
             'password' => bcrypt('12345678'),
         ]);

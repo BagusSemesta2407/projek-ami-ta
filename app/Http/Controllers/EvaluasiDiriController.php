@@ -17,114 +17,125 @@ class EvaluasiDiriController extends Controller
      */
     public function index()
     {
-        $title='Evaluasi Diri';
-        $userId=Auth::id();
-        $dataInstrument=DataInstrument::with(['categoryUnit.user'])
-        ->where('status', 'On Progress')
-        // ->where('auditee_id', $userId)
-        ->whereHas('categoryUnit.user', function ($query) use ($userId) {
-            $query->where('id', $userId);
-        })
-        ->latest()
-        ->get();
-        return view('evaluasiDiri.index',[
-            'title'=>$title,
-            'dataInstrument'=>$dataInstrument,
+        $title = 'Evaluasi Diri';
+        $userId = Auth::id();
+        $dataInstrument = DataInstrument::with(['categoryUnit.user'])
+            ->where('status', 'On Progress')
+            // ->where('auditee_id', $userId)
+            ->whereHas('categoryUnit.user', function ($query) use ($userId) {
+                $query->where('id', $userId);
+            })
+            ->latest()
+            ->get();
+        return view('evaluasiDiri.index', [
+            'title' => $title,
+            'dataInstrument' => $dataInstrument,
         ]);
     }
 
     public function dataEvaluasiDiri($id)
     {
-        $title='Evaluasi Diri';
-        $dataInstrument=DataInstrument::find($id);
-        $filter=(object)[
-            'category_unit_id'=>$dataInstrument->category_unit_id
+        $title = 'Evaluasi Diri';
+        $dataInstrument = DataInstrument::find($id);
+        $filter = (object)[
+            'category_unit_id' => $dataInstrument->category_unit_id
         ];
 
-        $instrument=Instrument::filter($filter)
-        ->where('status_ketercapaian', 'Tidak Tercapai')
-        ->get();
+        $instrument = Instrument::filter($filter)
+            ->where('status_ketercapaian', 'Tidak Tercapai')
+            ->get();
 
-        // $evaluasiDiri=EvaluasiDiri::with(['evaluasiDiri.dataInstrument'])->first();
-        // dd($evaluasiDiri)
+        $instrumentIDs = $instrument->pluck('id');
 
-        return view('evaluasiDiri.dataEvaluasiDiri.index',[
-            'title'=>$title,
-            'dataInstrument'=>$dataInstrument,
+        // $evaluasiDiri = EvaluasiDiri::with(['instrument', 'dataInstrument'])->where('data_instrument_id', $dataInstrument)->where('instrument_id', $instrument)->get();
+        $evaluasiDiri = EvaluasiDiri::whereIn('data_instrument_id', [$dataInstrument->id])
+            ->whereIn('instrument_id', $instrumentIDs)
+            ->first();
+
+        $tinjauanPengendalian = TinjauanPengendalian::with(['auditLapangan.auditDokumen.evaluasiDiri'])
+        ->whereHas('auditLapangan.auditDokumen.evaluasiDiri', function($q) use ($instrumentIDs){
+            $q->whereIn('instrument_id', $instrumentIDs);
+        })->get();
+        
+        // dd($tinjauanPengendalian->rencana_tindak_lanjut);
+
+        return view('evaluasiDiri.dataEvaluasiDiri.index', [
+            'title' => $title,
+            'dataInstrument' => $dataInstrument,
             'instrument' => $instrument,
+            'evaluasiDiri' => $evaluasiDiri,
+            'tinjauanPengendalian' => $tinjauanPengendalian
         ]);
     }
 
     public function createEvaluasiDiri($dataInstrument, $instrument)
     {
         $title = 'Evaluasi Diri';
-        $getDataInstrument=DataInstrument::find($dataInstrument);
-        $getInstrument=Instrument::find($instrument);
-        $evaluasiDiri=EvaluasiDiri::with(['instrument', 'dataInstrument'])->where('data_instrument_id', $dataInstrument)->where('instrument_id', $instrument)->first();
+        $getDataInstrument = DataInstrument::find($dataInstrument);
+        $getInstrument = Instrument::find($instrument);
+        $evaluasiDiri = EvaluasiDiri::with(['instrument', 'dataInstrument'])->where('data_instrument_id', $dataInstrument)->where('instrument_id', $instrument)->first();
 
-        // $auditLapangan=AuditLapangan::with(['auditDokumen.evaluasiDiri'])
-        // ->whereHas('auditDokumen.evaluasiDiri', function($q) use ($getDataInstrument){
-        //     $q->where('instrument_id', $getDataInstrument->id);
-        // })->first();
-        $tinjauanPengendalian=TinjauanPengendalian::with(['auditLapangan.auditDokumen.evaluasiDiri'])
-        ->whereHas('auditLapangan.auditDokumen.evaluasiDiri', function($q) use ($getInstrument){
-            $q->where('instrument_id', $getInstrument->id);
-        })->first();
+        $tinjauanPengendalian = TinjauanPengendalian::with(['auditLapangan.auditDokumen.evaluasiDiri'])
+            ->whereHas('auditLapangan.auditDokumen.evaluasiDiri', function ($q) use ($getInstrument) {
+                $q->where('instrument_id', $getInstrument->id);
+            })->get();
         // dd($tinjauanPengendalian);
-        return view('evaluasiDiri.dataEvaluasiDiri.form',[
+        return view('evaluasiDiri.dataEvaluasiDiri.form', [
             'title' => $title,
-            'evaluasiDiri'=>$evaluasiDiri,
-            'getInstrument'=>$getInstrument,
-            'getDataInstrument'=>$getDataInstrument,
-            'tinjauanPengendalian'=> $tinjauanPengendalian
+            'evaluasiDiri' => $evaluasiDiri,
+            'getInstrument' => $getInstrument,
+            'getDataInstrument' => $getDataInstrument,
+            'tinjauanPengendalian' => $tinjauanPengendalian
         ]);
     }
 
     public function postDataEvaluasiDiri(Request $request, $dataInstrument, $instrument)
     {
-        $getDataInstrumen=DataInstrument::find($dataInstrument);
-        $getInstrument=Instrument::find($instrument);
-        $data = [
-            'data_instrument_id' => $dataInstrument,
-            'instrument_id' =>$instrument,
-            'status_ketercapaian' => $request->status_ketercapaian,
-            'deskripsi_ketercapaian'=> $request->deskripsi_ketercapaian,
-            'bukti' => $request->bukti,
-            'catatan'=> $request->catatan
-        ];
+        $data = $request->input('data', []);
 
-        EvaluasiDiri::create($data);
+        foreach ($data as $key => $value) {
+            EvaluasiDiri::updateOrCreate(
+                [
+                    'data_instrument_id' => $dataInstrument,
+                    'instrument_id' => $key
+                ],
+                [
+                    'status_ketercapaian' => $value['status_ketercapaian'],
+                    'deskripsi_ketercapaian' => $value['deskripsi_ketercapaian'],
+                    'bukti' => $value['bukti'],
+                    'catatan' => $value['catatan'],
+                ]
+            );
+        }
+
+        DataInstrument::where('id', $dataInstrument)->update([
+            'status' => 'Sudah Di Jawab Auditee'
+        ]);
         // return redirect()->route('menu-auditee.evaluasi-diri.data-evaluasi-diri', $getInstrument);
-        return redirect()->route('menu-auditee.evaluasi-diri.index');
-
+        return redirect()->route('menu-auditee.evaluasi-diri.index')->with('success', 'Data Berhasil Diinput!');
     }
 
-    // public function editEvaluasiDiri($dataInstrument, )
-    // {
-    //     $title='Edit Evaluasi Diri';
-    //     $evaluasiDiri=EvaluasiDiri::find($id);
 
-    //     return view('evaluasiDiri.dataEvaluasiDiri.edit',[
-    //         'title' => $title,
-    //         'evaluasiDiri'=> $evaluasiDiri
-    //     ]);
-    // }
     public function updateDataEvaluasiDiri(Request $request, $dataInstrument, $instrument, $evaluasiDiri)
     {
-        
-        $getDataInstrumen=DataInstrument::find($dataInstrument);
-        $getInstrument=Instrument::find($instrument);
-        $data = [
-            'data_instrument_id' => $dataInstrument,
-            'instrument_id' =>$instrument,
-            'status_ketercapaian' => $request->status_ketercapaian,
-            'deskripsi_ketercapaian'=> $request->deskripsi_ketercapaian,
-            'bukti' => $request->bukti,
-            'catatan'=> $request->catatan
-        ];
 
-        EvaluasiDiri::where('id',$evaluasiDiri)->update($data);
-        // return redirect()->route('menu-auditee.evaluasi-diri.data-evaluasi-diri', $getInstrument);
+        $data = $request->input('data', []);
+
+        foreach ($data as $key => $value) {
+            EvaluasiDiri::where('data_instrument_id', $evaluasiDiri)->update(
+                [
+                    'data_instrument_id' => $dataInstrument,
+                    'instrument_id' => $key
+                ],
+                [
+                    'status_ketercapaian' => $value['status_ketercapaian'],
+                    'deskripsi_ketercapaian' => $value['deskripsi_ketercapaian'],
+                    'bukti' => $value['bukti'],
+                    'catatan' => $value['catatan'],
+                ]
+            );
+        }
+
         return redirect()->route('menu-auditee.evaluasi-diri.index');
     }
 
@@ -150,10 +161,10 @@ class EvaluasiDiriController extends Controller
         $title = 'Audit Dokumen';
         // $auditDokumen = AuditDokumen::where('id', $id)->get();
         $dataInstrument = DataInstrument::find($id);
-        $evaluasiDiri=EvaluasiDiri::with(['dataInstrument'])
-        ->whereHas('dataInstrument', function($q) use ($dataInstrument){
-            $q->where('data_instrument_id', $dataInstrument->id);
-        })->get();
+        $evaluasiDiri = EvaluasiDiri::with(['dataInstrument'])
+            ->whereHas('dataInstrument', function ($q) use ($dataInstrument) {
+                $q->where('data_instrument_id', $dataInstrument->id);
+            })->get();
         return view('evaluasiDiri.dataEvaluasiDiri.validasi', [
             'evaluasiDiri' => $evaluasiDiri,
             'title' => $title,
@@ -168,62 +179,62 @@ class EvaluasiDiriController extends Controller
         $dataInstrument = DataInstrument::find($id);
 
         $evaluasiDiri = EvaluasiDiri::where('data_instrument_id', $id)
-        ->whereHas('dataInstrument', function ($q) {
-            $q->whereIn('status', ['Sudah Di Jawab Auditee']);
-        })
+            ->whereHas('dataInstrument', function ($q) {
+                $q->whereIn('status', ['Sudah Di Jawab Auditee']);
+            })
             ->get();
 
-        return view('auditee.instrumentAuditee.detailInstrumentAuditee',[
+        return view('auditee.instrumentAuditee.detailInstrumentAuditee', [
             'title' =>  $title,
             'evaluasiDiri' => $evaluasiDiri,
             'dataInstrument' => $dataInstrument
         ]);
     }
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        
-    }
+    // /**
+    //  * Show the form for creating a new resource.
+    //  */
+    // public function create()
+    // {
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        
-    }
+    // }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(EvaluasiDiri $evaluasiDiri)
-    {
-        //
-    }
+    // /**
+    //  * Store a newly created resource in storage.
+    //  */
+    // public function store(Request $request)
+    // {
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(EvaluasiDiri $evaluasiDiri)
-    {
-        //
-    }
+    // }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, EvaluasiDiri $evaluasiDiri)
-    {
-        //
-    }
+    // /**
+    //  * Display the specified resource.
+    //  */
+    // public function show(EvaluasiDiri $evaluasiDiri)
+    // {
+    //     //
+    // }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(EvaluasiDiri $evaluasiDiri)
-    {
-        //
-    }
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  */
+    // public function edit(EvaluasiDiri $evaluasiDiri)
+    // {
+    //     //
+    // }
+
+    // /**
+    //  * Update the specified resource in storage.
+    //  */
+    // public function update(Request $request, EvaluasiDiri $evaluasiDiri)
+    // {
+    //     //
+    // }
+
+    // /**
+    //  * Remove the specified resource from storage.
+    //  */
+    // public function destroy(EvaluasiDiri $evaluasiDiri)
+    // {
+    //     //
+    // }
 }

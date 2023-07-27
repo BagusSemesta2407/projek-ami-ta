@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\DataInstrumentRequest;
+use App\Models\Auditor;
 use App\Models\CategoryUnit;
 use App\Models\DataInstrument;
 use App\Models\DocumentStandard;
@@ -26,7 +27,6 @@ class DataInstrumentController extends Controller
         $dataInstrument = DataInstrument::with(['auditor', 'auditee', 'categoryUnit'])
             ->get();
 
-
         return view('admin.instrumentData.index', [
             'title' => $title,
             'dataInstrument' => $dataInstrument,
@@ -40,14 +40,7 @@ class DataInstrumentController extends Controller
     {
         $title = 'Data Penetapan AMI';
 
-        $userAuditor = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['auditor']);
-        })
-            ->get();
-
-        $userAuditee = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['auditee']);
-        })->get();
+        $userAuditor= Auditor::where('jabatan', 'anggota')->get();
 
         $categoryUnit = CategoryUnit::all();
 
@@ -56,7 +49,6 @@ class DataInstrumentController extends Controller
             'title' => $title,
             'categoryUnit' => $categoryUnit,
             'userAuditor' => $userAuditor,
-            'userAuditee' => $userAuditee,
             'dokumenStandar'    => $dokumenStandar
         ]);
     }
@@ -78,11 +70,10 @@ class DataInstrumentController extends Controller
         $dataInstrument = DataInstrument::create([
             'auditor_id' => $request->auditor_id,
             'auditor2_id' => $request->auditor2_id,
-            // 'auditee_id' => $request->auditee_id,
             'category_unit_id' => $request->category_unit_id,
             'status' => 'Menunggu Konfirmasi Kepala P4MP',
             'tanggal_audit' => $request->tanggal_audit,
-            'dokumenStandar'  => $request->dokumenStandar
+            'dokumenStandar'  => $request->dokumenStandar,
         ]);
 
         $tujuan = $request->deskripsi_tujuan;
@@ -120,14 +111,15 @@ class DataInstrumentController extends Controller
     {
         $title = 'Data Penetapan AMI';
         $dataInstrument = DataInstrument::find($id);
-        $userAuditor = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['auditor']);
-        })
-            ->get();
+        // $userAuditor = User::whereHas('roles', function ($q) {
+        //     $q->whereIn('name', ['auditor']);
+        // })
+        //     ->get();
 
-        $userAuditee = User::whereHas('roles', function ($q) {
-            $q->whereIn('name', ['auditee']);
-        })->get();
+        // $userAuditee = User::whereHas('roles', function ($q) {
+        //     $q->whereIn('name', ['auditee']);
+        // })->get();
+        $userAuditor=Auditor::oldest('jabatan')->get();
         $categoryUnit = CategoryUnit::all();
         $instrument = Instrument::all();
         // $dokumenStandar=$dataInstrument->dokumenStandar;
@@ -137,7 +129,6 @@ class DataInstrumentController extends Controller
             'dataInstrument' => $dataInstrument,
             'title' => $title,
             'userAuditor' => $userAuditor,
-            'userAuditee' => $userAuditee,
             'categoryUnit' => $categoryUnit,
             'instrument' => $instrument,
             'dokumenStandar' => $dokumenStandar
@@ -231,6 +222,7 @@ class DataInstrumentController extends Controller
     {
         $data = [
             'status'    => $request->status,
+            'alasan_tolak'=> $request->alasan_tolak
         ];
 
         DataInstrument::where('id', $id)->update($data);

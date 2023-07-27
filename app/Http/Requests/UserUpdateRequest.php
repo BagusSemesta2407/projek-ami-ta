@@ -23,6 +23,7 @@ class UserUpdateRequest extends FormRequest
     {
         // dd($this->user);
         $rules = [
+            'nip' => 'required|unique:users,nip',
             'name' => 'required',
             'email' => 'required|email|unique:users,email,'.$this->user->id,
             'roles' => 'required',
@@ -35,6 +36,8 @@ class UserUpdateRequest extends FormRequest
     public function messages()
     {
         return [
+            'nip.required' => 'NIP Wajib Diisi',
+            'nip.unique' => 'NIP Sudah Terdaftar',
             'name.required' => 'Nama Wajib Diisi',
             'email.required' => 'Email Wajib Diisi',
             'email.email' => 'Email Harus Valid',

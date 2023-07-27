@@ -28,6 +28,7 @@ return new class extends Migration
                 ->nullable()
                 ->constrained();
             $table->enum('status', ['Menunggu Konfirmasi Kepala P4MP','Ditolak Kepala P4MP','On Progress', 'Sudah Di Jawab Auditee', 'Audit Lapangan', 'Selesai']);
+            $table->string('alasan_tolak')->nullable();
             $table->json('dokumenStandar')->nullable();
             $table->date('tanggal_audit')->nullable();
             $table->timestamps();

@@ -1,7 +1,7 @@
 @extends('layouts.base')
 @section('content')
     <section class="section">
-        @foreach ($auditDokumen as $item)
+        @forelse ($auditDokumen as $item)
             <div class="card collapse-icon accordion-icon-rotate">
                 <div class="card-header">
                     <h1 class="card-title pl-1">Detail Audit Dokumen</h1>
@@ -50,6 +50,7 @@
                                             </b>
                                             {{ strip_tags($item->evaluasiDiri->deskripsi_ketercapaian) }}
                                         </div>
+                                        
                                         <div class="col-12">
                                             <b>
                                                 Bukti Ketercapaian Standar :
@@ -57,6 +58,12 @@
                                             <a href="{{ $item->evaluasiDiri->bukti }}" target="_blank">
                                                 {{ $item->evaluasiDiri->bukti }}
                                             </a>
+                                        </div>
+                                        <div class="col-12">
+                                            <b>
+                                                Catatan :
+                                            </b>
+                                            {{ strip_tags($item->evaluasiDiri->catatan) }}
                                         </div>
                                     </div>
                                     III. Audit Dokumen
@@ -127,7 +134,10 @@
                     </div>
                 </div>
             </div>
-        @endforeach
+            @empty
+            Data Belum ADA
+        @endforelse
+        
         @if ($dataInstrument->status == 'Sudah Di Jawab Auditee')
             <button type="submit" class="btn btn-outline-primary me-1 mb-1 float-end validate"
                 data-url="{{ route('menu-auditor.audit-dokumen.update-status-audit', $dataInstrument->id) }}"

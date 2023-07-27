@@ -27,7 +27,7 @@ class DataInstrumentRequest extends FormRequest
             'auditor2_id'   => 'required|different:auditor_id',
             'category_unit_id'  => 'required',
             'dokumenStandar'=> 'required',
-            'tanggal_audit'=> 'required|unique:data_instruments,tanggal_audit'
+            'tanggal_audit'=> 'required',
         ];
 
         return $rules;

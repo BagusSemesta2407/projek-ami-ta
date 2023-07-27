@@ -30,8 +30,14 @@ class AuditorController extends Controller
     public function create()
     {
         $title = 'Auditor';
+
+        $user=User::whereHas('roles', function($q){
+            $q->whereIn('name', ['auditor']);
+        })->get();
+
         return view('admin.auditor.form', [
             'title' => $title,
+            'user' => $user,
         ]);
     }
 
@@ -40,16 +46,8 @@ class AuditorController extends Controller
      */
     public function store(AuditoreRequest $request)
     {
-        $user=User::create([
-            'name'  =>  $request->name,
-            'email' =>  $request->email,
-            'password'  =>  bcrypt('12345678'),
-        ]);
-
-        $user->assignRole('auditor');
-
         $data =[
-            'user_id'   => $user->id,
+            'user_id'   => $request->user_id,
             'jabatan'   => $request->jabatan,
             'tugas'     =>  $request->tugas,
         ];
@@ -57,7 +55,7 @@ class AuditorController extends Controller
         $auditor=Auditor::create($data);
 
 
-        return redirect()->route('admin.auditor.index');
+        return redirect()->route('admin.auditor.index')->with('success', 'Data Berhasil Ditambahkan!');
 
     }
 
@@ -79,30 +77,30 @@ class AuditorController extends Controller
         //     ->where('id', $id)
         //     ->first();
         $auditor=Auditor::find($id);
+        $user=User::whereHas('roles', function($q){
+            $q->whereIn('name', ['auditor']);
+        })->get();
         return view('admin.auditor.form',[
             'auditor'=> $auditor,
-            'title' => $title
+            'title' => $title,
+            'user'=>$user
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(AuditorUpdateRequest $request, Auditor $auditor)
+    public function update(AuditorUpdateRequest $request, $id)
     {
         $data = [
             'jabatan'=>$request->jabatan,
             'tugas'=>$request->tugas,
         ];
 
-        Auditor::where('id', $auditor->id)->update($data);
+        Auditor::where('id', $id)->update($data);
 
-        User::whereId($auditor->user_id)->update([
-            'name'  =>  $request->name,
-            'email' =>  $request->email,
-        ]);
 
-        return redirect()->route('admin.auditor.index');
+        return redirect()->route('admin.auditor.index')->with('success', 'Data Berhasil Diubah!');
     }
 
     /**
@@ -114,7 +112,7 @@ public function destroy($id)
 
         $auditor->delete();
 
-        User::where('id', $auditor->user_id)->delete();
+        // User::where('id', $auditor->user_id)->delete();
         return response()->json(['success','Data Berhasil Dihapus']);
 
     }

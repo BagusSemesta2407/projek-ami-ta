@@ -295,15 +295,21 @@
     </script>
 
     <script>
-        $(document).ready(function() {
-            @if (session('success'))
-                Toastify.success({
-                    message: "{{ session('success') }}",
-                    gravity: 'top',
-                    position: 'right'
-                }).showToast()
-            @endif ()
-        });
+        document.addEventListener('DOMContentLoaded', function() {
+        const successMessage = "{{ session('success') }}";
+        if (successMessage) {
+            Toastify({
+                text: successMessage,
+                duration: 3000, // Durasi notifikasi (dalam milidetik)
+                close: true,
+                gravity: "top", // Posisi notifikasi
+                position: "right",
+                style:{
+                    backgroundColor: "#4CAF50",
+                },
+            }).showToast();
+        }
+    });
     </script>
 
     <script>

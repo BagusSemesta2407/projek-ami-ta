@@ -87,7 +87,7 @@
                                                 <option value="" selected disabled>Masukkan Role</option>
                                                 @foreach ($roles as $item)
                                                     <option value="{{ $item->id }}"
-                                                        {{ old('roles', @$user->id) == $item->id ? 'selected' : '' }}>
+                                                        {{ old('roles', @$user->hasRole($item->id)) == $item->id ? 'selected' : '' }}>
                                                         {{ $item->name }}
                                                     </option>
                                                 @endforeach

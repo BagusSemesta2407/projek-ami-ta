@@ -43,10 +43,10 @@
                                         {{ @$item->categoryUnit->user->email }}
                                     </td>
                                     <td>
-                                        {{ @$item->auditor->name }}
+                                        {{ @$item->auditor->user->name}}
                                     </td>
                                     <td>
-                                        {{ @$item->auditor2->name }}
+                                        {{ @$item->auditor2->user->name }}
                                     </td>
 
                                     <td>

@@ -57,6 +57,12 @@
                                 <a href="{{ $evaluasiDiri->bukti }}" target="_blank">{{ $evaluasiDiri->bukti }}</a>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="disabledInput">Catatan</label>
+                            <div class="col-12">
+                                <textarea disabled class="col-12">{{ strip_tags($evaluasiDiri->catatan) }}</textarea>
+                            </div>
+                        </div>
 
                     </div>
                     @if (@$auditDokumen->exists)
@@ -74,12 +80,12 @@
                     @if ($userId == $dataInstrument->auditor_id)
                         <div class="form-group">
                             <label for="disabledInput">Hasil Audit Dokumen</label>
-                            <textarea id="summernote" name="deskripsi_auditor_1" value="{{ @$auditDokumen->deskripsi_auditor_1 }} ">{{ @$auditDokumen->deskripsi_auditor_1 }}</textarea>
+                            <textarea class="form-control" name="deskripsi_auditor_1" value="{{ @$auditDokumen->deskripsi_auditor_1 }} ">{{ @$auditDokumen->deskripsi_auditor_1 }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="disabledInput">Daftar Tilik</label>
                             <div class="col-12">
-                                <textarea id="summernote1" name="daftar_tilik_auditor_1" value="{{ @$auditDokumen->daftar_tilik_auditor_1 }}"
+                                <textarea class="form-control" name="daftar_tilik_auditor_1" value="{{ @$auditDokumen->daftar_tilik_auditor_1 }}"
                                     class="col-12">{{ @$auditDokumen->daftar_tilik_auditor_1 }}</textarea>
                             </div>
                         </div>
@@ -95,12 +101,12 @@
                     @elseif ($userId == $dataInstrument->auditor2_id)
                         <div class="form-group">
                             <label for="disabledInput">Hasil Audit Dokumen</label>
-                            <textarea id="summernote" name="deskripsi_auditor_2" value="{{ @$auditDokumen->deskripsi_auditor_2 }}">{{ @$auditDokumen->deskripsi_auditor_2 }}</textarea>
+                            <textarea class="form-control" name="deskripsi_auditor_2" value="{{ @$auditDokumen->deskripsi_auditor_2 }}">{{ @$auditDokumen->deskripsi_auditor_2 }}</textarea>
                         </div>
                         <div class="form-group">
                             <label for="disabledInput">Daftar Tilik</label>
                             <div class="col-12">
-                                <textarea id="summernote1" name="daftar_tilik_auditor_2" value="{{ @$auditDokumen->daftar_tilik_auditor_2 }}"
+                                <textarea class="form-control" name="daftar_tilik_auditor_2" value="{{ @$auditDokumen->daftar_tilik_auditor_2 }}"
                                     class="col-12">{{ @$auditDokumen->daftar_tilik_auditor_2 }}</textarea>
                             </div>
                         </div>

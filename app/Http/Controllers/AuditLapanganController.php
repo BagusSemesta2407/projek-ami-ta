@@ -39,16 +39,22 @@ class AuditLapanganController extends Controller
         $userId = Auth::id();
 
         $dataInstrument = DataInstrument::find($id);
-        $auditDokumen = AuditDokumen::with(['evaluasiDiri'])
-            ->whereHas('evaluasiDiri', function ($q) use ($dataInstrument) {
+        $auditDokumen = AuditDokumen::with(['evaluasiDiri.instrument'])
+            ->whereHas('evaluasiDiri.instrument', function ($q) use ($dataInstrument) {
                 $q->where('data_instrument_id', $dataInstrument->id);
             })->get();
+        // $instrument=$auditDokumen->evaluasiDiri->instrument->status_ketercapaian;
+        $instrument = Instrument::where('id', $id)->first();
 
+        $auditDokumenID=$auditDokumen->pluck('id');
+        $auditLapangan=AuditLapangan::whereIn('audit_dokumen_id', $auditDokumenID)->get();
         return view('auditLapangan.dataAuditLapangan.index', [
             'title' => $title,
             'dataInstrument' => $dataInstrument,
             'auditDokumen'  => $auditDokumen,
-            'userId'=> $userId
+            'userId' => $userId,
+            'instrument' => $instrument,
+            'auditLapangan'=> $auditLapangan
         ]);
     }
 
@@ -67,25 +73,29 @@ class AuditLapanganController extends Controller
         ]);
     }
 
-    public function postDataAuditLapangan(Request $request, $auditDokumen, $instrument)
+    public function postDataAuditLapangan(Request $request, $dataInstrumentId, $instrumentId)
     {
-        $dataAuditDokumen = AuditDokumen::find($auditDokumen);
+        $dataInstrument = DataInstrument::find($dataInstrumentId);
+        $instrument = Instrument::find($instrumentId);
+        $data = $request->input('data', []);
 
-        $instrument = $request->status_ketercapaian;
+        foreach ($data as $key => $value) {
+            $dataAuditLapangan = [
+                // 'audit_dokumen_id' => $key,
+                'hasil_temuan_audit' => $value['hasil_temuan_audit'],
+                'rekomendasi' => $value['rekomendasi']
+            ];
 
-        $data = [
-            'audit_dokumen_id'   => $auditDokumen,
-            'hasil_temuan_audit' => $request->hasil_temuan_audit,
-            'rekomendasi'   => $request->rekomendasi
-        ];
+            AuditLapangan::updateOrCreate(
+                ['audit_dokumen_id' => $key],
+                $dataAuditLapangan
+            );
 
-        $updateStatusInstrument = [
-            'status_ketercapaian'    => $instrument
-        ];
-
-        AuditLapangan::create($data);
-
-        Instrument::where('id', $dataAuditDokumen->evaluasi_diri_id)->update($updateStatusInstrument);
+            // Update status_ketercapaian pada model Instrument
+            Instrument::where('id', $instrument->id)->update([
+                'status_ketercapaian' => $value['status_ketercapaian']
+            ]);
+        }
 
         return redirect()->route('menu-auditor.audit-lapangan.index');
     }
@@ -132,11 +142,11 @@ class AuditLapanganController extends Controller
         // $auditDokumen = AuditDokumen::where('id', $id)->get();
         $dataInstrument = DataInstrument::find($id);
         // $auditLapangan = AuditLapangan::all();
-        $auditLapangan=AuditLapangan::with(['auditDokumen.evaluasiDiri'])
-        ->whereHas('auditDokumen.evaluasiDiri', function($q) use ($dataInstrument){
-            $q->where('data_instrument_id', $dataInstrument->id);
-        })->get();
-        
+        $auditLapangan = AuditLapangan::with(['auditDokumen.evaluasiDiri'])
+            ->whereHas('auditDokumen.evaluasiDiri', function ($q) use ($dataInstrument) {
+                $q->where('data_instrument_id', $dataInstrument->id);
+            })->get();
+
         // $dataInstrument=$auditLapangan->auditDokumen->evaluasiDiri->data;
         return view('auditLapangan.validasi', [
             'auditLapangan' => $auditLapangan,

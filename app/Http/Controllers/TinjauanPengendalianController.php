@@ -71,6 +71,7 @@ class TinjauanPengendalianController extends Controller
             'rencana_tindak_lanjut' => $request->rencana_tindak_lanjut,
             'deskripsi_important' =>$request->deskripsi_important,
             'deskripsi_urgent' =>$request->deskripsi_urgent,
+            'jumlah_anggaran' => $request->jumlah_anggaran
         ];
 
         TinjauanPengendalian::create($data);

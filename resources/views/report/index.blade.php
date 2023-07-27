@@ -37,11 +37,16 @@
 
                                     <td>
                                         <div class="d-flex">
-                                            <a href="{{ route('menu-p4mp.report-ami.detail-ami', $item->id) }}"
+                                            {{-- <a href="{{ route('menu-p4mp.report-ami.detail-ami', $item->id) }}"
                                                 class="btn btn-sm btn-warning">
                                                 <i class="bi bi-eye"></i>
                                             </a>
-                                            &nbsp;
+                                            &nbsp; --}}
+                                            <a class="btn btn-sm btn-outline-warning" href="{{ route('menu-p4mp.cetak-ami', $item->id) }}" target="__blank">                                            <i class="bi bi-printer-fill"></i>
+                                            </a>
+                                            {{-- <button class="btn btn-sm btn-outline-danger">
+                                                
+                                            </button> --}}
                                         </div>
                                     </td>
                                 </tr>

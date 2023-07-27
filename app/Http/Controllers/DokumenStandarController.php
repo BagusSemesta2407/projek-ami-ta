@@ -46,7 +46,7 @@ class DokumenStandarController extends Controller
             'file'  =>$file
         ]);
 
-        return redirect()->route('admin.dokumen-standar.index');
+        return redirect()->route('admin.dokumen-standar.index')->with('success', 'Data Berhasil Ditambahkan!');
     }
 
     /**

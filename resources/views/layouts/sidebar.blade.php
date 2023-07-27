@@ -42,23 +42,23 @@
                         </a>
                     </li>
 
-                    <li class="submenu-item {{ request()->is('admin/p4mp*') ? 'active' : '' }}">
+                    {{-- <li class="submenu-item {{ request()->is('admin/p4mp*') ? 'active' : '' }}">
                         <a href="{{ route('admin.p4mp.index') }}">
-                            Tim P4MP
+                            Kepala P4MP
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="submenu-item {{ request()->is('admin/category-unit*') ? 'active' : '' }}">
                         <a href="{{ route('admin.category-unit.index') }}">
                             Unit/ ProgramStudi/ Jurusan
                         </a>
                     </li>
                     <li class="submenu-item {{ request()->is('admin/instrument*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.instrument.index') }}" class="sidebar-link">
+                        <a href="{{ route('admin.instrument.index') }}">
                             Instrument
                         </a>
                     </li>
                     <li class="submenu-item {{ request()->is('admin/dokumen-standar*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.dokumen-standar.index') }}" class="sidebar-link">
+                        <a href="{{ route('admin.dokumen-standar.index') }}">
                             Dokumen Standar
                         </a>
                     </li>
@@ -175,7 +175,13 @@
                     <span>Audit Mutu Internal</span>
                 </a>
             </li>
-            <li class="sidebar-item has-sub {{ request()->is('menu-p4mp/report-pengendalian*') ? 'active' : '' }}">
+            <li class="sidebar-item {{ request()->is('menu-p4mp/rapat-tinjauan-manajemen*') ? 'active' : '' }}">
+                <a href="{{ route('menu-p4mp.rapat-tinjauan-manajemen.index') }}" class='sidebar-link'>
+                    <i class="bi bi-stack"></i>
+                    <span>RTM</span>
+                </a>
+            </li>
+            {{-- <li class="sidebar-item has-sub {{ request()->is('menu-p4mp/report-pengendalian*') ? 'active' : '' }}">
 
                 <a href="#" class='sidebar-link'>
                     <i class="bi bi-stack"></i>
@@ -188,7 +194,7 @@
                         </a>
                     </li>
                 </ul>
-            </li>
+            </li> --}}
 
             {{-- <li class="sidebar-item ">
                 <a href="{{ route('menu-p4mp.index-pengendalian') }}" class='sidebar-link'>

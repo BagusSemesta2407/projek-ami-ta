@@ -325,10 +325,7 @@
             <div class="row mb-5">
                 <div class="col-lg-3 py-3">
                     <h3>P4MP</h3>
-                    <p>Pusat Pengembangan Pembelajaran dan Penjaminan Mutu Pendidikan (P4MP) di Politeknik Negeri Subang
-                        (POLSUB) mempunyai tugas dalam Penetapan, Pelaksanaan, Evaluasi pelaksanaan, Pengendalian
-                        pelaksanaan, dan Peningkatan (PPEPP) serta melaksanakan kegiatan peningkatan dan pengembangan
-                        pembelajaran serta penjaminan mutu pendidikan.</p>
+                    <p>Pusat Pengembangan Pembelajaran dan Penjaminan Mutu Pendidikan (P4MP) Politeknik Negeri Subang.</p>
 
                     <div class="social-media-button">
                         <a href="https://www.facebook.com/polsubofficial/"><span class="mai-logo-facebook-f"></span></a>

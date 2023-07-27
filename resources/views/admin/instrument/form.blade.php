@@ -69,7 +69,7 @@
                                                 class="form-control @error('name')
                                                 is-invalid
                                             @enderror"
-                                                name="name" placeholder="Masukkan Nama Kategori Unit Kerja"
+                                                name="name" placeholder="Masukkan Instrument"
                                                 value="{{ old('name', @$instrument->name) }}">
 
                                             @if ($errors->has('name'))
@@ -82,7 +82,7 @@
                                                 class="form-control @error('target')
                                                 is-invalid
                                             @enderror"
-                                                name="target" placeholder="Masukkan Nama Kategori Unit Kerja"
+                                                name="target" placeholder="Masukkan Indikator dan Target"
                                                 value="{{ old('target', @$instrument->target) }}">
 
                                             @if ($errors->has('target'))

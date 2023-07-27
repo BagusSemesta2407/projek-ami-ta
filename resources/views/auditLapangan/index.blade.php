@@ -27,10 +27,10 @@
                                                 class="btn btn-primary">
                                                 <i class="bi bi-pencil-square"></i>
                                             </a>
-                                            {{-- &nbsp;
-                                                <a href="{{ route('menu-auditee.evaluasi-diri.detail-evaluasi-diri', $item->id) }}" class="btn btn-success">
+                                            &nbsp;
+                                                <a href="{{ route('menu-auditor.audit-lapangan.validasi-audit-lapangan', $item->id) }}" class="btn btn-success">
                                                     <i class="bi bi-eye-fill"></i>
-                                                </a> --}}
+                                                </a>
 
                                         </div>
                                     </td>

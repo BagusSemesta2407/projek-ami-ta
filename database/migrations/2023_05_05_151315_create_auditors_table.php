@@ -20,6 +20,7 @@ return new class extends Migration
                 ->cascadeOnUpdate();
             $table->enum('jabatan', ['ketua', 'sekretaris', 'anggota'])->nullable();
             $table->string('tugas')->nullable();
+            $table->string('file')->nullable()->comment('surat keterangan');
             $table->timestamps();
         });
     }

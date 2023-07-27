@@ -15,6 +15,7 @@ use App\Http\Controllers\InstrumentController;
 use App\Http\Controllers\P4MPController;
 use App\Http\Controllers\P4MPLandingPageController;
 use App\Http\Controllers\PpppmpController;
+use App\Http\Controllers\RapatTinjauanManajemenController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TinjauanPengendalianController;
 use App\Http\Controllers\TinjauanPeningkatanController;
@@ -121,7 +122,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
                     function () {
                         Route::get('data-evaluasi-diri/{dataInstrument}', [EvaluasiDiriController::class, 'dataEvaluasiDiri'])->name('data-evaluasi-diri');
-                        Route::get('validasi-evaluasi-diri/{dataInstrument}',[EvaluasiDiriController::class, 'validateDataEvaluasiDiri'])->name('validasi-evaluasi-diri');
+                        Route::get('validasi-evaluasi-diri/{dataInstrument}', [EvaluasiDiriController::class, 'validateDataEvaluasiDiri'])->name('validasi-evaluasi-diri');
                         Route::post('update-evaluasi-diri/{dataInstrument}', [EvaluasiDiriController::class, 'updateStatusDataInstrument'])->name('update-status-audit');
                         Route::get('create-evaluasi-diri/{dataInstrument}/{instrument}', [EvaluasiDiriController::class, 'createEvaluasiDiri'])->name('form-evaluasi-diri');
                         Route::post('create-evaluasi-diri/{dataInstrument}/{instrument}', [EvaluasiDiriController::class, 'postDataEvaluasiDiri'])->name('post-data-evaluasi-diri');
@@ -189,39 +190,35 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::resource('audit-dokumen', AuditDokumenController::class);
                 Route::group(
                     [
-                        'as'=>'audit-dokumen.',
-                        'prefix'=>'audit-dokumen'
+                        'as' => 'audit-dokumen.',
+                        'prefix' => 'audit-dokumen'
                     ],
 
-                    function()
-                    {
+                    function () {
                         Route::get('data-audit-dokumen/{dataInstrument}', [AuditDokumenController::class, 'dataAuditDokumen'])->name('data-audit-dokumen');
-                        Route::get('input-audit-dokumen/{evaluasiDiri}', [AuditDokumenController::class, 'createDataAuditDokumen'])->name('input-audit-dokumen');
                         Route::post('input-audit-dokumen/{evaluasiDiri}', [AuditDokumenController::class, 'postDataAuditDokumen'])->name('post-audit-dokumen');
+                        Route::get('input-audit-dokumen/{evaluasiDiri}', [AuditDokumenController::class, 'createDataAuditDokumen'])->name('input-audit-dokumen');
                         Route::put('input-audit-dokumen/{evaluasiDiri}/{auditDokumen}', [AuditDokumenController::class, 'postUpdateDataAuditDokumen'])->name('post-update-audit-dokumen');
                         Route::get('detail-audit-dokumen/{dataInstrument}', [AuditDokumenController::class, 'detailDataAuditDokumen'])->name('detail-audit-dokumen');
-                        Route::get('validasi-audit-dokumen/{dataInstrument}',[AuditDokumenController::class, 'validateDataAuditDokumen'])->name('validasi-audit-dokumen');
+                        Route::get('validasi-audit-dokumen/{dataInstrument}', [AuditDokumenController::class, 'validateDataAuditDokumen'])->name('validasi-audit-dokumen');
                         Route::post('update-status-audit/{dataInstrument}', [AuditDokumenController::class, 'updateStatusDataInstrument'])->name('update-status-audit');
-
                     }
                 );
 
                 Route::resource('audit-lapangan', AuditLapanganController::class);
                 Route::group(
                     [
-                    'as' => 'audit-lapangan.',
-                    'prefix'=>'audit-lapangan'
+                        'as' => 'audit-lapangan.',
+                        'prefix' => 'audit-lapangan'
                     ],
-                    function()
-                    {
+                    function () {
                         Route::get('data-audit-lapangan/{dataInstrument}', [AuditLapanganController::class, 'dataAuditLapangan'])->name('data-audit-lapangan');
-                        Route::get('create-audit-lapangan/{auditDokumen}', [AuditLapanganController::class, 'createDataAuditLapangan'])->name('create-audit-lapangan');
                         Route::post('create-audit-lapangan/{auditDokumen}/{instrument}', [AuditLapanganController::class, 'postDataAuditLapangan'])->name('post-audit-lapangan');
+                        Route::get('create-audit-lapangan/{auditDokumen}', [AuditLapanganController::class, 'createDataAuditLapangan'])->name('create-audit-lapangan');
                         Route::put('create-audit-lapangan/{auditDokumen}/{instrument}/{auditLapangan}', [AuditLapanganController::class, 'postUpdateDataAuditLapangan'])->name('post-update-audit-lapangan');
-                        Route::get('detail-audit-lapangan/{auditdokumen}',[AuditLapanganController::class, 'detailAuditLapangan'])->name('detail-audit-lapangan');
-                        Route::get('validasi-audit-lapangan/{auditdokumen}',[AuditLapanganController::class, 'validateDataAuditLapangan'])->name('validasi-audit-lapangan');
+                        Route::get('detail-audit-lapangan/{auditdokumen}', [AuditLapanganController::class, 'detailAuditLapangan'])->name('detail-audit-lapangan');
+                        Route::get('validasi-audit-lapangan/{auditdokumen}', [AuditLapanganController::class, 'validateDataAuditLapangan'])->name('validasi-audit-lapangan');
                         Route::post('update-status-audit/{dataInstrument}', [AuditLapanganController::class, 'updateStatusDataInstrument'])->name('update-status-audit');
-                        
                     }
                 );
             }
@@ -291,6 +288,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
                 Route::get('report-ami', [ReportController::class, 'index'])->name('report-ami');
 
+                Route::get('cetak-ami/{dataInstrument}', [ReportController::class, 'cetakHasilAmi'])->name('cetak-ami');
                 Route::group(
                     [
                         'as' => 'report-ami.',
@@ -298,8 +296,9 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                     ],
 
                     function () {
+                        Route::get('cetak-ami/{dataInstrument}', [ReportController::class, 'cetakHasilAmi'])->name('cetak-ami2');
+
                         Route::get('detail-report-ami/{dataInstrument}', [ReportController::class, 'detailReportAMI'])->name('detail-ami');
-                        Route::get('cetak-ami/{dataInstrument}', [ReportController::class, 'cetakHasilAmi'])->name('cetak-ami');
                     }
                 );
 
@@ -313,8 +312,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         'prefix'    => 'tinjauan-pengendalian'
                     ],
 
-                    function()
-                    {
+                    function () {
                         Route::get('data-tinjauan-pengendalian/{dataInstrument}', [TinjauanPengendalianController::class, 'dataTinjauanPengendalian'])->name('data-tinjauan-pengendalian');
                         Route::get('create-tinjauan-pengendalian/{auditLapangan}', [TinjauanPengendalianController::class, 'createTinjauanPengendalian'])->name('create-tinjauan-pengendalian');
                         Route::post('create-tinjauan-pengendalian/{auditLapangan}', [TinjauanPengendalianController::class, 'storeTinjauanPengendalian'])->name('post-tinjauan-pengendalian');
@@ -326,16 +324,33 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('tinjauan-peningkatan', [TinjauanPeningkatanController::class, 'index'])->name('index-tinjauan-peningkatan');
                 Route::group(
                     [
-                        'as'=>'tinjauan-peningkatan.',
-                        'prefix'=>'tinjauan-peningkatan'
+                        'as' => 'tinjauan-peningkatan.',
+                        'prefix' => 'tinjauan-peningkatan'
                     ],
 
-                    function()
-                    {
+                    function () {
                         Route::get('data-tinjauan-peningkatan/{dataInstrument}', [TinjauanPeningkatanController::class, 'dataTinjauanPeningkatan'])->name('data-tinjauan-peningkatan');
                         Route::get('create-tinjauan-peningkatan/{tinjauanPengendalian}', [TinjauanPeningkatanController::class, 'createTinjauanPeningkatan'])->name('create-tinjauan-peningkatan');
                         Route::post('create-tinjauan-peningkatan/{tinjauanPengendalian}', [TinjauanPeningkatanController::class, 'storeTinjauanPengendalian'])->name('post-tinjauan-peningkatan');
                         Route::put('create-tinjauan-peningkatan/{tinjauanPengendalian}/{tinjauanPeningkatan}', [TinjauanPeningkatanController::class, 'updateTinjauanPengendalian'])->name('update-tinjauan-peningkatan');
+                    }
+                );
+
+                //rapat tinjauan manajemen
+
+                Route::resource('rapat-tinjauan-manajemen', RapatTinjauanManajemenController::class);
+                Route::get('cetak-rtm/{risalahRapat}', [RapatTinjauanManajemenController::class, 'cetakRtm'])->name('cetak-rtm');
+                Route::group(
+                    [
+                        'as' => 'rapat-tinjauan-manajemen.',
+                        'prefix'=> 'rapat-tinjauan-manajemen'
+                    ],
+
+                    function ()
+                    {
+                        Route::get('risalah/{risalahRapat}', [RapatTinjauanManajemenController::class , 'inputTopic'])->name('risalah');
+                        Route::post('risalah/{risalahRapat}', [RapatTinjauanManajemenController::class , 'storeTopic'])->name('post-risalah');
+                        Route::PUT('risalah/{dataInstrument}', [RapatTinjauanManajemenController::class , 'updateTopic'])->name('update-risalah');
                     }
                 );
             }

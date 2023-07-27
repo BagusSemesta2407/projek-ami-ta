@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\AuditDokumen;
+use App\Models\Auditor;
 use App\Models\DataInstrument;
 use App\Models\EvaluasiDiri;
+use App\Models\Instrument;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -17,11 +19,17 @@ class AuditDokumenController extends Controller
     {
         $title = 'Audit Dokumen';
         $userId = Auth::id();
-        $dataInstrument = DataInstrument::with(['categoryUnit'])
+
+        $auditor = Auditor::with(['user'])->whereHas('user', function ($q) use ($userId) {
+            $q->where('id', $userId);
+        })->first();
+
+        $dataInstrument = DataInstrument::with(['categoryUnit', 'auditor', 'auditor2'])
             ->where('status', 'Sudah Di Jawab Auditee')
-            ->where('auditor_id', $userId)
-            ->orWhere('auditor2_id', $userId)
+            ->where('auditor_id', $auditor->id)
+            ->orWhere('auditor2_id', $auditor->id)
             ->get();
+
         return view('auditDokumen.index', [
             'title' => $title,
             'dataInstrument' => $dataInstrument
@@ -36,15 +44,16 @@ class AuditDokumenController extends Controller
 
         $userId = Auth::id();
         $dataInstrument = DataInstrument::find($id);
-        $evaluasiDiri = EvaluasiDiri::where('data_instrument_id', $id)
+        $evaluasiDiri = EvaluasiDiri::with(['instrument'])->where('data_instrument_id', $id)
             ->whereHas('dataInstrument', function ($q) {
                 $q->where('status', ['Sudah Di Jawab Auditee']);
             })->get();
+
         return view('auditDokumen.dataEvaluasiDiri.index', [
             'title' => $title,
             'dataInstrument' => $dataInstrument,
             'evaluasiDiri'  => $evaluasiDiri,
-            'userId'       => $userId
+            'userId'       => $userId,
         ]);
     }
 
@@ -66,19 +75,39 @@ class AuditDokumenController extends Controller
         ]);
     }
 
-    public function postDataAuditDokumen(Request $request, $id)
+    public function postDataAuditDokumen(Request $request, $dataInstrumentId)
     {
-        $data = [
-            'evaluasi_diri_id'  => $id,
-            'deskripsi_auditor_1' => $request->deskripsi_auditor_1,
-            'daftar_tilik_auditor_1' => $request->daftar_tilik_auditor_1,
-            'deskripsi_auditor_2' => $request->deskripsi_auditor_2,
-            'daftar_tilik_auditor_2' => $request->daftar_tilik_auditor_2
-        ];
+        $userId = Auth::id();
 
-        AuditDokumen::create($data);
-        // dd($request->all());
-        return redirect()->route('menu-auditor.audit-dokumen.index');
+        $auditor = Auditor::with(['user'])->whereHas('user', function ($q) use ($userId) {
+            $q->where('id', $userId);
+        })->first();
+        
+        $dataInstrument=DataInstrument::find($dataInstrumentId);
+        
+        $auditor1 = true;
+
+        if ($dataInstrument->auditor2_id == $auditor->id) {
+            $auditor1 = false;
+        }
+
+
+        foreach ($request->data as $key => $value) {
+            $data = [
+                'evaluasi_diri_id' => $key,
+            ];
+            if ($auditor1) {
+                $data['deskripsi_auditor_1'] = $value['deskripsi_auditor_1'];
+                $data['daftar_tilik_auditor_1'] = $value['daftar_tilik_auditor_1'];
+            }else{
+                $data['deskripsi_auditor_2'] = $value['deskripsi_auditor_1'];
+                $data['daftar_tilik_auditor_2'] = $value['daftar_tilik_auditor_1'];
+            }
+
+            AuditDokumen::updateOrCreate(['evaluasi_diri_id' => $key], $data);
+        }
+
+        return redirect()->route('menu-auditor.audit-dokumen.index')->with('success', 'Data Berhasil Diinput!');
     }
 
     public function postUpdateDataAuditDokumen(Request $request, $evaluasiDiri, $auditDokumen)
@@ -110,17 +139,18 @@ class AuditDokumenController extends Controller
     public function detailDataAuditDokumen($id)
     {
         $title = 'Audit Dokumen';
-        $evaluasiDiri = EvaluasiDiri::find($id);
-        $userId = Auth::id();
-        $dataInstrument = $evaluasiDiri->dataInstrument;
+        $dataInstrument=DataInstrument::find($id);
+        $evaluasiDiri=EvaluasiDiri::with(['dataInstrument'])->where('data_instrument_id',$dataInstrument->id)->get();
 
-        $auditDokumen = AuditDokumen::where('evaluasi_diri_id', $id)->first();
+        $auditDokumen=AuditDokumen::with(['evaluasiDiri'])
+        ->whereHas('evaluasiDiri', function($q) use ($evaluasiDiri){
+            $q->where('evaluasi_diri_id', $evaluasiDiri);
+        })->get();
+        dd($auditDokumen);
 
         return view('auditDokumen.detail', [
             'title' => $title,
             'auditDokumen' => $auditDokumen,
-            'dataInstrument' => $dataInstrument,
-            'userId'    => $userId,
         ]);
     }
 
@@ -146,10 +176,10 @@ class AuditDokumenController extends Controller
         $title = 'Audit Dokumen';
         // $auditDokumen = AuditDokumen::where('id', $id)->get();
         $dataInstrument = DataInstrument::find($id);
-        $auditDokumen=AuditDokumen::with(['evaluasiDiri'])
-        ->whereHas('evaluasiDiri', function($q) use ($dataInstrument){
-            $q->where('data_instrument_id', $dataInstrument->id);
-        })->get();
+        $auditDokumen = AuditDokumen::with(['evaluasiDiri'])
+            ->whereHas('evaluasiDiri', function ($q) use ($dataInstrument) {
+                $q->where('data_instrument_id', $dataInstrument->id);
+            })->get();
         return view('auditDokumen.validasiAuditDokumen', [
             'auditDokumen' => $auditDokumen,
             'title' => $title,

@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class EvaluasiDiri extends Model
 {
@@ -30,13 +31,24 @@ class EvaluasiDiri extends Model
         return $this->belongsTo(Instrument::class);
     }
 
+
+    // /**
+    //  * Get all of the auditDokumen for the EvaluasiDiri
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\HasMany
+    //  */
+    // public function auditDokumen(): HasMany
+    // {
+    //     return $this->hasMany(AuditDokumen::class);
+    // }
+
     /**
-     * Get all of the auditDokumen for the EvaluasiDiri
+     * Get the auditDokumen associated with the EvaluasiDiri
      *
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function auditDokumen(): HasMany
+    public function auditDokumen(): HasOne
     {
-        return $this->hasMany(AuditDokumen::class);
+        return $this->hasOne(AuditDokumen::class, 'evaluasi_diri_id', 'id');
     }
 }

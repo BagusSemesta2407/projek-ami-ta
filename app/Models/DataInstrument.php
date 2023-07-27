@@ -33,11 +33,11 @@ class DataInstrument extends Model implements HasMedia
 
     public function auditor()
     {
-        return $this->belongsTo(User::class, 'auditor_id', 'id');
+        return $this->belongsTo(Auditor::class, 'auditor_id', 'id');
     }
     public function auditor2()
     {
-        return $this->belongsTo(User::class, 'auditor2_id', 'id');
+        return $this->belongsTo(Auditor::class, 'auditor2_id', 'id');
     }
 
     public function auditee()

@@ -35,6 +35,55 @@
     <table class="table border">
         <h4>PENDAHULUAN</h4>
 
+        
+        
+        <tr>
+            <td>
+                {{-- @if ($dataInstrument->categoryUnit->kategori_audit == 'Unit')
+                   Unit
+               @elseif ($dataInstrument->categoryUnit->kategori_audit == 'Program Studi')
+                   Program Studi
+               @else
+                   Jurusan
+               @endif --}} Jurusan
+            </td>
+
+            <td>
+                @if (@$dataInstrument->categoryUnit->kategori_audit == 'Jurusan')
+                    {{ $dataInstrument->categoryUnit->name }}
+                @else
+                    -
+                @endif
+            </td>
+        </tr>
+        <tr>
+            <td>
+                Program Studi
+            </td>
+
+            <td>
+                @if (@$dataInstrument->categoryUnit->kategori_audit == 'Program Studi')
+                    {{ $dataInstrument->categoryUnit->name }}
+                @else
+                    -
+                @endif
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Unit
+            </td>
+
+            <td>
+                @if (@$dataInstrument->categoryUnit->kategori_audit == 'Unit')
+                    {{ $dataInstrument->categoryUnit->name }}
+                @else
+                    -
+                @endif
+            </td>
+        </tr>
+
         <tr>
             <td>
                 Auditee
@@ -44,22 +93,6 @@
                 {{ $dataInstrument->categoryUnit->kepala }}
             </td>
 
-        </tr>
-        
-        <tr>
-            <td>
-                @if ($dataInstrument->categoryUnit->kategori_audit == 'Unit')
-                    Unit
-                @elseif ($dataInstrument->categoryUnit->kategori_audit == 'Program Studi')
-                    Program Studi
-                @else
-                    Jurusan
-                @endif
-            </td>
-
-            <td>
-                {{ $dataInstrument->categoryUnit->name }}
-            </td>
         </tr>
         <tr>
             <td>
@@ -100,6 +133,26 @@
 
             <td>
                 {{ $dataInstrument->auditor2->name }}
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Tanda Tangan Ketua Auditor
+            </td>
+
+            <td>
+
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                Tanda Tangan Auditee
+            </td>
+
+            <td>
+                    
             </td>
         </tr>
     </table>

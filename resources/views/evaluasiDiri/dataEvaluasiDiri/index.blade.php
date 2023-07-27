@@ -41,7 +41,7 @@
                             </label>
 
                             <div class="col-md-3">
-                                {{ @$dataInstrument->auditor->name }}
+                                {{ @$dataInstrument->auditor->user->name }}
                             </div>
 
                             <label for="" class="col-md-3 text-black">
@@ -64,7 +64,7 @@
                             </label>
 
                             <div class="col-md-3">
-                                {{ @$dataInstrument->auditor2->name }}
+                                {{ @$dataInstrument->auditor2->user->name }}
                             </div>
 
                             <label for="" class="col-md-3 text-black">
@@ -103,44 +103,173 @@
         <div class="card">
             <div class="card-header">
                 Data Instrument dan Butir Mutu
-                
-                <a href="{{ route('menu-auditee.evaluasi-diri.validasi-evaluasi-diri', $dataInstrument->id) }}" class="btn btn-md btn-outline-primary float-end">
-                    <i class="bi bi-check2-circle"></i>
-                </a>
             </div>
             <div class="card-body">
-                <table class="table" id="table1">
-                    <thead>
-                        <tr>
-                            <th>No</th>
-                            <th>Standar</th>
-                            <th>Instrument/Butir Mutu</th>
-                            <th>Indikator dan Target</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
 
-                    <tbody>
-                        @foreach ($instrument as $item)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $item->status_standar }}</td>
-                                <td>{{ $item->name }}</td>
-                                <td>{{ $item->target }}</td>
-                                <td>
-                                    <a href="{{ route('menu-auditee.evaluasi-diri.form-evaluasi-diri', [$dataInstrument->id, $item->id]) }}"
-                                        class="btn btn-sm btn-outline-secondary">
-                                        <i class="bi bi-pen"></i>
-                                    </a>
-                                    {{-- <a href="{{ route('menu-auditee.evaluasi-diri.edit-evaluasi-diri', [$dataInstrument->id, $item->id]) }}"
-                                        class="btn btn-sm btn-outline-secondary">
-                                        <i class="bi bi-pen"></i>
-                                    </a> --}}
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                @foreach ($instrument as $item)
+                    <form
+                        action="{{ route('menu-auditee.evaluasi-diri.post-data-evaluasi-diri', [$dataInstrument->id, $item]) }}"
+                        class="form form-vertical" enctype="multipart/form-data" method="POST" id="form">
+                        {{ csrf_field() }}
+                        @forelse ($tinjauanPengendalian as $tp)
+                            @if (
+                                $tp->auditLapangan &&
+                                    $tp->auditLapangan->auditDokumen &&
+                                    $tp->auditLapangan->auditDokumen->evaluasiDiri &&
+                                    $tp->auditLapangan->auditDokumen->evaluasiDiri->instrument == $item)
+                                <div class="alert alert-secondary"><i class="bi bi-star"></i>
+                                    <b>
+                                        Rencana Tindak Lanjut :
+                                    </b> {{ $tp->rencana_tindak_lanjut }}
+                                </div>
+                            @endif
+                        @empty
+                            <div class="alert alert-secondary"><i class="bi bi-star"></i>
+                                <b>Rencana Tindak Lanjut :</b> (belum ada rencana tindak lanjut)
+                            </div>
+                        @endforelse
+                        <div class="d-flex">
+
+                            <label for="">{{ $loop->iteration }}.</label>
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-md-2">
+                                        <label for="" id="{{ $item->id }}">
+                                            <b>
+                                                Standar SPMI
+                                            </b>
+                                        </label>
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label for="" id="{{ $item->id }}">
+                                            <b>
+                                                Instrument/Butir Mutu
+                                            </b>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <label for="" id="{{ $item->id }}">
+                                            <b>
+                                                Indikator/Target
+                                            </b>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="row">
+                                &nbsp;
+                                &nbsp;
+                                <div class="col-md-2">
+                                    <label for="" id="{{ $item->id }}">{{ $item->status_standar }}</label>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <label for="" id="{{ $item->id }}">{{ $item->name }}</label>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="" id="{{ $item->id }}">{{ $item->target }}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <div class="col-12">
+                            <div class="row">
+                                <p>&nbsp; &nbsp;Form Evaluasi Diri</p>
+                            </div>
+                        </div>
+
+                        <div class="d-flex">
+                            <div class="col-12">
+                                <div class="row">
+                                    &nbsp;
+                                    &nbsp;
+                                    <div class="col-md-2">
+                                        <label for="" id="{{ $item->id }}">
+                                            <b>
+                                                Status Ketercapaian
+                                            </b>
+                                        </label>
+                                    </div>
+
+                                    <div class="col-md-4">
+                                        <label for="" id="{{ $item->id }}">
+                                            <b>
+                                                Deskripsi Ketercapaian
+                                            </b>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <label for="" id="{{ $item->id }}">
+                                            <b>
+                                                Bukti
+                                            </b>
+                                        </label>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <label for="" id="{{ $item->id }}">
+                                            <b>
+                                                Catatan
+                                            </b>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="col-12">
+                            <div class="row">
+                                &nbsp;
+                                &nbsp;
+                                <div class="col-md-2">
+                                    {{-- input statusketercapaian --}}
+                                    <input type="radio" class="form-check-input" id="flexRadioDefault{{ $item->id }}"
+                                        name="data[{{ $item->id }}][status_ketercapaian]" value="Tercapai"
+                                        {{ old('Tercapai', @$evaluasiDiri->status_ketercapaian) == 'Tercapai' ? 'checked' : '' }}>
+                                    <label for="">Tercapai</label>
+                                    <div>
+                                        <input type="radio" class="form-check-input"
+                                            id="flexRadioDefault{{ $item->id }}"
+                                            name="data[{{ $item->id }}][status_ketercapaian]" value="Tidak Tercapai"
+                                            {{ old('Tidak Tercapai', @$evaluasiDiri->status_ketercapaian) == 'Tidak Tercapai' ? 'checked' : '' }}>
+                                        <label for="">Tidak Tercapai</label>
+                                    </div>
+                                </div>
+
+                                
+                                <div class="col-md-4">
+                                    <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
+                                        name="data[{{ $item->id }}][deskripsi_ketercapaian]">{{ @$evaluasiDiri->deskripsi_ketercapaian }}</textarea>
+                                </div>
+                                <div class="col-md-3">
+                                    {{-- input bukti --}}
+                                    <input type="text" class="form-control" name="data[{{ $item->id }}][bukti]"
+                                        id="{{ $item->id }}" value="{{ old('bukti', @$evaluasiDiri->bukti) }}">
+                                </div>
+                                <div class="col-md-2">
+                                    <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
+                                        name="data[{{ $item->id }}][catatan]">{{ @$evaluasiDiri->catatan }}</textarea>
+
+                                </div>
+                            </div>
+                        </div>
+                        <br>
+                        <br>
+                @endforeach
+                <div class="col-12 d-flex justify-content-end">
+                    <button type="submit" class="btn btn-outline-primary me-1 mb-1" id="btnSubmit">
+                        {{-- {{ isset($dataInstrument) ? 'Edit' : 'Tambah' }} --}}
+
+                        Submit
+                        <span class="spinner-border ml-2 d-none" id="loader" style="width: 1rem; height: 1rem;"
+                            role="status"></span>
+                    </button>
+                </div>
+                </form>
+
             </div>
         </div>
     </section>

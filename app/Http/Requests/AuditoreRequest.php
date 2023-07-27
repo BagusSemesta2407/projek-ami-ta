@@ -22,8 +22,9 @@ class AuditoreRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
+            // 'name' => 'required',
+            'user_id'=> 'required',
+            // 'email' => 'required|email|unique:users,email',
             'jabatan'=> 'required',
             'tugas'=> 'required',
         ];
@@ -34,10 +35,11 @@ class AuditoreRequest extends FormRequest
     public function messages()
     {
         return [
-            'name.required' => 'Nama Wajib Diisi',
-            'email.required' => 'Email Wajib Diisi',
-            'email.email' => 'Email Tidak Valid',
-            'email.unique' => 'Email Sudah Terdaftar',
+            // 'name.required' => 'Nama Wajib Diisi',
+            // 'email.required' => 'Email Wajib Diisi',
+            // 'email.email' => 'Email Tidak Valid',
+            // 'email.unique' => 'Email Sudah Terdaftar',
+            'user_id.required'=> 'Auditor Wajib Diisi',
             'jabatan.required'=> 'Jabatan Wajib Diisi',
             'tugas.required' => 'Tugas Auditor Wajib Diisi'
         ];

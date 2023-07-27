@@ -69,9 +69,9 @@ class PpppmpController extends Controller
     public function edit($id)
     {
         $title = 'Auditor';
-        $ppppmp=Ppppmp::find($id);
+        $user=User::find($id);
         return view('p4mp.form',[
-            'ppppmp'=> $ppppmp,
+            'user'=> $user,
             'title' => $title
         ]);
     }
@@ -79,18 +79,12 @@ class PpppmpController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Ppppmp $ppppmp, $id)
+    public function update(Request $request, $id)
     {
-        dd($ppppmp);
-        $dataP4mp = [
-            'jabatan'=>$request->jabatan,
-        ];
-
-        $dataP4mp=Ppppmp::where('id', $ppppmp->id)->update($dataP4mp);
-        dd($dataP4mp);
-        User::where('id', $dataP4mp->user_id)->update([
+        $user=User::where('id', $id)->update([
             'name'  =>  $request->name,
             'email' =>  $request->email,
+            'password'  =>  bcrypt('12345678'),
         ]);
 
         return redirect()->route('admin.p4mp.index');
@@ -101,11 +95,10 @@ class PpppmpController extends Controller
      */
     public function destroy($id)
     {
-        $ppppmp= Ppppmp::find($id);
+        $user= User::find($id);
 
-        $ppppmp->delete();
+        $user->delete();
 
-        User::where('id', $ppppmp->user_id)->delete();
         return response()->json(['success','Data Berhasil Dihapus']);
     }
 }

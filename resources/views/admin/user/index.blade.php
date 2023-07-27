@@ -7,9 +7,9 @@
             <div class="card-header">
                 Data User
 
-                {{-- <a href="{{ route('admin.user.create') }}" class="btn btn-outline-primary block float-end">
+                <a href="{{ route('admin.user.create') }}" class="btn btn-outline-primary block float-end">
                     Tambah
-                </a> --}}
+                </a>
 
             </div>
 
@@ -18,10 +18,11 @@
                     <thead>
                         <tr>
                             <th>No</th>
+                            <th>NIP/NIK</th>
                             <th>Nama</th>
                             <th>Email</th>
                             <th>Role</th>
-                            {{-- <th>Action</th> --}}
+                            <th>Action</th>
                         </tr>
                     </thead>
 
@@ -32,6 +33,9 @@
                                     {{ $loop->iteration }}
                                 </td>
 
+                                <td>
+                                    {{ $item->nip }}
+                                </td>
                                 <td>
                                     {{ $item->name }}
                                 </td>
@@ -48,14 +52,14 @@
                                     @elseif ($item->getRoleNames()[0] == 'auditor')
                                         Auditor
                                     @elseif ($item->getRoleNames()[0] == 'P4MP')
-                                        Tim P4MP
+                                        Kepala P4MP
                                     @else
                                         Tidak Memiliki Role
                                     @endif
                                 </td>
 
 
-                                {{-- <td>
+                                <td>
                                     <div class="d-flex ">
                                         <a href="{{ route('admin.user.edit', $item->id) }}"
                                             class="btn btn-sm btn-outline-warning">
@@ -67,7 +71,7 @@
                                         </button>
 
                                     </div>
-                                </td> --}}
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>

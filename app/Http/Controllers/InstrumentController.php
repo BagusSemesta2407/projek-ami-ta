@@ -49,7 +49,7 @@ class InstrumentController extends Controller
             'status_standar' => $request->status_standar,
         ]);
 
-        return redirect()->route('admin.instrument.index')->with('success', 'Data Berhasil');
+        return redirect()->route('admin.instrument.index')->with('success', 'Data Berhasil Ditambah!');
     }
 
     /**

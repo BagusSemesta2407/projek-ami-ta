@@ -1,6 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
+
     <section id="basic-vertical-layouts">
         <div class="row match-height">
             <div class="col-md-12 col-12">
@@ -34,8 +35,8 @@
                                                         <option value="" disabled selected>Pilih Auditor 1</option>
                                                         @foreach ($userAuditor as $item)
                                                             <option value="{{ $item->id }}"
-                                                                {{ old('auditor_id', @$dataInstrument->auditor_id) == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->name }}
+                                                                {{ old('auditor_user_id', @$dataInstrument->auditor_id) == $item->id ? 'selected' : '' }}>
+                                                                {{ $item->user->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -56,7 +57,7 @@
                                                         @foreach ($userAuditor as $item)
                                                             <option value="{{ $item->id }}"
                                                                 {{ old('auditor2_id', @$dataInstrument->auditor2_id) == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->name }}
+                                                                {{ $item->user->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -95,7 +96,8 @@
                                                 </label>
                                                 <div class="col-md-12">
                                                     <select name="auditee_id"
-                                                        class="form-select select2 @error('auditee_id') is-invalid @enderror" id="user-auditee">
+                                                        class="form-select select2 @error('auditee_id') is-invalid @enderror"
+                                                        id="user-auditee">
                                                         <option value="" disabled selected>Pilih Auditee</option>
                                                         {{-- @foreach ($userAuditee as $item)
                                                             <option value="{{ $item->id }}"
@@ -282,7 +284,7 @@
                         if (response.length > 0) {
                             var table = $(
                                 '<table class="table table-hover table-secondary table-bordered">'
-                                );
+                            );
                             var headerRow = $('<tr>');
 
                             headerRow.append($('<th>').text('No'));
@@ -310,37 +312,40 @@
                 });
 
                 if (unitId) {
-                // Lakukan permintaan ke server untuk mendapatkan data user berdasarkan category unit
-                $.ajax({
-                    type: "GET",
-                    url: "/admin/getAuditee/" + unitId,
-                    dataType: 'json',
-                    success: function(response) {
-                        if (response.length > 0) {
-                            // Tambahkan opsi untuk setiap user auditee yang diterima dari server
-                            response.forEach(function(user) {
-                                $('#user-auditee').append('<option value="' + user.id + '">' + user.name + '</option>');
-                            });
+                    // Lakukan permintaan ke server untuk mendapatkan data user berdasarkan category unit
+                    $.ajax({
+                        type: "GET",
+                        url: "/admin/getAuditee/" + unitId,
+                        dataType: 'json',
+                        success: function(response) {
+                            if (response.length > 0) {
+                                // Tambahkan opsi untuk setiap user auditee yang diterima dari server
+                                response.forEach(function(user) {
+                                    $('#user-auditee').append('<option value="' + user
+                                        .id + '">' + user.name + '</option>');
+                                });
 
-                            // Aktifkan kembali dropdown auditee
-                            $('#user-auditee').prop('disabled', false);
-                        } else {
-                            // Tampilkan pesan jika tidak ada user auditee yang ditemukan
-                            $('#user-auditee').append('<option value="" disabled selected>Tidak Ada User Auditee</option>');
-                            $('#user-auditee').prop('disabled', true);
+                                // Aktifkan kembali dropdown auditee
+                                $('#user-auditee').prop('disabled', false);
+                            } else {
+                                // Tampilkan pesan jika tidak ada user auditee yang ditemukan
+                                $('#user-auditee').append(
+                                    '<option value="" disabled selected>Tidak Ada User Auditee</option>'
+                                );
+                                $('#user-auditee').prop('disabled', true);
+                            }
+                        },
+                        error: function(error) {
+                            console.log(error);
                         }
-                    },
-                    error: function(error) {
-                        console.log(error);
-                    }
-                });
-            } else {
-                // Nonaktifkan dropdown auditee jika tidak ada unit yang dipilih
-                $('#user-auditee').prop('disabled', true);
-            }
+                    });
+                } else {
+                    // Nonaktifkan dropdown auditee jika tidak ada unit yang dipilih
+                    $('#user-auditee').prop('disabled', true);
+                }
             });
 
-           
+
 
             $('#add-row').click(function() {
                 var html = '<div class="repeater-items">' +
@@ -383,5 +388,12 @@
             // })
         });
 
+        var today = new Date();
+        var dd = String(today.getDate()).padStart(2, '0');
+        var mm = String(today.getMonth() + 1).padStart(2, '0');
+        var yyyy = today.getFullYear();
+
+        today = yyyy + '-' + mm + '-' + dd;
+        $('#input-year').attr('min', today);
     </script>
 @endsection

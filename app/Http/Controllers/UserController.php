@@ -24,89 +24,94 @@ class UserController extends Controller
         ]);
     }
 
-    // /**
-    //  * Show the form for creating a new resource.
-    //  */
-    // public function create()
-    // {
-    //     $title = 'User';
-    //     $roles = Role::all();
-    //     return view('admin.user.form', [
-    //         'title' => $title,
-    //         'roles' => $roles,
-    //     ]);
-    // }
+    /**
+     * Show the form for creating a new resource.
+     */
+    public function create()
+    {
+        $title = 'User';
+        $roles = Role::all();
+        
+        return view('admin.user.form', [
+            'title' => $title,
+            'roles' => $roles,
+        ]);
+    }
 
-    // /**
-    //  * Store a newly created resource in storage.
-    //  */
-    // public function store(UserRequest $request)
-    // {
-    //     $roles = Role::findOrFail($request->roles);
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(UserRequest $request)
+    {
+        $roles = Role::findOrFail($request->roles);
 
-    //     $user = User::create([
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //         'password' => bcrypt('12345678'),
-    //     ]);
+        $user = User::create([
+            'nip' => $request->nip,
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => bcrypt('12345678'),
+        ]);
 
-    //     $user->assignRole($roles);
+        $user->assignRole($roles);
 
-    //     return redirect()->route('admin.user.index')->success('data berhasil');
-    // }
+        session()->flash('success', 'Data berhasil ditambahkan!');
+        return redirect()->route('admin.user.index');
+    }
 
-    // /**
-    //  * Display the specified resource.
-    //  */
-    // public function show(User $user)
-    // {
-    //     //
-    // }
+    /**
+     * Display the specified resource.
+     */
+    public function show(User $user)
+    {
+        //
+    }
 
-    // /**
-    //  * Show the form for editing the specified resource.
-    //  */
-    // public function edit($id)
-    // {
-    //     $title = 'User';
-    //     $user = User::find($id);
-    //     $roles = Role::oldest('name')->get();
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit($id)
+    {
+        $title = 'User';
+        $user = User::findOrFail($id);
+        $roles = Role::all();
 
-    //     return view('admin.user.form', [
-    //         'user' => $user,
-    //         'title' => $title,
-    //         'roles' => $roles,
-    //     ]);
-    // }
+        return view('admin.user.form-edit', [
+            'user' => $user,
+            'title' => $title,
+            'roles' => $roles,
+        ]);
+    }
 
-    // /**
-    //  * Update the specified resource in storage.
-    //  */
-    // public function update(UserUpdateRequest $request, User $user)
-    // {
-    //     $roles = Role::findOrFail($request->roles);
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UserUpdateRequest $request, User $user)
+    {
+        $roles = Role::findOrFail($request->roles);
 
-    //     $data = [
-    //         'name' => $request->name,
-    //         'email' => $request->email,
-    //     ];
+        $data = [
+            'nip'=>$request->nip,
+            'name' => $request->name,
+            'email' => $request->email,
+        ];
 
-    //     User::where('id', $user->id)->update($data);
+        User::where('id', $user->id)->update($data);
 
-    //     $user->syncRoles($roles);
+        $user->syncRoles($roles);
 
-    //     return redirect()->route('admin.user.index')->with('success', 'Data Berhasil Diubah');
-    // }
+        return redirect()->route('admin.user.index')->with('success', 'Data Berhasil Diubah');
+    }
 
-    // /**
-    //  * Remove the specified resource from storage.
-    //  */
-    // public function destroy($id)
-    // {
-    //     $user=User::find($id);
-    //     $user->delete();
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy($id)
+    {
+        $user=User::find($id);
 
-    //     return response()->json(['success','Data Berhasil Dihapus']);
+        $user->delete();
 
-    // }
+        return response()->json(['success','Data Berhasil Dihapus']);
+
+    }
 }

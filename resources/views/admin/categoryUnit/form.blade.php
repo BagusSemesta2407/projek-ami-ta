@@ -36,11 +36,12 @@
                             {{ csrf_field() }}
                             <div class="form-body">
                                 <div class="row">
+                                    {{-- {{ $errors }} --}}
                                     <div class="col-12">
                                         <div class="form-group">
                                             <label for="">Kategori Audit</label>
                                             <select name="kategori_audit" id="kategori-unit"
-                                                class="form-select select2 @error('kategori_auidt')
+                                                class="form-select select2 @error('kategori_audit')
                                                 is-invalid
                                             @enderror">
                                                 <option value="" selected disabled>Pilih Kategori Yang Akan Di Audit
@@ -80,27 +81,36 @@
 
                                         <div class="form-group" id="kepala-unit">
                                             <label for="">Nama Kepala Unit/Program Studi/Jurusan</label>
-                                            <input type="text" class="form-control @error('kepala')
+                                            <input type="text"
+                                                class="form-control @error('kepala')
                                                 is-invalid
-                                            @enderror" name="kepala"
-                                                placeholder="Masukkan Kepala Unit"
+                                            @enderror"
+                                                name="kepala" placeholder="Masukkan Kepala Unit"
                                                 value="{{ old('kepala', @$categoryUnit->kepala) }}">
                                             @if ($errors->has('kepala'))
                                                 <span class="text-danger">{{ $errors->first('kepala') }}</span>
                                             @endif
                                         </div>
 
-                                        <div class="form-group" id="kepala-unit">
-                                            <label for="">Tambahkan Email Pengguna</label>
-                                            <input type="text" class="form-control @error('email')
-                                                is-invalid
-                                            @enderror" name="email"
-                                                placeholder="Masukkan Email Pengguna"
-                                                value="{{ old('email', @$categoryUnit->user->email) }}">
-                                                @if ($errors->has('email'))
-                                                <span class="text-danger">{{ $errors->first('email') }}</span>
+                                        <div class="form-group">
+                                            <label for="">Auditee</label>
+                                            <div class="col-md-12">
+                                                <select name="user_id" id="" class="form-select select2 @error('user_id')
+                                                    is-invalid
+                                                @enderror">
+                                                    <option value="" disabled selected>Pilih Data Auditee</option>
+                                                    @foreach ($user as $item)
+                                                        <option value="{{ $item->id }}" {{ old('user_id', @$categoryUnit->user_id) == $item->id ? 'selected' : ''}}>
+                                                            {{ $item->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
+
+                                                @if ($errors->has('user_id'))
+                                                <span class="text-danger">{{ $errors->first('user_id') }}</span>
                                             @endif
                                             </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
