@@ -58,6 +58,7 @@ class CategoryUnitController extends Controller
         CategoryUnit::create([
             'user_id'=>$request->user_id,
             'name' => $request->name,
+            'jenjang'=> $request->jenjang,
             'kategori_audit'    => $request->kategori_audit,
             'kepala'    => $request->kepala
         ]);
@@ -80,10 +81,14 @@ class CategoryUnitController extends Controller
     {
         $title = 'Form Data Unit Kerja';
         $categoryUnit = CategoryUnit::findOrFail($id);
-
+        
+        $user=User::whereHas('roles', function($q){
+            $q->whereIn('name',['auditee']);
+        })->get();
         return view('admin.categoryUnit.form', [
             'categoryUnit' => $categoryUnit,
             'title' => $title,
+            'user' => $user
         ]);
 
         // return response()->json($categoryUnit);
@@ -97,6 +102,7 @@ class CategoryUnitController extends Controller
         $data = [
             'user_id'=>$request->user_id,
             'name' => $request->name,
+            'jenjang' => $request->jenjang,
             'kategori_audit'    => $request->kategori_audit,
             'kepala'    => $request->kepala
         ];

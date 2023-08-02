@@ -14,8 +14,10 @@ return new class extends Migration
         Schema::create('audit_dokumens', function (Blueprint $table) {
             $table->id();
             $table->foreignId('evaluasi_diri_id')->constrained();
+            $table->enum('status_ketercapaian_auditor_1', ['Tercapai', 'Tidak Tercapai'])->nullable();
             $table->text('deskripsi_auditor_1')->nullable();
             $table->string('daftar_tilik_auditor_1')->nullable();
+            $table->enum('status_ketercapaian_auditor_2', ['Tercapai', 'Tidak Tercapai'])->nullable();
             $table->text('deskripsi_auditor_2')->nullable();
             $table->string('daftar_tilik_auditor_2')->nullable();
             $table->timestamps();

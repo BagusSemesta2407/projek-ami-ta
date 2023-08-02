@@ -21,6 +21,15 @@
         <div class="container py-5 h-100">
             <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col col-xl-10">
+                    @if ($errors->any())
+                        <div class="alert alert-danger">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     <div class="card" style="border-radius: 1rem;">
                         <div class="row g-0">
                             <div class="col-md-6 col-lg-6 d-none d-md-block">
@@ -29,6 +38,7 @@
                             </div>
                             <div class="col-md-6 col-lg-6 d-flex align-items-center">
                                 <div class="card-body p-4 p-lg-5 text-black">
+
                                     <form method="POST" action="{{ route('login') }}">
                                         @csrf
                                         <div class="d-flex align-items-center mb-3 pb-1">

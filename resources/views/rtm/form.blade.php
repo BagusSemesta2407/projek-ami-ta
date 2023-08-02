@@ -88,19 +88,6 @@
                                                 <span class="text-danger">{{ $errors->first('agenda') }}</span>
                                             @endif
                                         </div>
-                                        {{-- <div class="form-group">
-                                            <label for="first-nip-vertical">Agenda</label>
-                                            <input type="text" id="first-name-vertical"
-                                                class="form-control @error('tempat')
-                                            is-invalid
-                                        @enderror"
-                                                name="tempat" placeholder="Masukkan Nama Tempat"
-                                                value="{{ old('tempat', @$user->name) }}">
-
-                                            @if ($errors->has('tempat'))
-                                                <span class="text-danger">{{ $errors->first('tempat') }}</span>
-                                            @endif
-                                        </div> --}}
 
                                     </div>
                                 </div>

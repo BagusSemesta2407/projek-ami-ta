@@ -32,15 +32,15 @@ class HomeController extends Controller
     public function index()
     {
         $title = 'Dashboard';
-        $user=User::count();
-        $categoryUnit=CategoryUnit::count();
-        $userAuditor=User::whereHas('roles', function($q){
+        $user = User::count();
+        $categoryUnit = CategoryUnit::count();
+        $userAuditor = User::whereHas('roles', function ($q) {
             $q->whereIn('name', ['Auditor']);
         })->count();
 
-        $dataInstrument=DataInstrument::where('status', 'Selesai')->count();
+        $dataInstrument = DataInstrument::where('status', 'Selesai')->count();
 
-        $risalahRapat=RisalahRapat::count();
+        $risalahRapat = RisalahRapat::count();
 
         // $userId=Auth::id();
         // $userLogin=User::whereHas('roles', function($q){
@@ -48,15 +48,15 @@ class HomeController extends Controller
         // })
         $data = $this->DataInstrument->getDataPerBulan();
 
-        $listDataInstrument=DataInstrument::orderByRaw("FIELD(status, 'Menunggu Konfirmasi Kepala P4MP','Ditolak Kepala P4MP', 'On Progress', 'Sudah Di Jawab Auditee', 'Audit Lapangan', 'Selesai') ASC")->get();
+        $listDataInstrument = DataInstrument::orderByRaw("FIELD(status, 'Menunggu Konfirmasi Kepala P4MP','Ditolak Kepala P4MP', 'On Progress', 'Sudah Di Jawab Auditee', 'Audit Lapangan', 'Selesai') ASC")->get();
         return view('admin.dashboard.index', [
             'title' => $title,
-            'user'=>$user,
-            'categoryUnit'=> $categoryUnit,
-            'userAuditor'=>$userAuditor,
-            'dataInstrument'=>$dataInstrument,
-            'data'          =>$data,
-            'listDataInstrument'=>$listDataInstrument,
+            'user' => $user,
+            'categoryUnit' => $categoryUnit,
+            'userAuditor' => $userAuditor,
+            'dataInstrument' => $dataInstrument,
+            'data'          => $data,
+            'listDataInstrument' => $listDataInstrument,
             'risalahRapat' => $risalahRapat
         ]);
     }

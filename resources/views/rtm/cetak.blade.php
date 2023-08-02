@@ -28,6 +28,25 @@
             border: 1px black;
             border-collapse: collapse;
         } */
+
+        .invoice-signature {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .signature-box {
+            width: 150px;
+            height: 70px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .signature-box::after {
+            content: "Tanda Tangan";
+        }
     </style>
 </head>
 
@@ -70,8 +89,8 @@
     <br>
     <table style="width:100%" id="topic" border="1" cellspacing="0" cellpadding="5">
         <tr>
-          <th id="data-topic">Topik</th>
-          <th id="data-topic">Deskripsi</th> 
+            <th id="data-topic">Topik</th>
+            <th id="data-topic">Deskripsi</th>
         </tr>
         @foreach ($topic as $item)
             <tr>
@@ -83,7 +102,16 @@
                 </td>
             </tr>
         @endforeach
-      </table>
+    </table>
+
+    {{-- <div class="invoice-signature">
+        <div class="signature-box">
+            Kepala P4MP
+
+
+
+        </div>
+    </div> --}}
 </body>
 
 </html>

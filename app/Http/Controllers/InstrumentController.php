@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Requests\InstrumentRequest;
 use App\Models\CategoryUnit;
 use App\Models\Instrument;
+use App\Models\Jurusan;
+use App\Models\ProgramStudi;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 
 class InstrumentController extends Controller
@@ -15,7 +18,7 @@ class InstrumentController extends Controller
     public function index()
     {
         $title = 'Instrument';
-        $instrument = Instrument::with(['categoryUnit'])->get();
+        $instrument = Instrument::with(['jurusan', 'programStudi', 'unit'])->get();
 
         return view('admin.instrument.index', [
             'title' => $title,
@@ -29,21 +32,28 @@ class InstrumentController extends Controller
     public function create()
     {
         $title = 'Instrument';
-        $categoryUnit = CategoryUnit::all();
+        $jurusan=Jurusan::all();
+        $programStudi=ProgramStudi::all();
+        $unit=Unit::all();
 
         return view('admin.instrument.form', [
-            'categoryUnit' => $categoryUnit,
             'title' => $title,
+            'jurusan' => $jurusan,
+            'programStudi' => $programStudi,
+            'unit' => $unit
         ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(InstrumentRequest $request)
+    public function store(Request $request)
     {
         Instrument::create([
-            'category_unit_id' => $request->category_unit_id,
+            'kategori_audit_instrument' => $request->kategori_audit_instrument,
+            'jurusan_id' => $request->jurusan_id,
+            'program_studi_id' => $request->program_studi_id,
+            'unit_id' => $request->unit_id,
             'name' => $request->name,
             'target' => $request->target,
             'status_standar' => $request->status_standar,
@@ -67,12 +77,16 @@ class InstrumentController extends Controller
     {
         $title = 'Instrument';
         $instrument = Instrument::find($id);
-        $categoryUnit = CategoryUnit::oldest('name')->get();
+        $jurusan=Jurusan::all();
+        $programStudi=ProgramStudi::all();
+        $unit=Unit::all();
 
         return view('admin.instrument.form', [
             'instrument' => $instrument,
-            'categoryUnit' => $categoryUnit,
             'title' => $title,
+            'jurusan' => $jurusan,
+            'programStudi' => $programStudi,
+            'unit' => $unit
         ]);
     }
 
@@ -82,7 +96,10 @@ class InstrumentController extends Controller
     public function update(Request $request, $id)
     {
         $data = [
-            'category_unit_id' => $request->category_unit_id,
+            'kategori_audit_instrument' => $request->kategori_audit_instrument,
+            'jurusan_id' => $request->jurusan_id,
+            'program_studi_id' => $request->program_studi_id,
+            'unit_id' => $request->unit_id,
             'name' => $request->name,
             'target' => $request->target,
             'status_standar' => $request->status_standar,

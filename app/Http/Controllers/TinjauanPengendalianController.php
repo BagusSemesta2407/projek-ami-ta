@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\AuditLapangan;
 use App\Models\DataInstrument;
+use App\Models\Kesimpulan;
 use App\Models\TinjauanPengendalian;
 use Illuminate\Http\Request;
 
@@ -14,13 +15,13 @@ class TinjauanPengendalianController extends Controller
      */
     public function index()
     {
-        $title='Tinjauan Manajemen Pengendalian';
-        $dataInstrument=DataInstrument::where('status','Selesai')
-        ->get();
+        $title = 'Tinjauan Manajemen Pengendalian';
+        $dataInstrument = DataInstrument::where('status', 'Selesai')
+            ->get();
 
         return view('tinjauanPengendalian.index', [
             'title' => $title,
-            'dataInstrument'=> $dataInstrument
+            'dataInstrument' => $dataInstrument
         ]);
     }
 
@@ -29,16 +30,16 @@ class TinjauanPengendalianController extends Controller
      */
     public function dataTinjauanPengendalian($id)
     {
-        $title='Tinjauan Pengendalian';
+        $title = 'Tinjauan Pengendalian';
         $dataInstrument = DataInstrument::find($id);
-        $auditLapangan=AuditLapangan::with(['auditDokumen.evaluasiDiri'])
-        ->whereHas('auditDokumen.evaluasiDiri', function($q) use ($dataInstrument){
-            $q->where('data_instrument_id', $dataInstrument->id);
-        })->get();
+        $auditLapangan = AuditLapangan::with(['auditDokumen.evaluasiDiri'])
+            ->whereHas('auditDokumen.evaluasiDiri', function ($q) use ($dataInstrument) {
+                $q->where('data_instrument_id', $dataInstrument->id);
+            })->get();
 
-        return view('tinjauanPengendalian.dataTinjauanPengendalian',[
-            'title'=> $title,
-            'auditLapangan'=>$auditLapangan,
+        return view('tinjauanPengendalian.dataTinjauanPengendalian', [
+            'title' => $title,
+            'auditLapangan' => $auditLapangan,
         ]);
     }
 
@@ -47,13 +48,13 @@ class TinjauanPengendalianController extends Controller
      */
     public function createTinjauanPengendalian($id)
     {
-        $title='Tinjauan Pengendalian';
-        $auditLapangan=AuditLapangan::find($id);
-        $tinjauanPengendalian=TinjauanPengendalian::where('audit_lapangan_id', $id)->first();
+        $title = 'Tinjauan Pengendalian';
+        $auditLapangan = AuditLapangan::find($id);
+        $tinjauanPengendalian = TinjauanPengendalian::where('audit_lapangan_id', $id)->first();
 
-        return view('tinjauanPengendalian.form',[
+        return view('tinjauanPengendalian.form', [
             'title' => $title,
-            'auditLapangan'=>$auditLapangan,
+            'auditLapangan' => $auditLapangan,
             'tinjauanPengendalian' => $tinjauanPengendalian
         ]);
     }
@@ -63,14 +64,14 @@ class TinjauanPengendalianController extends Controller
      */
     public function storeTinjauanPengendalian(Request $request, $auditLapangan)
     {
-        $data=[
-            'audit_lapangan_id'=>$auditLapangan,
+        $data = [
+            'audit_lapangan_id' => $auditLapangan,
             'important' => $request->important,
             'urgent'    => $request->urgent,
             'anggaran'  => $request->anggaran,
             'rencana_tindak_lanjut' => $request->rencana_tindak_lanjut,
-            'deskripsi_important' =>$request->deskripsi_important,
-            'deskripsi_urgent' =>$request->deskripsi_urgent,
+            'deskripsi_important' => $request->deskripsi_important,
+            'deskripsi_urgent' => $request->deskripsi_urgent,
             'jumlah_anggaran' => $request->jumlah_anggaran
         ];
 
@@ -84,16 +85,16 @@ class TinjauanPengendalianController extends Controller
      */
     public function updateTinjauanPengendalian(Request $request, $auditLapangan, $tinjauanPengendalian)
     {
-        $dataAuditLapangan=AuditLapangan::findOrFail($auditLapangan);
-        
-        $data=[
-            'audit_lapangan_id'=>$auditLapangan,
+        $dataAuditLapangan = AuditLapangan::findOrFail($auditLapangan);
+
+        $data = [
+            'audit_lapangan_id' => $auditLapangan,
             'important' => $request->important,
             'urgent'    => $request->urgent,
             'anggaran'  => $request->anggaran,
             'rencana_tindak_lanjut' => $request->rencana_tindak_lanjut,
-            'deskripsi_important' =>$request->deskripsi_important,
-            'deskripsi_urgent' =>$request->deskripsi_urgent,
+            'deskripsi_important' => $request->deskripsi_important,
+            'deskripsi_urgent' => $request->deskripsi_urgent,
         ];
 
         TinjauanPengendalian::where('id', $tinjauanPengendalian)->update($data);
@@ -115,5 +116,36 @@ class TinjauanPengendalianController extends Controller
     public function destroy(TinjauanPengendalian $tinjauanPengendalian)
     {
         //
+    }
+
+    public function createKesimpulan($id)
+    {
+        $title = 'Kesimpulan';
+        $dataInstrument = DataInstrument::find($id);
+
+        return view('admin.instrumentData.kesimpulan.form', [
+            "title"         => $title,
+            "dataInstrument" => $dataInstrument
+        ]);
+    }
+
+    public function storeKesimpulan(Request $request, $dataInstrumenID)
+    {
+        // $file = $request->dokumentasi;
+        // $dokumentasi=
+        foreach ($file as $index => $value) {
+            Kesimpulan::updateOrCreate(
+                [
+                    'data_instrument_id' => $dataInstrumenID
+                ],
+                [
+                    'kelebihan' => $request->kelebihan[$index], // Access kelebihan using $index
+                    'kesimpulan' => $request->kesimpulan[$index], // Access kesimpulan using $index
+                    'dokumentasi' => Kesimpulan::saveDokumentasi($value)
+                ]
+            );
+        }
+
+        return redirect()->route('menu-p4mp.index-tinjauan-pengendalian');
     }
 }

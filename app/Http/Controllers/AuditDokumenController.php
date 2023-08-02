@@ -97,9 +97,11 @@ class AuditDokumenController extends Controller
                 'evaluasi_diri_id' => $key,
             ];
             if ($auditor1) {
+                $data['status_ketercapaian_auditor_1'] = $value['status_ketercapaian_auditor_1'];
                 $data['deskripsi_auditor_1'] = $value['deskripsi_auditor_1'];
                 $data['daftar_tilik_auditor_1'] = $value['daftar_tilik_auditor_1'];
             }else{
+                $data['status_ketercapaian_auditor_2'] = $value['status_ketercapaian_auditor_2'];
                 $data['deskripsi_auditor_2'] = $value['deskripsi_auditor_2'];
                 $data['daftar_tilik_auditor_2'] = $value['daftar_tilik_auditor_2'];
             }

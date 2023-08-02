@@ -25,7 +25,6 @@ class DataInstrumentRequest extends FormRequest
             'auditee_id' => 'required',
             'auditor_id'    => 'different:auditor2_id|required',
             'auditor2_id'   => 'required|different:auditor_id',
-            'category_unit_id'  => 'required',
             'dokumenStandar'=> 'required',
             'tanggal_audit'=> 'required',
         ];
@@ -44,7 +43,6 @@ class DataInstrumentRequest extends FormRequest
             'auditor2_id.different'  => 'Auditor 2 Yang Dipilih Tidak Boleh Sama Dengan Auditor 1',
             // 'auditor_id.unique'   => 'Sudah Ada Data Auditor 1 Pada Data Sebelumnya',
             // 'auditor2_id.unique'  => 'Sudah Ada Data Auditor 2 Pada Data Sebelumnya',
-            'category_unit_id.required'  => 'Unit Wajib Diisi',
             'dokumenStandar.required'    => 'Dokumen Standar Wajib Diisi',
             'tanggal_audit.required'    => 'Tanggal Audit Wajib Diisi'
         ];

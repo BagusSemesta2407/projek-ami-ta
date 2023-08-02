@@ -9,8 +9,11 @@ use App\Models\DataInstrument;
 use App\Models\DocumentStandard;
 use App\Models\DokumenStandar;
 use App\Models\Instrument;
+use App\Models\Jurusan;
 use App\Models\Lingkup;
+use App\Models\ProgramStudi;
 use App\Models\Tujuan;
+use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -40,16 +43,26 @@ class DataInstrumentController extends Controller
     {
         $title = 'Data Penetapan AMI';
 
-        $userAuditor= Auditor::where('jabatan', 'anggota')->get();
+        $userAuditor = Auditor::all();
 
-        $categoryUnit = CategoryUnit::all();
+        // $categoryUnit = CategoryUnit::all();
+
+        $userAuditee = User::whereHas('roles', function ($q) {
+            $q->whereIn('name', ['auditee']);
+        })->get();
+        $jurusan = Jurusan::all();
+        $programStudi = ProgramStudi::all();
+        $unit = Unit::all();
 
         $dokumenStandar = DokumenStandar::all();
         return view('admin.instrumentData.form', [
             'title' => $title,
-            'categoryUnit' => $categoryUnit,
             'userAuditor' => $userAuditor,
-            'dokumenStandar'    => $dokumenStandar
+            'dokumenStandar'    => $dokumenStandar,
+            'jurusan'           => $jurusan,
+            'programStudi'      => $programStudi,
+            'unit'              => $unit,
+            'userAuditee'       => $userAuditee
         ]);
     }
 
@@ -70,7 +83,11 @@ class DataInstrumentController extends Controller
         $dataInstrument = DataInstrument::create([
             'auditor_id' => $request->auditor_id,
             'auditor2_id' => $request->auditor2_id,
-            'category_unit_id' => $request->category_unit_id,
+            'auditee_id' => $request->auditee_id,
+            'jurusan_id' => $request->jurusan_id,
+            'program_studi_id' => $request->program_studi_id,
+            'unit_id' => $request->unit_id,
+            'kategori_audit' => $request->kategori_audit,
             'status' => 'Menunggu Konfirmasi Kepala P4MP',
             'tanggal_audit' => $request->tanggal_audit,
             'dokumenStandar'  => $request->dokumenStandar,
@@ -116,10 +133,10 @@ class DataInstrumentController extends Controller
         // })
         //     ->get();
 
-        // $userAuditee = User::whereHas('roles', function ($q) {
-        //     $q->whereIn('name', ['auditee']);
-        // })->get();
-        $userAuditor=Auditor::oldest('jabatan')->get();
+        $userAuditee = User::whereHas('roles', function ($q) {
+            $q->whereIn('name', ['auditee']);
+        })->get();
+        $userAuditor = Auditor::oldest('jabatan')->get();
         $categoryUnit = CategoryUnit::all();
         $instrument = Instrument::all();
         // $dokumenStandar=$dataInstrument->dokumenStandar;
@@ -129,6 +146,7 @@ class DataInstrumentController extends Controller
             'dataInstrument' => $dataInstrument,
             'title' => $title,
             'userAuditor' => $userAuditor,
+            'userAuditee' => $userAuditee,
             'categoryUnit' => $categoryUnit,
             'instrument' => $instrument,
             'dokumenStandar' => $dokumenStandar
@@ -141,9 +159,13 @@ class DataInstrumentController extends Controller
     public function update(Request $request, $id)
     {
         $data = [
+            'auditor2_id' => $request->auditor2_id,
             'auditor_id' => $request->auditor_id,
             'auditee_id' => $request->auditee_id,
-            'category_unit_id' => $request->category_unit_id,
+            'jurusan_id' => $request->jurusan_id,
+            'program_studi_id' => $request->program_studi_id,
+            'unit_id' => $request->unit_id,
+            'kategori_audit' => $request->kategori_audit,
             'status' => 'Menunggu Konfirmasi Kepala P4MP',
             'tanggal_audit' => $request->tanggal_audit,
             'dokumenStandar'  => $request->dokumenStandar
@@ -185,6 +207,13 @@ class DataInstrumentController extends Controller
         return response()->json(['success', 'Data Berhasil Dihapus']);
     }
 
+    public function getJurusan($jurusanId)
+    {
+        $programStudi = ProgramStudi::where('jurusan_id', $jurusanId)->get();
+
+        return response()->json($programStudi);
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -222,7 +251,7 @@ class DataInstrumentController extends Controller
     {
         $data = [
             'status'    => $request->status,
-            'alasan_tolak'=> $request->alasan_tolak
+            'alasan_tolak' => $request->alasan_tolak
         ];
 
         DataInstrument::where('id', $id)->update($data);
@@ -236,22 +265,41 @@ class DataInstrumentController extends Controller
         $instrument = Instrument::find($id);
 
         $filter = (object) [
-            'category_unit_id' => $instrument->id,
+            'jurusan_id' => $instrument->jurusan_id,
+            'program_studi_id' => $instrument->program_studi_id,
+            'unit_id' => $instrument->unit_id,
         ];
 
         $instrument = Instrument::filter($filter)
-        ->where('status_ketercapaian', 'Tidak Tercapai')
-        ->get();
+            ->where('status_ketercapaian', 'Tidak Tercapai')
+            ->get();
 
         return response()->json($instrument);
     }
 
     public function getAuditee($id)
     {
-        $user=User::find($id);
+        $user = User::find($id);
 
-        $categoryUnit=CategoryUnit::where('id', $user->id)->get();
+        $categoryUnit = CategoryUnit::where('id', $user->id)->get();
 
         return response()->json($categoryUnit);
+    }
+
+    public function getAuditor(Request $request)
+    {
+        $jurusan_id = $request->input('jurusan_id');
+        $program_studi_id = $request->input('program_studi_id');
+        $unit_id = $request->input('unit_id');
+
+        $auditor = Auditor::whereDoesntHave('jurusan', function ($query) use ($jurusan_id) {
+            $query->where('id', $jurusan_id);
+        })->whereDoesntHave('programStudi', function ($query) use ($program_studi_id) {
+            $query->where('id', $program_studi_id);
+        })->whereDoesntHave('unit', function ($query) use ($unit_id) {
+            $query->where('id', $unit_id);
+        })->get();
+    
+        return response()->json($auditor);
     }
 }

@@ -47,7 +47,7 @@
                                     {{ $item->typeDokumenMutuStandar->name }}
                                 </a>
                             @endif --}}
-                            <a href="{{ route('list-hasil-ami', $item->id) }}">
+                            <a href="{{ route('cetak-hasil-ami', $item->id) }}" target="_blank">
                                 {{ $item->categoryUnit->name }}
                             </a>
                         </td>

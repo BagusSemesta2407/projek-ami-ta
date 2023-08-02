@@ -14,7 +14,7 @@
                                     data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
                                     role="button">
                                     <span
-                                        class="collapsed collapse-title">{{ $item->auditDokumen->evaluasiDiri->instrument->name }}</span>
+                                        class="collapsed collapse-title">{{ $item->auditDokumen->evaluasiDiri->instrument->target }}</span>
                                 </div>
                                 <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
                                     data-parent="#cardAccordion">

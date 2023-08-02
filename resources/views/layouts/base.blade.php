@@ -33,7 +33,7 @@
 
     <link rel="stylesheet" href="{{ asset('assets/extensions/summernote/summernote-lite.min.css') }}">
 
-
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
     {{-- choices --}}
     {{-- Toast --}}
     <link rel="stylesheet" href="{{ asset('assets/extensions/toastify-js/src/toastify.css') }}">
@@ -235,6 +235,8 @@
 
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
+    <script src="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.js"></script>
+
     <script>
         $(document).on('click', '.delete', function() {
             var url = $(this).data('url');
@@ -280,6 +282,7 @@
             FilePondPluginFileValidateSize,
             // validates the file type...
             FilePondPluginFileValidateType,
+            FilePondPluginImagePreview,
 
         );
 
@@ -294,24 +297,49 @@
                 required: false
             });
         });
+
+        const inputImage = document.querySelectorAll('.image-preview-filepond');
+        inputImage.forEach(element => {
+            FilePond.create(element, {
+                allowImagePreview: true,
+                allowImageFilter: false,
+                allowImageExifOrientation: false,
+                allowImageCrop: false,
+                acceptedFileTypes: ['image/png', 'image/jpg', 'image/jpeg'],
+                fileValidateTypeDetectType: (source, type) => new Promise((resolve, reject) => {
+                    // Do custom type detection here and return with promise
+                    resolve(type);
+                })
+            });
+        });
     </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-        const successMessage = "{{ session('success') }}";
-        if (successMessage) {
-            Toastify({
-                text: successMessage,
-                duration: 3000, // Durasi notifikasi (dalam milidetik)
-                close: true,
-                gravity: "top", // Posisi notifikasi
-                position: "right",
-                style:{
-                    backgroundColor: "#4CAF50",
-                },
-            }).showToast();
-        }
-    });
+            const successMessage = "{{ session('success') }}";
+            const errorMessage = "{{ session('error') }}";
+
+            if (successMessage) {
+                showToast(successMessage, "#4CAF50");
+            }
+
+            if (errorMessage) {
+                showToast(errorMessage, "#F44336");
+            }
+
+            function showToast(message, bgColor) {
+                Toastify({
+                    text: message,
+                    duration: 3000, // Durasi notifikasi (dalam milidetik)
+                    close: true,
+                    gravity: "top", // Posisi notifikasi
+                    position: "right",
+                    style: {
+                        backgroundColor: bgColor,
+                    },
+                }).showToast();
+            }
+        });
     </script>
 
     <script>

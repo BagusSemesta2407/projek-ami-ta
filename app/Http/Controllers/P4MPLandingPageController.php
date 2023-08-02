@@ -47,7 +47,7 @@ class P4MPLandingPageController extends Controller
             'auditLapangan'  => $auditLapangan
         ]);
     }
-    public function hasilAmi ($id)
+    public function hasilAmi($id)
     {
         $auditor=Auditor::all();
         $dataInstrument = DataInstrument::find($id);

@@ -1,70 +1,6 @@
 @extends('layouts.base')
 
 @section('content')
-    {{-- <div class="page-content">
-        <section class="row">
-            <div class="card">
-                <div class="card-header">
-                    Data Audit Dokumen
-                    @if ($userId == $dataInstrument->auditor_id)
-                        <a href="{{ route('menu-auditor.audit-dokumen.validasi-audit-dokumen', $dataInstrument->id) }}" class="btn btn-md btn-outline-primary float-end">
-                            <i class="bi bi-check2-circle"></i>
-                        </a>
-                    @endif
-                </div>
-
-                <div class="card-body">
-                    <table class="table" id="table1">
-                        <thead>
-                            <tr>
-                                <th>No</th>
-                                <th>Standar SPMI</th>
-                                <th>Butir Mutu</th>
-                                <th>Status Ketercapaian</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-
-                        <tbody>
-                            @foreach ($evaluasiDiri as $item)
-                                <tr>
-                                    <td>
-                                        {{ $loop->iteration }}
-                                    </td>
-
-                                    <td>
-                                        {{ $item->instrument->status_standar }}
-                                    </td>
-                                    <td>
-                                        {{ $item->instrument->name }}
-                                    </td>
-
-                                    <td>
-                                        {{ $item->status_ketercapaian }}
-                                    </td>
-
-                                    <td>
-                                        <div class="d-flex">
-                                            <a href="{{ route('menu-auditor.audit-dokumen.input-audit-dokumen', $item->id) }}"
-                                                class="btn btn-sm btn-outline-secondary">
-                                                <i class="bi bi-pen"></i>
-                                            </a>
-                                            &nbsp;
-                                            <a href="{{ route('menu-auditor.audit-dokumen.detail-audit-dokumen', $item->id) }}"
-                                                class="btn btn-sm btn-outline-success">
-                                                <i class="bi bi-eye-fill"></i>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-
-                </div>
-            </div>
-        </section>
-    </div> --}}
     <section class="section">
         <div class="card">
             <div class="card-header">
@@ -130,7 +66,7 @@
                                     <div class="row">
                                         &nbsp;
                                         &nbsp;
-                                        <div class="col-md-2">
+                                        <div class="col-md-1">
                                             <label for="" id="{{ $item->id }}">
                                                 <b>
                                                     Bukti
@@ -151,6 +87,13 @@
                                                 </b>
                                             </label>
                                         </div>
+                                        <div class="col-md-1">
+                                            <label for="" id="{{ $item->id }}">
+                                                <b>
+                                                    Status
+                                                </b>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -158,7 +101,7 @@
                                 <div class="row">
                                     &nbsp;
                                     &nbsp;
-                                    <div class="col-md-2">
+                                    <div class="col-md-1">
                                         <a href="{{ $item->bukti }}" target="_blank" class="text-primary"
                                             style="text-decoration: underline">
                                             klik disini
@@ -171,6 +114,9 @@
 
                                     <div class="col-md-3" id="{{ $item->id }}">
                                         {{ $item->catatan }}
+                                    </div>
+                                    <div class="col-md-1" id="{{ $item->id }}">
+                                        {{ $item->status_ketercapaian }}
                                     </div>
                                 </div>
                             </div>
@@ -187,8 +133,15 @@
                                 <div class="col-12">
                                     <div class="row">
 
+                                        <div class="col-md-2">
+                                            <label for="" id="{{ $item->id }}">
+                                                <b>
+                                                    Status Ketercapaian
+                                                </b>
+                                            </label>
+                                        </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <label for="" id="{{ $item->id }}">
                                                 <b>
                                                     Hasil Audit Dokumen
@@ -196,7 +149,7 @@
                                             </label>
                                         </div>
 
-                                        <div class="col-md-6">
+                                        <div class="col-md-5">
                                             <label for="" id="{{ $item->id }}">
                                                 <b>
                                                     Daftar Tilik
@@ -208,29 +161,27 @@
                             </div>
                             <div class="col-12">
                                 <div class="row">
-                                    {{-- &nbsp;
-                                    &nbsp;
                                     <div class="col-md-2">
                                         <input type="radio" class="form-check-input"
                                             id="flexRadioDefault{{ $item->id }}"
-                                            name="data[{{ $item->id }}][status_ketercapaian]" value="Tercapai"
-                                            {{ old('Tercapai', $item->instrument->status_ketercapaian) == 'Tercapai' ? 'checked' : '' }}>
+                                            name="data[{{ $item->id }}][status_ketercapaian_auditor_1]" value="Tercapai"
+                                            {{ old('Tercapai', @$item->auditDokumen->status_ketercapaian_auditor_1) == 'Tercapai' ? 'checked' : '' }}>
                                         <label for="">Tercapai</label>
                                         <div>
                                             <input type="radio" class="form-check-input"
                                                 id="flexRadioDefault{{ $item->id }}"
-                                                name="data[{{ $item->id }}][status_ketercapaian]"
+                                                name="data[{{ $item->id }}][status_ketercapaian_auditor_1]"
                                                 value="Tidak Tercapai"
-                                                {{ old('Tidak Tercapai', $item->instrument->status_ketercapaian) == 'Tidak Tercapai' ? 'checked' : '' }}>
+                                                {{ old('Tidak Tercapai', @$item->auditDokumen->status_ketercapaian_auditor_1) == 'Tidak Tercapai' ? 'checked' : '' }}>
                                             <label for="">Tidak Tercapai</label>
                                         </div>
-                                    </div> --}}
+                                    </div>
 
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
                                             name="data[{{ $item->id }}][deskripsi_auditor_1]">{{ @$item->auditDokumen->deskripsi_auditor_1 }}</textarea>
                                     </div>
-                                    <div class="col-md-6">
+                                    <div class="col-md-5">
                                         <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
                                             name="data[{{ $item->id }}][daftar_tilik_auditor_1]">{{ @$item->auditDokumen->daftar_tilik_auditor_1 }}</textarea>
                                     </div>
@@ -246,22 +197,25 @@
                             <div class="d-flex">
                                 <div class="col-12">
                                     <div class="row">
-                                        &nbsp;
-                                        &nbsp;
-                                            
-
+                                        <div class="col-md-2">
+                                            <label for="" id="{{ $item->id }}">
+                                                <b>
+                                                    Status Ketercapaian
+                                                </b>
+                                            </label>
+                                        </div>
                                         <div class="col-md-5">
                                             <label for="" id="{{ $item->id }}">
                                                 <b>
-                                                    Deskripsi Ketercapaian
+                                                    Hasil Audit Dokumen                                                
                                                 </b>
                                             </label>
                                         </div>
 
-                                        <div class="col-md-4">
+                                        <div class="col-md-5">
                                             <label for="" id="{{ $item->id }}">
                                                 <b>
-                                                    Catatan
+                                                    Daftar Tilik
                                                 </b>
                                             </label>
                                         </div>
@@ -272,29 +226,27 @@
 
                             <div class="col-12">
                                 <div class="row">
-                                    &nbsp;
-                                    &nbsp;
-                                    {{-- <div class="col-md-2">
+                                    <div class="col-md-2">
                                         <input type="radio" class="form-check-input"
                                             id="flexRadioDefault{{ $item->id }}"
-                                            name="data[{{ $item->id }}][status_ketercapaian]" value="Tercapai"
-                                            {{ old('Tercapai', @$item->evaluasiDiri->status_ketercapaian) == 'Tercapai' ? 'checked' : '' }}>
+                                            name="data[{{ $item->id }}][status_ketercapaian_auditor_2]" value="Tercapai"
+                                            {{ old('Tercapai', @$item->auditDokumen->status_ketercapaian_auditor_2) == 'Tercapai' ? 'checked' : '' }}>
                                         <label for="">Tercapai</label>
                                         <div>
                                             <input type="radio" class="form-check-input"
                                                 id="flexRadioDefault{{ $item->id }}"
-                                                name="data[{{ $item->id }}][status_ketercapaian]"
+                                                name="data[{{ $item->id }}][status_ketercapaian_auditor_2]"
                                                 value="Tidak Tercapai"
-                                                {{ old('Tidak Tercapai', @$item->evaluasiDiri->status_ketercapaian) == 'Tidak Tercapai' ? 'checked' : '' }}>
+                                                {{ old('Tidak Tercapai', @$item->auditDokumen->status_ketercapaian_auditor_2) == 'Tidak Tercapai' ? 'checked' : '' }}>
                                             <label for="">Tidak Tercapai</label>
                                         </div>
-                                    </div> --}}
+                                    </div>
 
                                     <div class="col-md-5">
                                         <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
                                             name="data[{{ $item->id }}][deskripsi_auditor_2]">{{ @$item->auditDokumen->deskripsi_auditor_2 }}</textarea>
                                     </div>
-                                    <div class="col-md-4">
+                                    <div class="col-md-5">
                                         <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
                                             name="data[{{ $item->id }}][daftar_tilik_auditor_2]">{{ @$item->auditDokumen->daftar_tilik_auditor_2 }}</textarea>
                                     </div>

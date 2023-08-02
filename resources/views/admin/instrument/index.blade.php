@@ -19,9 +19,12 @@
                     <thead>
                         <tr>
                             <th>No</th>
-                            <th>Standar Instrument</th>
+                            <th>Jurusan</th>
+                            <th>Program Studi</th>
                             <th>Unit</th>
-                            <th>Pertanyaan</th>
+                            <th>Standar Instrument</th>
+                            <th>Instrument</th>
+                            <th>Indikator dan Target</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -34,12 +37,21 @@
                                 </td>
 
                                 <td>
+                                    {{ @$item->jurusan->name }}
+                                </td>
+                                <td>
+                                    {{ @$item->programStudi->name }}
+                                </td>
+                                <td>
+                                    {{ @$item->unit->name }}
+                                </td>
+                                <td>
                                     {{ $item->status_standar }}
                                 </td>
-
                                 <td>
-                                    {{ $item->categoryUnit->name }}
+                                    {{ $item->target }}
                                 </td>
+
 
                                 <td>
                                     {{ $item->name }}

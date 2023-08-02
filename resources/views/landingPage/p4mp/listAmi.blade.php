@@ -40,13 +40,13 @@
             </ul>
             <div class="page-section" id="about">
                 <div class="container">
-                    {{-- @foreach ($dataInstrument as $value)
+                    @foreach ($dataInstrument-> as $value)
                         <td>
-                            <a href="{{ route('cetak-hasil-ami', $value->id) }}">
+                            <a href="{{ route('cetak-hasil-ami', $value) }}">
                                 AMI 
                             </a>
                         </td>
-                    @endforeach --}}
+                    @endforeach
                 </div> <!-- .container -->
             </div>
         </div>

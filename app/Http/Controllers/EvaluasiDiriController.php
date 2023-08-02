@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\EvaluasiDiriRequest;
 use App\Models\AuditLapangan;
 use App\Models\DataInstrument;
 use App\Models\EvaluasiDiri;
@@ -19,10 +20,10 @@ class EvaluasiDiriController extends Controller
     {
         $title = 'Evaluasi Diri';
         $userId = Auth::id();
-        $dataInstrument = DataInstrument::with(['categoryUnit.user'])
+        $dataInstrument = DataInstrument::with(['auditee'])
             ->where('status', 'On Progress')
             // ->where('auditee_id', $userId)
-            ->whereHas('categoryUnit.user', function ($query) use ($userId) {
+            ->whereHas('auditee', function ($query) use ($userId) {
                 $query->where('id', $userId);
             })
             ->latest()
@@ -38,7 +39,9 @@ class EvaluasiDiriController extends Controller
         $title = 'Evaluasi Diri';
         $dataInstrument = DataInstrument::find($id);
         $filter = (object)[
-            'category_unit_id' => $dataInstrument->category_unit_id
+            'jurusan_id' => $dataInstrument->jurusan_id,
+            'program_studi_id' => $dataInstrument->program_studi_id,
+            'unit_id' => $dataInstrument->unit_id
         ];
 
         $instrument = Instrument::filter($filter)
@@ -47,7 +50,6 @@ class EvaluasiDiriController extends Controller
 
         $instrumentIDs = $instrument->pluck('id');
 
-        // $evaluasiDiri = EvaluasiDiri::with(['instrument', 'dataInstrument'])->where('data_instrument_id', $dataInstrument)->where('instrument_id', $instrument)->get();
         $evaluasiDiri = EvaluasiDiri::whereIn('data_instrument_id', [$dataInstrument->id])
             ->whereIn('instrument_id', $instrumentIDs)
             ->first();
@@ -89,7 +91,7 @@ class EvaluasiDiriController extends Controller
         ]);
     }
 
-    public function postDataEvaluasiDiri(Request $request, $dataInstrument, $instrument)
+    public function postDataEvaluasiDiri(EvaluasiDiriRequest $request, $dataInstrument, $instrument)
     {
         $data = $request->input('data', []);
 

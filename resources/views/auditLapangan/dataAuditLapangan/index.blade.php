@@ -72,7 +72,7 @@
                                             <div class="d-flex">
                                                 <div class="col-12">
                                                     <div class="row">
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-1">
                                                             <label for="" id="{{ $item->id }}">
                                                                 <b>
                                                                     Bukti
@@ -93,12 +93,19 @@
                                                                 </b>
                                                             </label>
                                                         </div>
+                                                        <div class="col-md-1">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Status
+                                                                </b>
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="row">
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-1">
                                                         <a href="{{ $item->evaluasiDiri->bukti }}" target="_blank"
                                                             class="text-primary" style="text-decoration: underline">
                                                             klik disini
@@ -112,12 +119,15 @@
                                                     <div class="col-md-3" id="{{ $item->id }}">
                                                         {{ $item->evaluasiDiri->catatan }}
                                                     </div>
+                                                    <div class="col-md-1" id="{{ $item->id }}">
+                                                        {{ $item->evaluasiDiri->status_ketercapaian }}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="d-flex">
                                                 <div class="col-12">
                                                     <div class="row">
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-1">
                                                             <label for="" id="{{ $item->id }}">
                                                                 <b>
                                                                     Auditor 1
@@ -138,12 +148,19 @@
                                                                 </b>
                                                             </label>
                                                         </div>
+                                                        <div class="col-md-1">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Status
+                                                                </b>
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="row">
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-1">
                                                         {{-- <a href="{{ $item->evaluasiDiri->bukti }}" target="_blank"
                                                             class="text-primary" style="text-decoration: underline">
                                                             klik disini
@@ -157,12 +174,15 @@
                                                     <div class="col-md-3" id="{{ $item->id }}">
                                                         {{ $item->daftar_tilik_auditor_1 }}
                                                     </div>
+                                                    <div class="col-md-1" id="{{ $item->id }}">
+                                                        {{ $item->status_ketercapaian_auditor_1 }}
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="d-flex">
                                                 <div class="col-12">
                                                     <div class="row">
-                                                        <div class="col-md-2">
+                                                        <div class="col-md-1">
                                                             <label for="" id="{{ $item->id }}">
                                                                 <b>
                                                                     Auditor 2
@@ -183,12 +203,19 @@
                                                                 </b>
                                                             </label>
                                                         </div>
+                                                        <div class="col-md-1">
+                                                            <label for="" id="{{ $item->id }}">
+                                                                <b>
+                                                                    Status
+                                                                </b>
+                                                            </label>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="row">
-                                                    <div class="col-md-2">
+                                                    <div class="col-md-1">
                                                         {{-- <a href="{{ $item->evaluasiDiri->bukti }}" target="_blank"
                                                             class="text-primary" style="text-decoration: underline">
                                                             klik disini
@@ -201,6 +228,9 @@
 
                                                     <div class="col-md-3" id="{{ $item->id }}">
                                                         {{ $item->daftar_tilik_auditor_2 }}
+                                                    </div>
+                                                    <div class="col-md-1" id="{{ $item->id }}">
+                                                        {{ $item->status_ketercapaian_auditor_2 }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -241,7 +271,7 @@
                                     <div class="col-md-4">
                                         <label for="" id="{{ $item->id }}">
                                             <b>
-                                                Catatan
+                                                Rekomendasi
                                             </b>
                                         </label>
                                     </div>

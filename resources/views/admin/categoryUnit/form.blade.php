@@ -67,6 +67,18 @@
 
 
                                         <div class="form-group">
+                                            <label for="first-name-vertical">Jenjang</label>
+                                            <input type="text" id="first-name-vertical"
+                                                class="form-control @error('jenjang')
+                                                is-invalid
+                                            @enderror"
+                                                name="jenjang" placeholder="Masukkan Nama Kategori Unit Kerja"
+                                                value="{{ old('jenjang', @$categoryUnit->name) }}">
+                                            @if ($errors->has('jenjang'))
+                                                <span class="text-danger">{{ $errors->first('jenjang') }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group">
                                             <label for="first-name-vertical">Unit/Program Studi/Jurusan</label>
                                             <input type="text" id="first-name-vertical"
                                                 class="form-control @error('name')

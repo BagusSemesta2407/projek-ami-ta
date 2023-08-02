@@ -18,6 +18,18 @@ return new class extends Migration
                 ->constrained()
                 ->cascadeOnDelete()
                 ->cascadeOnUpdate();
+            $table->foreignId('jurusan_id')->nullable()
+            ->constrained()
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
+            $table->foreignId('program_studi_id')->nullable()
+            ->constrained()
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
+            $table->foreignId('unit_id')->nullable()
+            ->constrained()
+            ->cascadeOnDelete()
+            ->cascadeOnUpdate();
             $table->enum('jabatan', ['ketua', 'sekretaris', 'anggota'])->nullable();
             $table->string('tugas')->nullable();
             $table->string('file')->nullable()->comment('surat keterangan');

@@ -116,7 +116,15 @@
                                         {{ $loop->iteration }}
                                     </div>
                                     <div class="name ms-4">
-                                        <h5 class="mb-1">{{ $item->categoryUnit->name }}</h5>
+                                        <h5 class="mb-1">
+                                            @if ($item->kategori_audit == 'Unit')
+                                                {{ $item->unit->name }}
+                                            @elseif ($item->kategori_audit == 'Program Studi')
+                                                {{ $item->programStudi->name }}
+                                            @else
+                                                {{ $item->jurusan->name }}
+                                            @endif
+                                        </h5>
                                         {{-- <h6 class="text-muted mb-0">@johnducky</h6> --}}
                                         @if ($item->status == 'On Progress')
                                             <span class="badge bg-secondary">On Progress</span>
@@ -172,37 +180,37 @@
 
 @section('script')
     <script type="text/javascript">
-        	var optionsProfileVisit = {
-		annotations: {
-			position: 'back'
-		},
-		dataLabels: {
-			enabled:false
-		},
-		chart: {
-			type: 'bar',
-			height: 300
-		},
-		fill: {
-			opacity:1
-		},
-		plotOptions: {
-		},
-		series: [{
-			name: 'sales',
-			data: [<?= $data['januari'] ?>, <?= $data['februari'] ?>, <?= $data['maret'] ?>,
-                            <?= $data['april'] ?>, <?= $data['mei'] ?>, <?= $data['juni'] ?>,
-                            <?= $data['juli'] ?>, <?= $data['agustus'] ?>, <?= $data['september'] ?>,
-                            <?= $data['oktober'] ?>, <?= $data['november'] ?>,
-                            <?= $data['desember']?>]
-		}],
-		colors: '#435ebe',
-		xaxis: {
-			categories: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
+        var optionsProfileVisit = {
+            annotations: {
+                position: 'back'
+            },
+            dataLabels: {
+                enabled: false
+            },
+            chart: {
+                type: 'bar',
+                height: 300
+            },
+            fill: {
+                opacity: 1
+            },
+            plotOptions: {},
+            series: [{
+                name: 'sales',
+                data: [<?= $data['januari'] ?>, <?= $data['februari'] ?>, <?= $data['maret'] ?>,
+                    <?= $data['april'] ?>, <?= $data['mei'] ?>, <?= $data['juni'] ?>,
+                    <?= $data['juli'] ?>, <?= $data['agustus'] ?>, <?= $data['september'] ?>,
+                    <?= $data['oktober'] ?>, <?= $data['november'] ?>,
+                    <?= $data['desember'] ?>
+                ]
+            }],
+            colors: '#435ebe',
+            xaxis: {
+                categories: ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September",
                     "Oktober", "November", "Desember"
                 ],
-		},
-	}
+            },
+        }
 
         var chartProfileVisit = new ApexCharts(document.querySelector("#chart-profile-visit"), optionsProfileVisit);
         chartProfileVisit.render();

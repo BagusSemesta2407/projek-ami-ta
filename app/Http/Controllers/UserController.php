@@ -31,6 +31,8 @@ class UserController extends Controller
     {
         $title = 'User';
         $roles = Role::all();
+
+        
         
         return view('admin.user.form', [
             'title' => $title,
@@ -54,8 +56,7 @@ class UserController extends Controller
 
         $user->assignRole($roles);
 
-        session()->flash('success', 'Data berhasil ditambahkan!');
-        return redirect()->route('admin.user.index');
+        return redirect()->route('admin.user.index')->with('success', 'Data Berhasil Ditambahkan');
     }
 
     /**
@@ -88,6 +89,7 @@ class UserController extends Controller
     public function update(UserUpdateRequest $request, User $user)
     {
         $roles = Role::findOrFail($request->roles);
+        
 
         $data = [
             'nip'=>$request->nip,
@@ -113,5 +115,20 @@ class UserController extends Controller
 
         return response()->json(['success','Data Berhasil Dihapus']);
 
+    }
+
+    public function active($id)
+    {
+        $user=User::findOrFail($id);
+
+        if ($user->status == 'Active') {
+            $user->status = 'Non Active';
+        }else {
+            $user->status = 'Active';
+        }
+
+        $user->save();
+
+        return response()->json(['success', 'Status User Berhasil Diubah']);
     }
 }

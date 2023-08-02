@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AuditLapangan;
+use App\Models\DataInstrument;
 use App\Models\RisalahRapat;
 use App\Models\Topic;
 use Illuminate\Http\Request;
@@ -28,8 +30,8 @@ class RapatTinjauanManajemenController extends Controller
      */
     public function create()
     {
+        // $dataInstrument=DataInstrument
         $title = 'Rapat Tinjauan Manajemen';
-
         return view('rtm.form', [
             'title' => $title
         ]);
@@ -102,10 +104,16 @@ class RapatTinjauanManajemenController extends Controller
         $risalahRapat = RisalahRapat::find($id);
         $topic = Topic::where('risalah_rapat_id', $risalahRapat->id)->get();
 
+
+        $auditLapangan=AuditLapangan::with(['auditDokumen.evaluasiDiri.instrument'])
+        ->whereHas('auditDokumen.evaluasiDiri.instrument', function($q){
+            $q->whereIn('status_ketercapaian', ['Tidak Tercapai']);
+        })->get();
         return view('rtm.topic.form', [
             'title' => $title,
             'risalahRapat' => $risalahRapat,
-            'topic' => $topic
+            'topic' => $topic,
+            'auditLapangan' => $auditLapangan
         ]);
         // $topic=Topic::where('')
     }

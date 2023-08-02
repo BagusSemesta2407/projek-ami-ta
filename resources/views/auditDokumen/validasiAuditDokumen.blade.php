@@ -15,7 +15,7 @@
                                     data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
                                     role="button">
                                     <span
-                                        class="collapsed collapse-title">{{ $item->evaluasiDiri->instrument->name }}</span>
+                                        class="collapsed collapse-title">{{ $item->evaluasiDiri->instrument->target }}</span>
                                 </div>
                                 <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
                                     data-parent="#cardAccordion">
@@ -50,7 +50,7 @@
                                             </b>
                                             {{ strip_tags($item->evaluasiDiri->deskripsi_ketercapaian) }}
                                         </div>
-                                        
+
                                         <div class="col-12">
                                             <b>
                                                 Bukti Ketercapaian Standar :
@@ -75,15 +75,27 @@
                                         </div>
                                         <br>
                                         <b>
-                                            Hasil Audit Dokumen :
+                                            Status Ketercapaian :
                                         </b>
-                                        @if ($item->deskripsi_auditor_1)
-                                            {{ strip_tags($item->deskripsi_auditor_1) }}
+                                        @if ($item->status_ketercapaian_auditor_1)
+                                            {{ strip_tags($item->status_ketercapaian_auditor_1) }}
                                         @else
                                             <i>
-                                                Auditor Belum Menginput Data Hasil Audit Dokumen
+                                                Auditor Belum Menginput Status Ketercapaian Audit Dokumen
                                             </i>
                                         @endif
+                                        <div class="col-12">
+                                            <b>
+                                                Hasil Audit Dokumen :
+                                            </b>
+                                            @if ($item->deskripsi_auditor_1)
+                                                {{ strip_tags($item->deskripsi_auditor_1) }}
+                                            @else
+                                                <i>
+                                                    Auditor Belum Menginput Data Hasil Audit Dokumen
+                                                </i>
+                                            @endif
+                                        </div>
                                         <div class="col-12">
                                             <b>
                                                 Daftar Tilik :
@@ -106,15 +118,29 @@
                                         </div>
                                         <br>
                                         <b>
-                                            Hasil Audit Dokumen :
+                                            Status Ketercapaian :
                                         </b>
-                                        @if ($item->deskripsi_auditor_2)
-                                            {{ strip_tags($item->deskripsi_auditor_2) }}
+                                        @if ($item->status_ketercapaian_auditor_2)
+                                            {{ strip_tags($item->status_ketercapaian_auditor_2) }}
                                         @else
                                             <i>
                                                 Auditor Belum Menginput Data Hasil Audit Dokumen
                                             </i>
                                         @endif
+                                        <div class="col-12">
+                                            <b>
+                                                Hasil Audit Dokumen :
+                                            </b>
+                                            @if ($item->deskripsi_auditor_2)
+                                                {{ strip_tags($item->deskripsi_auditor_2) }}
+                                            @else
+                                                <i>
+                                                    Auditor Belum Menginput Data Hasil Audit Dokumen
+                                                </i>
+                                            @endif
+
+                                        </div>
+
                                         <div class="col-12">
                                             <b>
                                                 Daftar Tilik :
@@ -134,10 +160,10 @@
                     </div>
                 </div>
             </div>
-            @empty
+        @empty
             Data Belum ADA
         @endforelse
-        
+
         @if ($dataInstrument->status == 'Sudah Di Jawab Auditee')
             <button type="submit" class="btn btn-outline-primary me-1 mb-1 float-end validate"
                 data-url="{{ route('menu-auditor.audit-dokumen.update-status-audit', $dataInstrument->id) }}"
@@ -148,7 +174,7 @@
         @elseif ($dataInstrument->status == 'Audit Lapangan')
             <button class="btn btn-md btn-outline-secondary float-end validate" disabled>
                 {{-- <i class="bi bi-dash-circle-fill"></i> --}}
-                Validasi    
+                Validasi
             </button>
         @endif
     </section>

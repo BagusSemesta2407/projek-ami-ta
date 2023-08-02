@@ -12,8 +12,17 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="disabledInput">Auditee</label>
-                            <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
-                                value="{{ @$dataInstrument->categoryUnit->user->name }}" disabled>
+                            @if ($dataInstrument->kategori_audit == 'Unit')
+                                <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
+                                    value="{{ $dataInstrument->unit->name }}" disabled>
+                            @elseif ($dataInstrument->kategori_audit == 'Program Studi')
+                                <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
+                                    value="{{ $dataInstrument->programStudi->name }}" disabled>
+                            @else
+                                <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
+                                    value="{{ $dataInstrument->jurusan->name }}" disabled>
+                            @endif
+
                         </div>
                         <div class="form-group">
                             <label for="disabledInput">Auditor 1</label>
@@ -26,12 +35,12 @@
                                 value="{{ @$dataInstrument->auditor2->user->name }}" disabled>
                         </div>
                         <div class="form-group">
-                            <label for="disabledInput">Unit/Program Studi/Jurusan</label>
+                            <label for="disabledInput">Akun Auditee</label>
                             <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
-                                value="{{ $dataInstrument->categoryUnit->name }}" disabled>
+                                value="{{ $dataInstrument->auditee->email }}" disabled>
                         </div>
                         <div class="form-group">
-                            <label for="disabledInput">Tahun</label>
+                            <label for="disabledInput">Tnggal Audit</label>
                             <input type="text" class="form-control" id="disabledInput" placeholder="Disabled Text"
                                 value="{{ \Carbon\Carbon::parse($dataInstrument->tanggal_audit)->translatedFormat('d F Y') }}"
                                 disabled>
@@ -99,7 +108,7 @@
     <script type="text/javascript">
         $('#alasan').hide();
 
-        $('#status').on('change', function(){
+        $('#status').on('change', function() {
             var selectedVal = $(this).val();
 
             if (selectedVal == 'Ditolak Kepala P4MP') {

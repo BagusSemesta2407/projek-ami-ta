@@ -12,13 +12,17 @@ use App\Http\Controllers\DokumenStandarController;
 use App\Http\Controllers\EvaluasiDiriController;
 use App\Http\Controllers\InstrumentAuditeeController;
 use App\Http\Controllers\InstrumentController;
+use App\Http\Controllers\JenjangController;
+use App\Http\Controllers\JurusanController;
 use App\Http\Controllers\P4MPController;
 use App\Http\Controllers\P4MPLandingPageController;
 use App\Http\Controllers\PpppmpController;
+use App\Http\Controllers\ProgramStudiController;
 use App\Http\Controllers\RapatTinjauanManajemenController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\TinjauanPengendalianController;
 use App\Http\Controllers\TinjauanPeningkatanController;
+use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Models\EvaluasiDiri;
 use Illuminate\Routing\RouteRegistrar;
@@ -37,14 +41,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::group(['middleware' => 'prevent-back-history'], function () {
-    // Route::get('/', function () {
-    //     return view('landingPage.base');
-    // });
     Route::get('/', [BerandaController::class, 'index'])->name('beranda');
     Route::get('/p4mp', [P4MPLandingPageController::class, 'index'])->name('p4mp');
     Route::get('/hasil-ami', [P4MPLandingPageController::class, 'indexHasilAmi'])->name('hasil-ami');
     Route::get('/hasil-ami/{id}', [P4MPLandingPageController::class, 'listHasilAMI'])->name('list-hasil-ami');
-    Route::get('/cetak-hasil-ami/{id}', [P4MPLandingPageController::class, 'hasilAmi'])->name('cetak-hasil-ami');
+    Route::get('/cetak-hasil-ami/{id}', [ReportController::class, 'cetakHasilAmi'])->name('cetak-hasil-ami');
 
     Route::get('/login', function () {
         return view('auth.login');
@@ -52,7 +53,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
     Auth::routes();
     Route::get('/dashboard', [App\Http\Controllers\HomeController::class, 'index'])->name('dashboard');
-    // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
     Route::middleware('auth')->group(function () {
         Route::group(
@@ -64,20 +64,36 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
             function () {
                 //master-data
-                Route::resource('category-unit', CategoryUnitController::class);
                 Route::resource('user', UserController::class);
+                Route::group(
+                    [
+                        'as' => 'user.',
+                        'prefix' => 'user'
+                    ],
+
+                    function(){
+                        Route::get('status-user/{id}', [UserController::class, 'active'])->name('status-user');
+                    }
+                );
+                Route::resource('category-unit', CategoryUnitController::class);
                 Route::resource('instrument', InstrumentController::class);
                 Route::resource('auditor', AuditorController::class);
-                Route::resource('auditee', AuditeeController::class);
-                Route::resource('document-standard', DocumentStandardController::class);
                 Route::resource('dokumen-standar', DokumenStandarController::class);
-                Route::resource('p4mp', PpppmpController::class);
-                Route::resource('auditee', AuditeeController::class);
+                Route::resource('jurusan', JurusanController::class);
+                Route::resource('unit', UnitController::class);
 
+                Route::resource('jenjang', JenjangController::class);
+
+                Route::resource('program-studi', ProgramStudiController::class);
+                //get jurusan
+                Route::get('getJurusan/{jurusanId?}', [AuditorController::class, 'getJurusan'])->name('get-jurusan');
+                
                 //data-instrument
                 Route::resource('data-instruments', DataInstrumentController::class);
+                Route::get('getJurusan/{jurusanId?}', [DataInstrumentController::class, 'getJurusan'])->name('get-jurusan');
                 Route::get('getDataInstrumentId/{id}', [DataInstrumentController::class, 'getDataInstrumentId'])->name('get-data-instrument-id');
                 Route::get('getAuditee/{user}', [DataInstrumentController::class, 'getAuditee'])->name('get-auditee');
+                Route::get('getAuditor', [DataInstrumentController::class, 'getAuditor'])->name('get-auditor');
             }
         );
 
@@ -90,30 +106,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
             ],
 
             function () {
-                //instrument-auditee
-                // Route::resource('instruments-auditee', InstrumentAuditeeController::class);
-
-                // Route::group(
-                //     [
-                //         'as' => 'instruments-auditee.',
-                //         'prefix' => 'instruments-auditee',
-                //     ],
-
-                //     function () {
-                //         //for instrument detail
-                //         Route::get('form-instrument-auditee/{dataInstrument}', [InstrumentAuditeeController::class, 'create'])->name('create-form-instrument-auditee');
-                //         Route::post('form-instrument-auditee/{dataInstrument}', [InstrumentAuditeeController::class, 'store'])->name('store-form-instrument-auditee');
-                //         Route::get('list-instrument-standard/{dataInstrument}/{status_standar?}', [InstrumentAuditeeController::class, 'create'])->name('status-standar');
-
-                //         //detail instrument auditee
-                //         Route::get('detail-instrument-auditee/{dataInstrument}', [InstrumentAuditeeController::class, 'detailInstrumentAuditee'])->name('detail-instrument-auditee');
-                //         // Route::get('create-form-instrument/{categoryUnit}', [InstrumentController::class, 'createFormInstrument'])->name('create-form-instrument');
-                //         // Route::post('store-form-instrument/{categoryUnit}', [InstrumentController::class, 'storeFormInstrument'])->name('store-form-instrument');
-                //     }
-                // );
 
                 Route::resource('evaluasi-diri', EvaluasiDiriController::class);
-                // Route::post('evaluasi-diri/{id}', EvaluasiDiri::class, 'postDataEvaluasiDiri')->name('post-evauasi-diri');
                 Route::group(
                     [
                         'as' => 'evaluasi-diri.',
@@ -126,7 +120,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::post('update-evaluasi-diri/{dataInstrument}', [EvaluasiDiriController::class, 'updateStatusDataInstrument'])->name('update-status-audit');
                         Route::get('create-evaluasi-diri/{dataInstrument}/{instrument}', [EvaluasiDiriController::class, 'createEvaluasiDiri'])->name('form-evaluasi-diri');
                         Route::post('create-evaluasi-diri/{dataInstrument}/{instrument}', [EvaluasiDiriController::class, 'postDataEvaluasiDiri'])->name('post-data-evaluasi-diri');
-                        // Route::get('edit-evaluasi-diri/{dataInstrument}/', [EvaluasiDiriController::class, 'editEvaluasiDiri'])->name('edit-evaluasi-diri');
                         Route::PUT('create-evaluasi-diri/{dataInstrument}/{instrument}/{evaluasiDiri}', [EvaluasiDiriController::class, 'updateDataEvaluasiDiri'])->name('update-data-evaluasi-diri');
 
                         Route::get('detail-data-evaluasi-diri/{dataInsrument}', [EvaluasiDiriController::class, 'detailDataEvaluasiDiri'])->name('detail-evaluasi-diri');
@@ -142,50 +135,6 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 'prefix'    =>  'menu-auditor'
             ],
             function () {
-                //instrument-auditor
-                // Route::resource('instruments-auditee', InstrumentAuditeeController::class);
-                // Route::get('index-instrument-auditor', [InstrumentAuditeeController::class, 'indexAuditor'])->name('index-instrument-auditor');
-
-                // Route::group(
-                //     [
-                //         'as' => 'index-instrument-auditor.',
-                //         'prefix' => 'index-instrument-auditor',
-                //     ],
-
-                //     function () {
-                //         //for instrument detail
-                //         Route::get('validasi-instrument-auditor/{instrument}', [InstrumentAuditeeController::class, 'createAuditor'])->name('validasi-instrument-auditor');
-                //         Route::get('audit-data-validasi/{instrumentAuditee}', [InstrumentAuditeeController::class, 'validateDataAuditLapangan'])->name('audit-data-validasi');
-                //         // Route::post('validasi-instrument-auditor/{dataInstrument}', [InstrumentAuditeeController::class, 'confirmValidateAuditor'])->name('confirm-validate-instrument-auditor');
-                //         Route::post('audit-data-validasi/{instrumentAuditee}', [InstrumentAuditeeController::class, 'postValidateDataAuditLapangan'])->name('post-validate-data-audit-lapangan');
-                //         Route::get('detail-audit-lapangan/{instrumentAuditee}', [InstrumentAuditeeController::class, 'detailValidateDataAuditLapangan'])->name('detail-audit-lapangan');
-
-                //         Route::post('validate/{dataInstrument}', [InstrumentAuditeeController::class, 'updateStatusDataInstrument'])->name('validate');
-                //         // Route::post('form-instrument-auditee/{dataInstrument}', [InstrumentAuditeeController::class, 'store'])->name('store-form-instrument-auditee');
-                //         // Route::get('list-instrument-standard/{dataInstrument}/{status_standar?}', [InstrumentAuditeeController::class, 'create'])->name('status-standar');
-
-                //         //detail instrument auditee
-                //         // Route::get('detail-instrument-auditee/{dataInstrument}', [InstrumentAuditeeController::class, 'detailInstrumentAuditee'])->name('detail-instrument-auditee');
-                //         // Route::get('create-form-instrument/{categoryUnit}', [InstrumentController::class, 'createFormInstrument'])->name('create-form-instrument');
-                //         // Route::post('store-form-instrument/{categoryUnit}', [InstrumentController::class, 'storeFormInstrument'])->name('store-form-instrument');
-                //     }
-                // );
-
-                // Route::get('index-audit-dokumen', [InstrumentAuditeeController::class, 'indexAuditDokumen'])->name('index-audit-dokumen');
-
-                // Route::group(
-                //     [
-                //         'as' => 'index-audit-dokumen.',
-                //         'prefix' => 'index-audit-dokumen'
-                //     ],
-
-                //     function () {
-                //         Route::get('index-data-audit-dokumen/{dataInstrument}', [InstrumentAuditeeController::class, 'indexDataAuditDokumen'])->name('get-index-data-audit-dokumen');
-                //         Route::get('input-hasil-audit-dokumen/{instrumentAuditee}', [InstrumentAuditeeController::class, 'inputHasilAuditDokumen'])->name('input-hasil-audit-dokumen');
-                //         Route::post('input-hasil-audit-dokumen/{instrumentAuditee}', [InstrumentAuditeeController::class, 'createHasilAuditDokumen'])->name('create-hasil-audit-dokumen');
-                //         Route::get('detail-data-audit-dokumen/{instrumentAuditee}', [InstrumentAuditeeController::class, 'detailHasilAuditDokumen'])->name('detail-data-audit-dokumen');
-                //     }
-                // );
 
                 Route::resource('audit-dokumen', AuditDokumenController::class);
                 Route::group(
@@ -314,6 +263,8 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
 
                     function () {
                         Route::get('data-tinjauan-pengendalian/{dataInstrument}', [TinjauanPengendalianController::class, 'dataTinjauanPengendalian'])->name('data-tinjauan-pengendalian');
+                        Route::get('create-kesimpulan/{dataInstrument}', [TinjauanPengendalianController::class, 'createKesimpulan'])->name('create-kesimpulan');
+                        Route::post('create-kesimpulan/{dataInstrument}', [TinjauanPengendalianController::class, 'storeKesimpulan'])->name('store-kesimpulan');
                         Route::get('create-tinjauan-pengendalian/{auditLapangan}', [TinjauanPengendalianController::class, 'createTinjauanPengendalian'])->name('create-tinjauan-pengendalian');
                         Route::post('create-tinjauan-pengendalian/{auditLapangan}', [TinjauanPengendalianController::class, 'storeTinjauanPengendalian'])->name('post-tinjauan-pengendalian');
                         Route::put('create-tinjauan-pengendalian/{auditLapangan}/{tinjauanPengendalian}', [TinjauanPengendalianController::class, 'updateTinjauanPengendalian'])->name('update-tinjauan-pengendalian');
@@ -357,7 +308,3 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
         );
     });
 });
-
-// Route::get('/', function () {
-//     return view('layouts.base');
-// });

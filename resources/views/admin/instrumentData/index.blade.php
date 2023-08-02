@@ -18,7 +18,7 @@
                         <thead>
                             <tr>
                                 <th>No</th>
-                                <th>Unit</th>
+                                <th>Auditee</th>
                                 <th>Akun Auditee</th>
                                 <th>Auditor 1</th>
                                 <th>Auditor 2</th>
@@ -37,13 +37,19 @@
                                     </td>
 
                                     <td>
-                                        {{ @$item->categoryUnit->name }}
+                                        @if ($item->kategori_audit == 'Unit')
+                                            {{ $item->unit->name }}
+                                        @elseif ($item->kategori_audit == 'Program Studi')
+                                            {{ $item->programStudi->name }}
+                                        @else
+                                            {{ $item->jurusan->name }}
+                                        @endif
                                     </td>
                                     <td>
-                                        {{ @$item->categoryUnit->user->email }}
+                                        {{ @$item->auditee->email }}
                                     </td>
                                     <td>
-                                        {{ @$item->auditor->user->name}}
+                                        {{ @$item->auditor->user->name }}
                                     </td>
                                     <td>
                                         {{ @$item->auditor2->user->name }}
@@ -111,6 +117,8 @@
                                             <span class="badge bg-secondary">On Progress</span>
                                         @elseif ($item->status == 'Sudah Di Jawab Auditee')
                                             <span class="badge bg-info">Audit Dokumen</span>
+                                        @elseif ($item->status == 'Audit Dokumen')
+                                            <span class="badge bg-warning">Audit Dokumen</span>
                                         @elseif ($item->status == 'Audit Lapangan')
                                             <span class="badge bg-warning">Audit Lapangan</span>
                                         @elseif ($item->status == 'Selesai')

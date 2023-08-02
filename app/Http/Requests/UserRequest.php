@@ -22,7 +22,7 @@ class UserRequest extends FormRequest
     public function rules(): array
     {
         $rules = [
-            'nip' => 'required|unique:users,nip',
+            'nip' => 'required|unique:users,nip|numeric',
             'name' => 'required',
             'email' => 'required|email|unique:users,email',
             'roles' => 'required',
@@ -34,8 +34,11 @@ class UserRequest extends FormRequest
     public function messages()
     {
         return [
-            'nip.required' => 'NIP Wajib Diisi',
             'nip.unique' => 'NIP Sudah Terdaftar',
+            'nip.required' => 'NIP Wajib Diisi',
+            'nip.numeric' => 'NIP Wajib Diisi Angka',
+            // 'nip.max' => 'NIP Yang Diinpu Bisa Diinput Dalam 18 Karakter',
+            // 'nip.min' => 'NIP Hanya Bisa Diinput Dalam 18 Karakter',
             'name.required' => 'Nama User Wajib Diisi',
             'email.required' => 'Email Wajib Diisi',
             'email.email' => 'Email Tidak Valid',

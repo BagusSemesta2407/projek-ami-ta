@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Spatie\MediaLibrary\HasMedia;
 use Spatie\MediaLibrary\InteractsWithMedia;
 
-class DataInstrument extends Model implements HasMedia
+class   DataInstrument extends Model implements HasMedia
 {
     use HasFactory;
     use InteractsWithMedia;
@@ -42,7 +42,7 @@ class DataInstrument extends Model implements HasMedia
 
     public function auditee()
     {
-        return $this->hasOne(User::class, 'id', 'auditee_id');
+        return $this->belongsTo(User::class, 'auditee_id', 'id');
     }
 
     public function categoryUnit()
@@ -83,6 +83,36 @@ class DataInstrument extends Model implements HasMedia
     public function lingkup(): HasMany
     {
         return $this->hasMany(Lingkup::class);
+    }
+
+    /**
+     * Get the jurusan that owns the DataInstrument
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function jurusan(): BelongsTo
+    {
+        return $this->belongsTo(Jurusan::class);
+    }
+
+    /**
+     * Get the programStudi that owns the DataInstrument
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function programStudi(): BelongsTo
+    {
+        return $this->belongsTo(ProgramStudi::class);
+    }
+
+    /**
+     * Get the unit that owns the DataInstrument
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function unit(): BelongsTo
+    {
+        return $this->belongsTo(Unit::class);
     }
 
 

@@ -45,48 +45,63 @@
              </td>
 
          </tr>
-         <tr>
-             <td>
-                 Jenjang
-             </td>
+         @if ($dataInstrument->kategori_audit == 'Program Studi')
+             <tr>
+                 <td>
+                     Jenjang
+                 </td>
 
-             <td>
-                 Diploma 3
-             </td>
+                 <td>
+                     {{ $dataInstrument->programStudi->jenjang->name }}
+                 </td>
+             </tr>
+             <tr>
+                 <td>
+                     Jurusan
+                 </td>
 
-         </tr>
-         <tr>
-             <td>
-                 {{-- @if ($dataInstrument->categoryUnit->kategori_audit == 'Unit')
-                    Unit
-                @elseif ($dataInstrument->categoryUnit->kategori_audit == 'Program Studi')
-                    Program Studi
-                @else
-                    Jurusan
-                @endif --}} Jurusan
-             </td>
+                 <td>
+                     {{ $dataInstrument->programStudi->jurusan->name }}
+                 </td>
+             </tr>
+             <tr>
+                 <td>
+                     Program Studi
+                 </td>
 
-             <td>
-                 @if (@$dataInstrument->categoryUnit->kategori_audit == 'Jurusan')
-                     {{ $dataInstrument->categoryUnit->name }}
-                 @else
+                 <td>
+                     {{ $dataInstrument->programStudi->name }}
+                 </td>
+             </tr>
+         @elseif ($dataInstrument->kategori_audit == 'Jurusan')
+             <tr>
+                 <td>
+                     Jenjang
+                 </td>
+
+                 <td>
+                    -
+                 </td>
+             </tr>
+             <tr>
+                 <td>
+                     Jurusan
+                 </td>
+
+                 <td>
+                     {{ $dataInstrument->jurusan->name }}
+                 </td>
+             </tr>
+             <tr>
+                 <td>
+                     Program Studi
+                 </td>
+
+                 <td>
                      -
-                 @endif
-             </td>
-         </tr>
-         <tr>
-             <td>
-                 Program Studi
-             </td>
-
-             <td>
-                 @if (@$dataInstrument->categoryUnit->kategori_audit == 'Program Studi')
-                     {{ $dataInstrument->categoryUnit->name }}
-                 @else
-                     -
-                 @endif
-             </td>
-         </tr>
+                 </td>
+             </tr>
+         @endif
 
          <tr>
              <td>
@@ -94,8 +109,8 @@
              </td>
 
              <td>
-                 @if (@$dataInstrument->categoryUnit->kategori_audit == 'Unit')
-                     {{ $dataInstrument->categoryUnit->name }}
+                 @if (@$dataInstrument->kategori_audit == 'Unit')
+                     {{ $dataInstrument->unit->name }}
                  @else
                      -
                  @endif
@@ -104,32 +119,19 @@
 
          <tr>
              <td>
-                 @if (@$dataInstrument->categoryUnit->kategori_audit == 'Jurusan')
+                 @if (@$dataInstrument->kategori_audit == 'Jurusan')
                      Ketua Jurusan
-                 @elseif (@$dataInstrument->categoryUnit->kategori_audit == 'Program Studi')
+                 @elseif (@$dataInstrument->kategori_audit == 'Program Studi')
                      Ketua Program Studi
                  @else
                      Kepala Unit
                  @endif
              </td>
              <td>
-                 {{ $dataInstrument->categoryUnit->kepala }}
+                 {{ $dataInstrument->auditee->name }}
              </td>
          </tr>
 
-         <tr>
-             <td>
-                 Ketua Auditor
-             </td>
-
-             <td>
-                 {{-- @if ($auditor->jabatan == 'ketua')
-                     {{ $auditor->user->name }}
-                 @else
-                     -
-                 @endif --}}
-             </td>
-         </tr>
          <tr>
              <td>
                  Tanggal Audit
@@ -153,19 +155,28 @@
                  </tr>
              @endif
          @endforeach
-         @foreach ($auditor as $item)
-             @if ($item->jabatan == 'anggota')
-                 <tr>
-                     <td>
-                         Anggota Auditor
-                     </td>
+         {{-- @foreach ($auditor as $item)
+             @if ($item->jabatan == 'anggota') --}}
+         <tr>
+             <td>
+                 Anggota Auditor 1
+             </td>
 
-                     <td>
-                         {{ $loop->iteration }}. {{ $item->user->name }}
-                     </td>
-                 </tr>
-             @endif
-         @endforeach
+             <td>
+                 {{ $dataInstrument->auditor->user->name }}
+             </td>
+         </tr>
+         <tr>
+             <td>
+                 Anggota Auditor 2
+             </td>
+
+             <td>
+                 {{ $dataInstrument->auditor2->user->name }}
+             </td>
+         </tr>
+         {{-- @endif
+         @endforeach --}}
          <tr>
              <td>
                  Tahun

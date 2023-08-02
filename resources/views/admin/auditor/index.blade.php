@@ -21,6 +21,7 @@
                                 <th>Email</th>
                                 <th>Jabatan</th>
                                 <th>Tugas</th>
+                                <th>Surat Keterangan</th>
                                 <th>Action</th>
                             </tr>
                         </thead>
@@ -51,6 +52,15 @@
 
                                     <td>
                                         {{ $item->tugas }}
+                                    </td>
+
+                                    <td>
+                                        {{-- {{ $item->tugas }} --}}
+                                        @if ($item->file_url)
+                                            <a href="{{ $item->file_url }}" download title="Unduh">
+                                                {{ $item->file }}
+                                            </a>
+                                        @endif
                                     </td>
 
                                     <td>

@@ -226,28 +226,46 @@
                                 &nbsp;
                                 <div class="col-md-2">
                                     {{-- input statusketercapaian --}}
-                                    <input type="radio" class="form-check-input" id="flexRadioDefault{{ $item->id }}"
+                                    <input type="radio" class="form-check-input @error('data.'.$item->id.'.status_ketercapaian')
+                                        is-invalid
+                                    @enderror" id="flexRadioDefault{{ $item->id }}"
                                         name="data[{{ $item->id }}][status_ketercapaian]" value="Tercapai"
-                                        {{ old('Tercapai', @$evaluasiDiri->status_ketercapaian) == 'Tercapai' ? 'checked' : '' }}>
+                                        {{ old('data.'.$item->id.'.status_ketercapaian', @$evaluasiDiri[$item->id]['status_ketercapaian']) == 'Tercapai' ? 'checked' : '' }}>
                                     <label for="">Tercapai</label>
                                     <div>
-                                        <input type="radio" class="form-check-input"
+                                        <input type="radio" class="form-check-input @error('status-ketercapaian')
+                                            is-invalid
+                                        @enderror"
                                             id="flexRadioDefault{{ $item->id }}"
                                             name="data[{{ $item->id }}][status_ketercapaian]" value="Tidak Tercapai"
-                                            {{ old('Tidak Tercapai', @$evaluasiDiri->status_ketercapaian) == 'Tidak Tercapai' ? 'checked' : '' }}>
+                                            {{ old('data.'.$item->id.'.status_ketercapaian', @$evaluasiDiri[$item->id]['status_ketercapaian']) == 'Tidak Tercapai' ? 'checked' : '' }}>
                                         <label for="">Tidak Tercapai</label>
                                     </div>
+
+                                    @error('data.'.$item->id.'.status_ketercapaian')
+                                        <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
 
                                 
                                 <div class="col-md-4">
-                                    <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
-                                        name="data[{{ $item->id }}][deskripsi_ketercapaian]">{{ @$evaluasiDiri->deskripsi_ketercapaian }}</textarea>
+                                    <textarea class="form-control @error('data.'.$item->id.'.deskripsi_ketercapaian')
+                                        is-invalid
+                                    @enderror" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"
+                                        name="data[{{ $item->id }}][deskripsi_ketercapaian]">{{ old('data.'.$item->id.'.deskripsi_ketercapaian', @$evaluasiDiri[$item->id]['deskripsi_ketercapaian']) }}</textarea>
+                                        @error('data.'.$item->id.'.deskripsi_ketercapaian')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
                                 <div class="col-md-3">
                                     {{-- input bukti --}}
-                                    <input type="text" class="form-control" name="data[{{ $item->id }}][bukti]"
-                                        id="{{ $item->id }}" value="{{ old('bukti', @$evaluasiDiri->bukti) }}">
+                                    <input type="text" class="form-control @error('data.'.$item->id.'.bukti')
+                                        is-invalid
+                                    @enderror" name="data[{{ $item->id }}][bukti]"
+                                        id="{{ $item->id }}" value="{{ old('data.'.$item->id.'.bukti', @$evaluasiDiri->bukti) }}">
+                                        @error('data.'.$item->id.'.bukti')
+                                            <span class="text-danger">{{ $message }}</span>
+                                        @enderror
                                 </div>
                                 <div class="col-md-2">
                                     <textarea class="form-control" id="exampleFormControlTextarea1{{ $item->id }}" rows="2"

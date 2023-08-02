@@ -91,10 +91,6 @@
                                                         {{ $item->name }}
                                                     </option>
                                                 @endforeach
-                                                {{-- <option value="admin" {{ old('admin', @$user->roles->name) == 'admin' ? 'selected' : '' }}>Admin</option>
-                                                <option value="auditee" {{ old('auditee', @$user->roles->name) == 'auditee' ? 'selected' : '' }}>Auditee</option>
-                                                <option value="auditor" {{ old('auditor', @$user->roles->name) == 'auditor' ? 'selected' : '' }}>Auditor</option>
-                                                <option value="P4MP" {{ old('P4MP', @$user->roles->name) == 'P4MP' ? 'selected' : '' }}>Kepala P4MP</option> --}}
                                             </select>
 
                                             @if ($errors->has('roles'))

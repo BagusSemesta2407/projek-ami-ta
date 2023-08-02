@@ -28,6 +28,13 @@ class ReportController extends Controller
         ]);
     }
 
+    // public function kesimpulan()
+    // {
+    //     $dataInstrument=DataInstrument::find($id);
+
+
+    // }
+
     public function detailReportAMI($id)
     {
         $title = 'Laporan AMI';
@@ -61,7 +68,8 @@ class ReportController extends Controller
 
         // Template untuk cover halaman
         $coverData = [
-            'coverImageUrl'=> "public/assetReport/cover.jpg"
+            'coverImageUrl'=> "public/assetReport/cover.jpg",
+            'dataInstrument' => $dataInstrument,
         ];
 
         $contenData = [

@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -80,5 +81,35 @@ class User extends Authenticatable
     {
         return $this->hasMany(CategoryUnit::class);
     }
+
+    // /**
+    //  * Get the jurusan associated with the User
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    //  */
+    // public function jurusan(): HasOne
+    // {
+    //     return $this->hasOne(Jurusan::class, 'id', 'user_id');
+    // }
+
+    // /**
+    //  * Get the programStudi associated with the User
+    //  *
+    //  * @return \Illuminaatabase\Eloquent\Relations\HasOne
+    //  */
+    // public function programStudi(): HasOne
+    // {
+    //     return $this->hasOne(ProgramStudi::class, 'user_id', 'id');
+    // }
+
+    // /**
+    //  * Get the unit associated with the User
+    //  *
+    //  * @return \Illuminate\Database\Eloquent\Relations\HasOne
+    //  */
+    // public function unit(): HasOne
+    // {
+    //     return $this->hasOne(Unit::class, 'user_id', 'id');
+    // }
 
 }

@@ -2,6 +2,38 @@
 
 @section('content')
     <section>
+        <div class="card collapse-icon accordion-icon-rotate">
+            <div class="card-header">
+                <h1 class="card-title pl-1">Detail Audit Dokumen</h1>
+            </div>
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="accordion" id="cardAccordion">
+
+                        @foreach ($auditLapangan as $item)
+                            <div class="card">
+                                <div class="card-header" id="headingOne" data-bs-toggle="collapse"
+                                    data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne"
+                                    role="button">
+                                    <span
+                                        class="collapsed collapse-title">{{ $item->auditDokumen->evaluasiDiri->instrument->target }}</span>
+                                </div>
+                                <div id="collapseOne" class="collapse pt-1" aria-labelledby="headingOne"
+                                    data-parent="#cardAccordion">
+                                    <div class="card-body col-12">
+                                        <b>
+                                            Hasil Temuan Audit :
+                                        </b>
+                                        {{ $item->hasil_temuan_audit }}
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-12 col-12">
                 <div class="card">

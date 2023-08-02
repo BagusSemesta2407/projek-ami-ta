@@ -20,6 +20,10 @@
             {{ request()->is('admin/document-standard*') ? 'active' : '' }} ||
             {{ request()->is('admin/dokumen-standar*') ? 'active' : '' }} ||
             {{ request()->is('admin/p4mp*') ? 'active' : '' }} ||
+            {{ request()->is('admin/jurusan*') ? 'active' : '' }} ||
+            {{ request()->is('admin/program-studi*') ? 'active' : '' }} ||
+            {{ request()->is('admin/unit*') ? 'active' : '' }} ||
+            {{ request()->is('admin/jenjang*') ? 'active' : '' }}
             ">
                 <a href="#" class='sidebar-link'>
                     <i class="bi bi-stack"></i>
@@ -31,11 +35,29 @@
                             User
                         </a>
                     </li>
-                    {{-- <li class="submenu-item {{ request()->is('admin/auditee*') ? 'active' : '' }}">
-                        <a href="{{ route('admin.auditee.index') }}">
-                            Auditee
+                    
+                    <li class="submenu-item {{ request()->is('admin/jurusan*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.jurusan.index') }}">
+                            Jurusan
                         </a>
-                    </li> --}}
+                    </li>
+
+                    <li class="submenu-item {{ request()->is('admin/jenjang*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.jenjang.index') }}">
+                            Jenjang
+                        </a>
+                    </li>
+                    <li class="submenu-item {{ request()->is('admin/program-studi*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.program-studi.index') }}">
+                            Program Studi
+                        </a>
+                    </li>
+                    <li class="submenu-item {{ request()->is('admin/unit*') ? 'active' : '' }}">
+                        <a href="{{ route('admin.unit.index') }}">
+                            Unit
+                        </a>
+                    </li>
+
                     <li class="submenu-item {{ request()->is('admin/auditor*') ? 'active' : '' }}">
                         <a href="{{ route('admin.auditor.index') }}">
                             Auditor
@@ -47,11 +69,11 @@
                             Kepala P4MP
                         </a>
                     </li> --}}
-                    <li class="submenu-item {{ request()->is('admin/category-unit*') ? 'active' : '' }}">
+                    {{-- <li class="submenu-item {{ request()->is('admin/category-unit*') ? 'active' : '' }}">
                         <a href="{{ route('admin.category-unit.index') }}">
                             Unit/ ProgramStudi/ Jurusan
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="submenu-item {{ request()->is('admin/instrument*') ? 'active' : '' }}">
                         <a href="{{ route('admin.instrument.index') }}">
                             Instrument

@@ -7,6 +7,9 @@
                 <div class="card-header">
                     Data Audit Dokumen
 
+                    {{-- <a href="{{ route('menu-p4mp.tinjauan-pengendalian.create-kesimpulan') }}" class="btn btn-outline-primary block float-end">
+                        Tambah
+                    </a> --}}
                 </div>
 
                 <div class="card-body">

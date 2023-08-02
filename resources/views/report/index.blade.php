@@ -28,7 +28,13 @@
                                     </td>
 
                                     <td>
-                                        {{ $item->categoryUnit->name }}
+                                        @if ($item->kategori_audit == 'Unit')
+                                            {{ $item->unit->name }}
+                                        @elseif ($item->kategori_audit == 'Program Studi')
+                                            {{ $item->programStudi->name }}
+                                        @else
+                                            {{ $item->jurusan->name }}
+                                        @endif
                                     </td>
 
                                     <td>

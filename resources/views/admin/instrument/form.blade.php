@@ -18,7 +18,7 @@
                                     $aksi = 'Tambah';
                                 @endphp
                             @endif
-                            Data Unit Kerja
+                            Data Instrument
                         </h4>
                     </div>
 
@@ -37,29 +37,105 @@
                                 <div class="row">
                                     <div class="col-12">
                                         <div class="form-group">
+                                            <label for="first-name-vertical">Kategori Instrument Audit</label>
+                                            <select class="select2 form-control" name="kategori_audit_instrument"
+                                                id="kategori_audit_instrument">
+                                                <option value="" selected="" disabled="">Masukkan Kategori
+                                                    Instrument Audit
+                                                </option>
+                                                <option value="Jurusan"
+                                                    {{ old('Jurusan', @$instrument->kategori_audit_instrument) == 'Jurusan' ? 'selected' : '' }}>
+                                                    Jurusan</option>
+                                                <option value="Program Studi"
+                                                    {{ old('Program Studi', @$instrument->kategori_audit_instrument) == 'Program Studi' ? 'selected' : '' }}>
+                                                    Program Studi</option>
+                                                <option value="Unit"
+                                                    {{ old('Unit', @$instrument->kategori_audit_instrument) == 'Unit' ? 'selected' : '' }}>
+                                                    Unit</option>
+                                            </select>
+                                            @if ($errors->has('kategori_audit_instrument'))
+                                                <span
+                                                    class="text-danger">{{ $errors->first('kategori_audit_instrument') }}</span>
+                                            @endif
+                                        </div>
+                                        <div class="form-group" id="select-jurusan">
                                             <label for="name" class="col-sm-3 col-form-label">
-                                                Pilih Unit <sup class="text-danger">*</sup>
+                                                Jurusan <sup class="text-danger">*</sup>
                                             </label>
 
                                             <div class="col-md-12">
                                                 <div class="input-group">
-                                                    <select name="category_unit_id"
-                                                        class="select2 form-select @error('category_unit_id') is-invalid @enderror">
+                                                    <select name="jurusan_id"
+                                                        class="select2 form-select @error('jurusan_id') is-invalid @enderror"
+                                                        id="jurusan_id">
                                                         <option value="" selected="" disabled="">
-                                                            Pilih Kategori Audit
+                                                            Pilih Data Jurusan
                                                         </option>
 
-                                                        @foreach ($categoryUnit as $item)
+                                                        @foreach ($jurusan as $item)
                                                             <option value="{{ $item->id }}"
-                                                                {{ old('category_unit_id', @$instrument->category_unit_id) == $item->id ? 'selected' : '' }}>
+                                                                {{ old('jurusan_id', @$instrument->jurusan_id) == $item->id ? 'selected' : '' }}>
                                                                 {{ $item->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                @if ($errors->has('category_unit_id'))
+                                                @if ($errors->has('jurusan_id'))
+                                                    <span class="text-danger">{{ $errors->first('jurusan_id') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="select-prodi">
+                                            <label for="name" class="col-sm-3 col-form-label">
+                                                Program Studi <sup class="text-danger">*</sup>
+                                            </label>
+
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    <select name="program_studi_id"
+                                                        class="select2 form-select @error('program_studi_id') is-invalid @enderror"
+                                                        id="program_studi_id">
+                                                        <option value="" selected="" disabled="">
+                                                            Pilih Data Program Studi
+                                                        </option>
+
+                                                        @foreach ($programStudi as $item)
+                                                            <option value="{{ $item->id }}"
+                                                                {{ old('program_studi_id', @$instrument->program_studi_id) == $item->id ? 'selected' : '' }}>
+                                                                {{ $item->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                @if ($errors->has('program_studi_id'))
                                                     <span
-                                                        class="text-danger">{{ $errors->first('category_unit_id') }}</span>
+                                                        class="text-danger">{{ $errors->first('program_studi_id') }}</span>
+                                                @endif
+                                            </div>
+                                        </div>
+                                        <div class="form-group" id="select-unit">
+                                            <label for="name" class="col-sm-3 col-form-label">
+                                                Unit
+                                            </label>
+
+                                            <div class="col-md-12">
+                                                <div class="input-group">
+                                                    <select name="unit_id"
+                                                        class="select2 form-select @error('unit_id') is-invalid @enderror">
+                                                        <option value="" selected="" disabled="">
+                                                            Pilih Data Unit
+                                                        </option>
+
+                                                        @foreach ($unit as $item)
+                                                            <option value="{{ $item->id }}"
+                                                                {{ old('unit_id', @$instrument->unit_id) == $item->id ? 'selected' : '' }}>
+                                                                {{ $item->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                @if ($errors->has('unit_id'))
+                                                    <span class="text-danger">{{ $errors->first('unit_id') }}</span>
                                                 @endif
                                             </div>
                                         </div>
@@ -102,7 +178,7 @@
                                                     Penelitian</option>
                                                 <option value="Pengabdian Kepada Masyarakat"
                                                     {{ old('Pengabdian Kepada Masyarakat', @$instrument->status_standar) == 'Pengabdian Kepada Masyarakat' ? 'selected' : '' }}>
-                                                    Pengabdian Kepada Masyaraket</option>
+                                                    Pengabdian Kepada Masyarakat</option>
                                             </select>
                                             @if ($errors->has('status_standar'))
                                                 <span class="text-danger">{{ $errors->first('status_standar') }}</span>
@@ -128,4 +204,56 @@
         </form>
         </form>
     </section>
+@endsection
+
+@section('script')
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#jurusan_id').on('change', function() {
+                let jurusanID = $(this).val();
+
+                $.ajax({
+                    type: 'GET',
+                    dataType: 'json',
+                    url: '/admin/getJurusan/' + jurusanID,
+                    success: function(data) {
+                        let programStudiElement = $('#program_studi_id');
+                        programStudiElement.empty();
+                        programStudiElement.append(
+                            '<option value="" disabled selected>Pilih Data Program Studi</option>'
+                        )
+
+                        $.each(data, function(index, programStudi) {
+                            programStudiElement.append('<option value="' + programStudi
+                                .id + '">' + programStudi.name + '</option>')
+                        })
+                    },
+                    error: function(xhr, status, error) {
+                        console.error(error);
+                    }
+                })
+            })
+        })
+
+        $('#select-jurusan').hide();
+        $('#select-prodi').hide();
+        $('#select-unit').hide();
+
+        $('#kategori_audit_instrument').on('change', function() {
+            let selectedCategoryAudit = $(this).val();
+
+            $('#select-jurusan').hide();
+            $('#select-prodi').hide();
+            $('#select-unit').hide();
+
+            if (selectedCategoryAudit === 'Jurusan') {
+                $('#select-jurusan').show();
+            } else if (selectedCategoryAudit === 'Unit') {
+                $('#select-unit').show();
+            } else if (selectedCategoryAudit === 'Program Studi') {
+                $('#select-jurusan').show();
+                $('#select-prodi').show();
+            }
+        });
+    </script>
 @endsection
