@@ -94,6 +94,7 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                 Route::get('getDataInstrumentId/{id}', [DataInstrumentController::class, 'getDataInstrumentId'])->name('get-data-instrument-id');
                 Route::get('getAuditee/{user}', [DataInstrumentController::class, 'getAuditee'])->name('get-auditee');
                 Route::get('getAuditor', [DataInstrumentController::class, 'getAuditor'])->name('get-auditor');
+                Route::get('countAuditor/{auditorId}', [DataInstrumentController::class, 'countAuditor'])->name('count-auditor');
             }
         );
 
@@ -123,6 +124,21 @@ Route::group(['middleware' => 'prevent-back-history'], function () {
                         Route::PUT('create-evaluasi-diri/{dataInstrument}/{instrument}/{evaluasiDiri}', [EvaluasiDiriController::class, 'updateDataEvaluasiDiri'])->name('update-data-evaluasi-diri');
 
                         Route::get('detail-data-evaluasi-diri/{dataInsrument}', [EvaluasiDiriController::class, 'detailDataEvaluasiDiri'])->name('detail-evaluasi-diri');
+                    }
+                );
+                Route::get('report-ami', [ReportController::class, 'index'])->name('report-ami');
+
+                Route::get('cetak-ami/{dataInstrument}', [ReportController::class, 'cetakHasilAmi'])->name('cetak-ami');
+                Route::group(
+                    [
+                        'as' => 'report-ami.',
+                        'prefix'   => 'report-ami',
+                    ],
+
+                    function () {
+                        Route::get('cetak-ami/{dataInstrument}', [ReportController::class, 'cetakHasilAmi'])->name('cetak-ami2');
+
+                        Route::get('detail-report-ami/{dataInstrument}', [ReportController::class, 'detailReportAMI'])->name('detail-ami');
                     }
                 );
             }

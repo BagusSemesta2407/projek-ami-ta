@@ -12,6 +12,7 @@
                         </h4>
                     </div>
 
+
                     <form class="form form-vertical" enctype="multipart/form-data" method="POST"
                         action="{{ isset($dataInstrument) ? route('admin.data-instruments.update', $dataInstrument) : route('admin.data-instruments.store') }}"
                         id="form">
@@ -29,16 +30,15 @@
                                                 <label for="first-name-vertical">Kategori Audit</label>
                                                 <select class="select2 form-select" name="kategori_audit"
                                                     id="kategori_audit">
-                                                    <option value="" selected="" disabled="">Masukkan Standar
-                                                    </option>
+                                                    <option value="" selected disabled>Masukkan Standar</option>
                                                     <option value="Unit"
-                                                        {{ old('Unit', @$dataInstrument->kategori_audit) == 'Unit' ? 'selected' : '' }}>
+                                                        {{ old('kategori_audit', @$dataInstrument->kategori_audit) === 'Unit' ? 'selected' : '' }}>
                                                         Unit</option>
                                                     <option value="Program Studi"
-                                                        {{ old('Program Studi', @$dataInstrument->kategori_audit) == 'Program Studi' ? 'selected' : '' }}>
+                                                        {{ old('kategori_audit', @$dataInstrument->kategori_audit) === 'Program Studi' ? 'selected' : '' }}>
                                                         Program Studi</option>
                                                     <option value="Jurusan"
-                                                        {{ old('Jurusan', @$dataInstrument->kategori_audit) == 'Jurusan' ? 'selected' : '' }}>
+                                                        {{ old('kategori_audit', @$dataInstrument->kategori_audit) === 'Jurusan' ? 'selected' : '' }}>
                                                         Jurusan</option>
                                                 </select>
                                                 @if ($errors->has('kategori_audit'))
@@ -46,7 +46,8 @@
                                                 @endif
                                             </div>
 
-                                            <div class="form-group" id="jurusan_id">
+                                            <div class="form-group" id="jurusan_id"
+                                                @if (old('kategori_audit', @$dataInstrument->kategori_audit) !== 'Jurusan') style="display:none;" @endif>
                                                 <label for="jurusan_id" class="col-sm-3 col-form-label">
                                                     Pilih Jurusan <sup class="text-danger">*</sup>
                                                 </label>
@@ -67,7 +68,8 @@
                                                     @enderror
                                                 </div>
                                             </div>
-                                            <div class="form-group" id="program_studi_id">
+                                            <div class="form-group" id="program_studi_id"
+                                                @if (old('kategori_audit', @$dataInstrument->kategori_audit) !== 'Program Studi') style="display:none;" @endif>
                                                 <label for="program_studi_id" class="col-sm-3 col-form-label">
                                                     Pilih Program Studi
                                                 </label>
@@ -77,19 +79,12 @@
                                                         id="select-prodi">
                                                         <option value="" disabled selected>Pilih Program Studi
                                                         </option>
-                                                        {{-- @foreach ($programStudi as $item)
-                                                            <option value="{{ $item->id }}"
-                                                                {{ old('program_studi_id', @$dataInstrument->program_studi_id) == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->name }}
-                                                            </option>
-                                                        @endforeach --}}
+
                                                     </select>
-                                                    {{-- @error('program_studi_id')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror --}}
                                                 </div>
                                             </div>
-                                            <div class="form-group" id="unit_id">
+                                            <div class="form-group" id="unit_id"
+                                                @if (old('kategori_audit', @$dataInstrument->kategori_audit) !== 'Unit') style="display:none;" @endif>
                                                 <label for="unit_id" class="col-sm-3 col-form-label">
                                                     Pilih Unit <sup class="text-danger">*</sup>
                                                 </label>
@@ -111,7 +106,7 @@
                                                 </div>
                                             </div>
 
-                                            <div class="form-group">
+                                            <div class="form-group" id="select-auditor">
                                                 <label for="auditor_id" class="col-sm-3 col-form-label">
                                                     Auditor 1 <sup class="text-danger">*</sup>
                                                 </label>
@@ -122,14 +117,17 @@
                                                         <option value="" disabled selected>Pilih Auditor 1</option>
                                                         @foreach ($userAuditor as $item)
                                                             <option value="{{ $item->id }}"
-                                                                {{ old('auditor_id', @$dataInstrument->auditor_id) == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->user->name }}
+                                                                {{ old('auditor_id', @$dataInstrument->auditor_id) == $item->id ? 'selected' : '' }}
+                                                                data-jurusan_id="{{ $item->jurusan_id }}"
+                                                                data-program_studi_id="{{ $item->program_studi_id }}"
+                                                                >
+                                                                {{ $item->user->name }} ({{ $countAuditor }})
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                    @error('auditor_id')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
+                                                    @if ($errors->has('auditor_id'))
+                                                        <span class="text-danger">{{ $errors->first('auditor_id') }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
 
@@ -144,14 +142,17 @@
                                                         <option value="" disabled selected>Pilih Auditor 2</option>
                                                         @foreach ($userAuditor as $item)
                                                             <option value="{{ $item->id }}"
-                                                                {{ old('auditor2_id', @$dataInstrument->auditor2_id) == $item->id ? 'selected' : '' }}>
-                                                                {{ $item->user->name }}
+                                                                {{ old('auditor2_id', @$dataInstrument->auditor2_id) == $item->id ? 'selected' : '' }}
+                                                                data-jurusan_id="{{ $item->jurusan_id }}"
+                                                                data-program_studi_id="{{ $item->program_studi_id }}">
+                                                                {{ $item->user->name }} ({{ $countAuditor }})
                                                             </option>
                                                         @endforeach
                                                     </select>
-                                                    @error('auditor2_id')
-                                                        <span class="text-danger">{{ $message }}</span>
-                                                    @enderror
+                                                    @if ($errors->has('auditor2_id'))
+                                                        <span
+                                                            class="text-danger">{{ $errors->first('auditor2_id') }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
 
@@ -337,164 +338,153 @@
 
 @section('script')
     <script type="text/javascript">
-        $(document).ready(function() {
-            // $(document).on('change', function() {
-            //     var jurusanId = $('#select-jurusan').val();
-            //     var prodiId = $('#select-prodi').val();
-            //     var unitId = $('#select-jurusan').val();
-            //     console.log(unitId);
-            //     // $('#user-auditee').empty();
-            //     $.ajax({
-            //         type: "GET",
-            //         url: "/admin/getDataInstrumentId/" + unitId,
-            //         dataType: 'json',
-            //         success: function(response) {
-            //             var sectionQuestion = $('#section-question');
-            //             sectionQuestion.html('');
+        //     $(document).ready(function() {
+        //         var programStudiName = "{{ old('program_studi_id', @$dataInstrument->programStudi->name) }}";
 
-            //             if (response.length > 0) {
-            //                 var table = $(
-            //                     '<table class="table table-hover table-secondary table-bordered">'
-            //                 );
-            //                 var headerRow = $('<tr>');
+        //         if (programStudiName !== '') {
+        //             // The option value and displayed text should both be the name of Program Studi
+        //             $('#select-prodi').append('<option value="' + programStudiName + '" selected>' + programStudiName +
+        //                 '</option>');
+        //         }
 
-            //                 headerRow.append($('<th>').text('No'));
-            //                 headerRow.append($('<th>').text('Instrument/Butir Mutu'));
+        //         $('#select-jurusan').on('change', function() {
+        //             let jurusanID = $(this).val();
 
-            //                 table.append(headerRow);
+        //             $.ajax({
+        //                 type: 'GET',
+        //                 dataType: 'json',
+        //                 url: '/admin/getJurusan/' + jurusanID,
+        //                 success: function(data) {
+        //                     let programStudiElement = $('#select-prodi');
+        //                     programStudiElement.empty();
+        //                     programStudiElement.append(
+        //                         '<option value="" disabled selected>Pilih Data Program Studi</option>'
+        //                     )
 
-            //                 response.forEach(function(data, index) {
-            //                     var dataRow = $('<tr>');
-            //                     dataRow.append('<td>' + (index + 1) + '</td>');
-            //                     dataRow.append('<td>' + data.name + '</td>');
+        //                     $.each(data, function(index, programStudi) {
+        //                         // Append the name of Program Studi as both option value and displayed text
+        //                         programStudiElement.append('<option value="' + programStudi
+        //                             .id + '">' + programStudi.name + '</option>');
+        //                     });
 
-            //                     table.append(dataRow);
-            //                 });
+        //                     // Trigger the change event to update the selected Program Studi if it exists in the new list
+        //                     programStudiElement.val(programStudiName).trigger('change');
+        //                 },
+        //                 error: function(xhr, status, error) {
+        //                     console.error(error);
+        //                 }
+        //             })
+        //         });
+        //     });
 
-            //                 // sectionQuestion.append('<h5>List Instrument</h5>');
-            //                 sectionQuestion.append(table);
-            //             } else {
-            //                 sectionQuestion.append('<p>Tidak Ada Data Instrument</p>');
-            //             }
-            //         },
-            //         error: function(error) {
-            //             console.log(error);
-            //         }
-            //     });
+        //     $(document).ready(function () {
+        //     $('#select-jurusan, #select-prodi').change(function () {
+        //         // Ambil nilai jurusan_id dan program_studi_id yang dipilih
+        //         var jurusanId = $('#select-jurusan').val();
+        //         var programStudiId = $('#select-prodi').val();
 
-                // if (unitId) {
-                //     // Lakukan permintaan ke server untuk mendapatkan data user berdasarkan category unit
-                //     $.ajax({
-                //         type: "GET",
-                //         url: "/admin/getAuditee/" + unitId,
-                //         dataType: 'json',
-                //         success: function(response) {
-                //             if (response.length > 0) {
-                //                 // Tambahkan opsi untuk setiap user auditee yang diterima dari server
-                //                 response.forEach(function(user) {
-                //                     $('#user-auditee').append('<option value="' + user
-                //                         .id + '">' + user.name + '</option>');
-                //                 });
-
-                //                 // Aktifkan kembali dropdown auditee
-                //                 $('#user-auditee').prop('disabled', false);
-                //             } else {
-                //                 // Tampilkan pesan jika tidak ada user auditee yang ditemukan
-                //                 $('#user-auditee').append(
-                //                     '<option value="" disabled selected>Tidak Ada User Auditee</option>'
-                //                 );
-                //                 $('#user-auditee').prop('disabled', true);
-                //             }
-                //         },
-                //         error: function(error) {
-                //             console.log(error);
-                //         }
-                //     });
-                // } else {
-                //     // Nonaktifkan dropdown auditee jika tidak ada unit yang dipilih
-                //     $('#user-auditee').prop('disabled', true);
-                // }
-            // });
-
-
-
-            $('#add-row').click(function() {
-                var html = '<div class="repeater-items">' +
-                    '<div class="form-group">' +
-                    '<label for="tujuan" class="col-12 col-form-label">Tujuan <sup class="text-danger">*</sup></label>' +
-                    '<div class="d-flex justify-content-between">' +
-                    '<input type="text" name="deskripsi_tujuan[]" class="form-control" placeholder="Masukkan Tujuan">' +
-                    '<button type="button" class="btn btn-sm btn-outline-danger remove-row"><i class="bi bi-trash-fill"></i></button>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>';
-
-                $('#repeater').append(html);
-            });
-
-            $('#repeater').on('click', '.remove-row', function() {
-                $(this).closest('.repeater-items').remove();
-            });
-
-            $('#add-lingkup').click(function() {
-                var html = '<div class="repeater-items-lingkup">' +
-                    '<div class="form-group">' +
-                    '<label for="lingkup" class="col-12 col-form-label">Lingkup Audit <sup class="text-danger">*</sup></label>' +
-                    '<div class="d-flex justify-content-between">' +
-                    '<input type="text" name="deskripsi_lingkup[]" class="form-control" placeholder="Masukkan Lingkup">' +
-                    '<button type="button" class="btn btn-sm btn-outline-danger remove-lingkup"><i class="bi bi-trash-fill"></i></button>' +
-                    '</div>' +
-                    '</div>' +
-                    '</div>';
-
-                $('#repeater-lingkup').append(html);
-            });
-
-            $('#repeater-lingkup').on('click', '.remove-lingkup', function() {
-                $(this).closest('.repeater-items-lingkup').remove();
-            });
-
-            // $('#select-unit').on('change', function(){
-            //     var 
-            // })
-        });
-
-    
+        //         // Buat permintaan Ajax
+        //         $.ajax({
+        //             url: '/admin/getAuditor/',
+        //             type: 'GET',
+        //             data: { jurusan_id: jurusanId, program_studi_id: programStudiId },
+        //             success: function (response) {
+        //                 // Tampilkan opsi auditor yang tersedia dalam elemen select auditor_id
+        //                 var availableAuditors = response.available_auditors;
+        //                 var auditorOptions = '';
+        //                 availableAuditors.forEach(function (auditor) {
+        //                     auditorOptions += '<option value="' + auditor.id + '">' + auditor.name + '</option>';
+        //                     // Tambahkan informasi auditor lainnya sesuai kebutuhan
+        //                 });
+        //                 $('#auditor_id').html(auditorOptions);
+        //             },
+        //             error: function (xhr, status, error) {
+        //                 console.log(error);
+        //             }
+        //         });
+        //     });
+        // });
 
         $(document).ready(function() {
-            var programStudiID = "{{ old('program_studi_id', @$dataInstrument->programStudi->name) }}";
+            var programStudiName = "{{ old('program_studi_id', @$dataInstrument->programStudi->name) }}";
+            var auditorName1 = "{{ old('auditor_id', @$dataInstrument->auditor->user->name) }}";
+            var auditorName2 = "{{ old('auditor2_id', @$dataInstrument->auditor->user->name) }}";
 
-            if (programStudiID !== '') {
-                $('#select-prodi').append('<option value="' + programStudiID + '" selected>' + programStudiID +
-                    '</option>');
-            }
-            $('#select-jurusan').on('change', function() {
-                let jurusanID = $(this).val();
-                console.log(jurusanID);
+            // Fungsi untuk mengisi opsi program studi dan menghapus opsi auditor yang sama
+            function populateProgramStudiAndFilterAuditor() {
+                var selectedJurusanId = $('#select-jurusan').val();
 
                 $.ajax({
                     type: 'GET',
                     dataType: 'json',
-                    url: '/admin/getJurusan/' + jurusanID,
+                    url: '/admin/getJurusan/' + selectedJurusanId,
                     success: function(data) {
-                        let programStudiElement = $('#select-prodi');
+                        var programStudiElement = $('#select-prodi');
                         programStudiElement.empty();
                         programStudiElement.append(
                             '<option value="" disabled selected>Pilih Data Program Studi</option>'
-                        )
+                        );
 
                         $.each(data, function(index, programStudi) {
-                            programStudiElement.append('<option value="' + programStudi
-                                .id + '">' + programStudi.name + '</option>')
-                        })
+                            // Append the name of Program Studi as both option value and displayed text
+                            programStudiElement.append('<option value="' + programStudi.id +
+                                '">' + programStudi.name + '</option>');
+                        });
+
+                        // Panggil fungsi filterAuditorOptions setelah memuat opsi program studi
+                        filterAuditorOptions();
                     },
                     error: function(xhr, status, error) {
                         console.error(error);
                     }
-                })
-            })
+                });
+            }
 
-        })
+            // Fungsi untuk menonaktifkan atau menghapus opsi auditor yang memiliki jurusan dan program studi yang sama
+            function filterAuditorOptions() {
+                var selectedJurusanId = $('#select-jurusan').val();
+                var selectedProgramStudiId = $('#select-prodi').val();
+
+                $('#auditor_id option, #auditor2_id option').each(function() {
+                    var auditorJurusanId = $(this).data('jurusan_id');
+                    var auditorProgramStudiId = $(this).data('program_studi_id');
+
+                    if (
+                        auditorJurusanId == selectedJurusanId &&
+                        auditorProgramStudiId == selectedProgramStudiId
+                    ) {
+                        // Nonaktifkan atau hapus opsi auditor yang memiliki jurusan dan program studi yang sama
+                        $(this).prop('disabled', true);
+                        if ($(this).val() == auditorName1) {
+                            // Jika opsi auditor yang sama telah dipilih sebelumnya, hapus pilihan auditor tersebut
+                            $('#auditor_id').val('');
+                        }
+                        if ($(this).val() == auditorName2) {
+                            // Jika opsi auditor yang sama telah dipilih sebelumnya, hapus pilihan auditor tersebut
+                            $('#auditor2_id').val('');
+                        }
+                    } else {
+                        // Aktifkan kembali opsi auditor yang tidak memiliki jurusan dan program studi yang sama
+                        $(this).prop('disabled', false);
+                    }
+                });
+
+            }
+
+            // Panggil fungsi populateProgramStudiAndFilterAuditor saat halaman dimuat
+            populateProgramStudiAndFilterAuditor();
+
+            $('#select-jurusan').on('change', function() {
+                // Panggil fungsi populateProgramStudiAndFilterAuditor saat jurusan berubah
+                populateProgramStudiAndFilterAuditor();
+            });
+
+            $('#select-prodi').on('change', function() {
+                // Panggil fungsi filterAuditorOptions saat program studi berubah
+                filterAuditorOptions();
+            });
+        });
+
 
         var today = new Date();
         var dd = String(today.getDate()).padStart(2, '0');
@@ -505,27 +495,31 @@
         $('#input-year').attr('min', today);
 
 
-        $(document).ready(function() {
-            $('#auditor_id').on('change', function() {
-                let selectedAuditorId = $(this).val();
+        // $(document).ready(function() {
+        //     $('#auditor_id').on('change', function() {
+        //         let selectedAuditorId = $(this).val();
 
-                $('#auditor2_id option').each(function() {
-                    if ($(this).val() === selectedAuditorId) {
-                        $(this).prop('disabled', true);
-                    } else {
-                        $(this).prop('disabled', false);
-                    }
-                });
-            });
-        });
+        //         $('#auditor2_id option').each(function() {
+        //             if ($(this).val() === selectedAuditorId) {
+        //                 $(this).prop('disabled', true);
+        //             } else {
+        //                 $(this).prop('disabled', false);
+        //             }
+        //         });
+        //     });
+        // });
 
-        $('#jurusan_id').hide();
-        $('#program_studi_id').hide();
-        $('#unit_id').hide();
+        let selectedCategoryAudit = $('#kategori_audit').val();
+        toggleFields(selectedCategoryAudit);
 
+        // Update the fields when the "kategori_audit" value changes
         $('#kategori_audit').on('change', function() {
             let selectedCategoryAudit = $(this).val();
+            toggleFields(selectedCategoryAudit);
+        });
 
+        // Function to toggle the visibility of fields based on "kategori_audit"
+        function toggleFields(selectedCategoryAudit) {
             $('#jurusan_id').hide();
             $('#program_studi_id').hide();
             $('#unit_id').hide();
@@ -538,6 +532,6 @@
                 $('#jurusan_id').show();
                 $('#program_studi_id').show();
             }
-        });
+        }
     </script>
 @endsection

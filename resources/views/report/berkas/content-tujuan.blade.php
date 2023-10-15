@@ -71,7 +71,15 @@
             @endforeach
         </tbody>
     </table>
-
+    <br>
+    <h4>Kelebihan</h4>
+    @foreach ($kesimpulan as $item)
+        {{ $loop->iteration }}.{{ $item->kelebihan }}
+    @endforeach
+    <h4>Kesimpulan</h4>
+    @foreach ($kesimpulan as $value)
+        {{ $loop->iteration }}.{{ $value->kesimpulan }}
+    @endforeach
     <!-- Add more content below the table if needed -->
 </body>
 

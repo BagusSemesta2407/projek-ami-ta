@@ -33,7 +33,8 @@
 
     <link rel="stylesheet" href="{{ asset('assets/extensions/summernote/summernote-lite.min.css') }}">
 
-    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css" rel="stylesheet">
+    <link href="https://unpkg.com/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css"
+        rel="stylesheet">
     {{-- choices --}}
     {{-- Toast --}}
     <link rel="stylesheet" href="{{ asset('assets/extensions/toastify-js/src/toastify.css') }}">
@@ -426,22 +427,6 @@
                 tabsize: 2,
                 height: 120,
             })
-        })
-        // $('#summernote').summernote({
-        //     tabsize: 2,
-        //     height: 120,
-        // })
-        $('#summernote1').summernote({
-            tabsize: 2,
-            height: 120,
-        })
-        $('#summernote2').summernote({
-            tabsize: 2,
-            height: 120,
-        })
-        $('#summernote3').summernote({
-            tabsize: 2,
-            height: 120,
         })
 
 

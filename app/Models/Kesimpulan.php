@@ -22,29 +22,17 @@ class Kesimpulan extends Model
      * @param  $request
      * @return string
      */
-    public static function saveDokumentasi($request)
+    public static function saveDokumentasi($dokumentasi)
     {
         $filename = null;
 
-        if ($request->hasFile('dokumentasi')) {
-            $dokumentasi = $request->file('dokumentasi');
-    
-            // Validate file type
-            $allowedTypes = ['png', 'jpg', 'jpeg'];
-            $extension = $dokumentasi->getClientOriginalExtension();
-            if (in_array($extension, $allowedTypes)) {
-                // Generate a unique filename
-                $name = time() . '_' . $dokumentasi->getClientOriginalName();
-                // Save the file in the specified storage path
-                $dokumentasi->storeAs('public/dokumentasi/', $name);
-                $filename = $name;
-            } else {
-                // File type not allowed, handle the error as needed
-                // For example, you could display an error message or redirect back with an error status
-                return null;
-            }
+        if ($dokumentasi) {
+
+            $name=$dokumentasi->getClientOriginalName();
+            $filename = $name;
+            $dokumentasi->storeAs('public/dokumentasi/', $filename);
         }
-    
+
         return $filename;
     }
 

@@ -43,8 +43,8 @@ class AuditLapanganController extends Controller
             ->whereHas('evaluasiDiri.instrument', function ($q) use ($dataInstrument) {
                 $q->where('data_instrument_id', $dataInstrument->id);
             })->get();
-        // $instrument=$auditDokumen->evaluasiDiri->instrument->status_ketercapaian;
-        $instrument = Instrument::where('id', $id)->first();
+        
+        $instrument = Instrument::with(['evaluasiDiri.auditDokumen'])->first();
 
         $auditDokumenID=$auditDokumen->pluck('id');
         $auditLapangan=AuditLapangan::whereIn('audit_dokumen_id', $auditDokumenID)->get();

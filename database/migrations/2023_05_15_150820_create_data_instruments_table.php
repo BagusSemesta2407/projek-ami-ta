@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('auditor_id')
                 ->nullable()
-                ->constrained('users');
+                ->constrained('auditors');
             $table->foreignId('auditor2_id')
                 ->nullable()
-                ->constrained('users');
+                ->constrained('auditors');
             $table->foreignId('jurusan_id')->nullable()
             ->constrained();
             $table->foreignId('program_studi_id')->nullable()

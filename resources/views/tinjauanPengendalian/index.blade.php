@@ -50,10 +50,10 @@
                                                 <i class="bi bi-pen"></i>
                                             </a>
                                             &nbsp;
-                                            <a href="{{ route('menu-p4mp.tinjauan-pengendalian.create-kesimpulan', $item->id) }}"
+                                            {{-- <a href="{{ route('menu-p4mp.tinjauan-pengendalian.create-kesimpulan', $item->id) }}"
                                                 class="btn btn-sm btn-outline-secondary">
                                                 <i class="bi bi-card-image"></i>
-                                            </a>
+                                            </a> --}}
                                             {{-- <form method="POST" action="{{ route('admin.category-unit.destroy', $item->id) }}">
                                             @csrf
                                             <input name="_method" type="hidden" value="DELETE">

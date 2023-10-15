@@ -6,6 +6,7 @@ use App\Models\AuditLapangan;
 use App\Models\Auditor;
 use App\Models\DataInstrument;
 use App\Models\InstrumentAuditee;
+use App\Models\Kesimpulan;
 use App\Models\Lingkup;
 use App\Models\TinjauanPengendalian;
 use App\Models\Tujuan;
@@ -65,6 +66,7 @@ class ReportController extends Controller
 
         $tujuan =Tujuan::where('data_instrument_id', $id)->get();
         $lingkup =Lingkup::where('data_instrument_id', $id)->get();
+        $kesimpulan=Kesimpulan::where('data_instrument_id', $id)->get();
 
         // Template untuk cover halaman
         $coverData = [
@@ -89,7 +91,8 @@ class ReportController extends Controller
             'tinjauanPengendalian' => $tinjauanPengendalian,
             'auditLapangan' => $auditLapangan,
             'tujuan'=>$tujuan,
-            'lingkup'=> $lingkup
+            'lingkup'=> $lingkup,
+            'kesimpulan'=> $kesimpulan
         ];
         $coverPage =view('report.berkas.cover', $coverData)->render();
 

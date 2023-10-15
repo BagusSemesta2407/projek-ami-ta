@@ -79,7 +79,6 @@ class AuditorController extends Controller
 
         $auditor = Auditor::create($data);
 
-
         return redirect()->route('admin.auditor.index')->with('success', 'Data Berhasil Ditambahkan!');
     }
 

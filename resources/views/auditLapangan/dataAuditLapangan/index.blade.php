@@ -243,7 +243,7 @@
 
                         <div class="col-12">
                             <div class="row">
-                                <p>&nbsp; &nbsp;Form Audit Dokumen (Auditor 2)</p>
+                                <p>&nbsp; &nbsp;Form Audit Dokumen</p>
                             </div>
                         </div>
 

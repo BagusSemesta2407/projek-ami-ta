@@ -42,6 +42,7 @@
                                     </td>
 
                                     <td>
+                                        @role('P4MP')
                                         <div class="d-flex">
                                             {{-- <a href="{{ route('menu-p4mp.report-ami.detail-ami', $item->id) }}"
                                                 class="btn btn-sm btn-warning">
@@ -54,6 +55,21 @@
                                                 
                                             </button> --}}
                                         </div>
+                                        @endrole
+                                        @role('auditee')
+                                        <div class="d-flex">
+                                            {{-- <a href="{{ route('menu-p4mp.report-ami.detail-ami', $item->id) }}"
+                                                class="btn btn-sm btn-warning">
+                                                <i class="bi bi-eye"></i>
+                                            </a>
+                                            &nbsp; --}}
+                                            <a class="btn btn-sm btn-outline-warning" href="{{ route('menu-p4mp.cetak-ami', $item->id) }}" target="__blank">                                            <i class="bi bi-printer-fill"></i>
+                                            </a>
+                                            {{-- <button class="btn btn-sm btn-outline-danger">
+                                                
+                                            </button> --}}
+                                        </div>
+                                        @endrole
                                     </td>
                                 </tr>
                             @endforeach

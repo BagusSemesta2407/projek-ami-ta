@@ -19,6 +19,9 @@
                                 <th>No</th>
                                 <th>Nama Auditor</th>
                                 <th>Email</th>
+                                <th>Jurusan</th>
+                                <th>Program Studi</th>
+                                <th>Unit</th>
                                 <th>Jabatan</th>
                                 <th>Tugas</th>
                                 <th>Surat Keterangan</th>
@@ -38,6 +41,15 @@
                                     </td>
                                     <td>
                                         {{ $item->user->email }}
+                                    </td>
+                                    <td>
+                                        {{ @$item->jurusan->name }}
+                                    </td>
+                                    <td>
+                                        {{ @$item->programStudi->name }}
+                                    </td>
+                                    <td>
+                                        {{ @$item->unit->name }}
                                     </td>
 
                                     <td>

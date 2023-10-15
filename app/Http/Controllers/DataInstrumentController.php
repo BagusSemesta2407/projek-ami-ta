@@ -17,6 +17,7 @@ use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rule;
 
 class DataInstrumentController extends Controller
 {
@@ -45,6 +46,12 @@ class DataInstrumentController extends Controller
 
         $userAuditor = Auditor::all();
 
+        $countAuditor=DataInstrument::where('status', 'Selesai')
+        ->where('auditor_id', [$userAuditor])
+        ->orWhere('auditor2_id', [$userAuditor])
+        ->where('status', 'Selesai')
+        ->count();
+
         // $categoryUnit = CategoryUnit::all();
 
         $userAuditee = User::whereHas('roles', function ($q) {
@@ -62,7 +69,8 @@ class DataInstrumentController extends Controller
             'jurusan'           => $jurusan,
             'programStudi'      => $programStudi,
             'unit'              => $unit,
-            'userAuditee'       => $userAuditee
+            'userAuditee'       => $userAuditee,
+            'countAuditor'=>$countAuditor,
         ]);
     }
 
@@ -71,15 +79,6 @@ class DataInstrumentController extends Controller
      */
     public function store(DataInstrumentRequest $request)
     {
-        // $categoryUnit=CategoryUnit::all();
-        // $user=User::create([
-        //     'name'=>$request->name,
-        //     'email'=>$request->email,
-        //     'password'=>bcrypt('12345678')
-        // ]);
-
-        // $user->assignRole('auditee');
-
         $dataInstrument = DataInstrument::create([
             'auditor_id' => $request->auditor_id,
             'auditor2_id' => $request->auditor2_id,
@@ -133,22 +132,37 @@ class DataInstrumentController extends Controller
         // })
         //     ->get();
 
+        
+        $userAuditor = Auditor::all();
+
+        $countAuditor=DataInstrument::where('status', 'Selesai')
+        ->where('auditor_id', [$userAuditor])
+        ->orWhere('auditor2_id', [$userAuditor])
+        ->where('status', 'Selesai')
+        ->count();
+
+        // $categoryUnit = CategoryUnit::all();
+
         $userAuditee = User::whereHas('roles', function ($q) {
             $q->whereIn('name', ['auditee']);
         })->get();
-        $userAuditor = Auditor::oldest('jabatan')->get();
-        $categoryUnit = CategoryUnit::all();
-        $instrument = Instrument::all();
-        // $dokumenStandar=$dataInstrument->dokumenStandar;
-        $dokumenStandar = DokumenStandar::oldest('file')->get();
+        $jurusan = Jurusan::all();
+        $programStudi = ProgramStudi::all();
+        $unit = Unit::all();
+
+        $dokumenStandar = DokumenStandar::all();
 
         return view('admin.instrumentData.form', [
             'dataInstrument' => $dataInstrument,
             'title' => $title,
             'userAuditor' => $userAuditor,
             'userAuditee' => $userAuditee,
-            'categoryUnit' => $categoryUnit,
-            'instrument' => $instrument,
+            // 'categoryUnit' => $categoryUnit,
+            // 'instrument' => $instrument,
+            'jurusan' => $jurusan,
+            'programStudi' =>$programStudi,
+            'unit' => $unit,
+            'countAuditor' => $countAuditor,
             'dokumenStandar' => $dokumenStandar
         ]);
     }
@@ -288,18 +302,23 @@ class DataInstrumentController extends Controller
 
     public function getAuditor(Request $request)
     {
-        $jurusan_id = $request->input('jurusan_id');
-        $program_studi_id = $request->input('program_studi_id');
+        $jurusanId = $request->input('jurusan_id');
+        $programStudiId = $request->input('program_studi_id');
         $unit_id = $request->input('unit_id');
 
-        $auditor = Auditor::whereDoesntHave('jurusan', function ($query) use ($jurusan_id) {
-            $query->where('id', $jurusan_id);
-        })->whereDoesntHave('programStudi', function ($query) use ($program_studi_id) {
-            $query->where('id', $program_studi_id);
-        })->whereDoesntHave('unit', function ($query) use ($unit_id) {
-            $query->where('id', $unit_id);
+        $auditor = Auditor::where(function ($query) use ($jurusanId, $programStudiId) {
+            $query->where('jurusan_id', '<>', $jurusanId)
+                ->orWhere('program_studi_id', '<>', $programStudiId);
         })->get();
-    
         return response()->json($auditor);
+    }
+
+    public function countAuditor($auditorId)
+    {
+        $countAuditor=DataInstrument::where('auditor_id', $auditorId)
+        ->where('status', 'Selesai')
+        ->count();
+
+        return response()->json($countAuditor) ?? 0;
     }
 }

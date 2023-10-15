@@ -114,6 +114,15 @@
                     <span>Evaluasi Diri</span>
                 </a>
             </li>
+
+            <li class="sidebar-title"> Report</li>
+
+            <li class="sidebar-item {{ request()->is('menu-auditee/report-ami*') ? 'active' : '' }}">
+                <a href="{{ route('menu-auditee.report-ami') }}" class='sidebar-link'>
+                    <i class="bi bi-filetype-doc"></i>
+                    <span>Audit Mutu Internal</span>
+                </a>
+            </li>
         @endrole
 
         @role('auditor')

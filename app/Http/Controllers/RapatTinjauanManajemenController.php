@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\AuditLapangan;
 use App\Models\DataInstrument;
 use App\Models\RisalahRapat;
+use App\Models\TinjauanPengendalian;
 use App\Models\Topic;
 use Illuminate\Http\Request;
 use PDF;
@@ -105,15 +106,15 @@ class RapatTinjauanManajemenController extends Controller
         $topic = Topic::where('risalah_rapat_id', $risalahRapat->id)->get();
 
 
-        $auditLapangan=AuditLapangan::with(['auditDokumen.evaluasiDiri.instrument'])
-        ->whereHas('auditDokumen.evaluasiDiri.instrument', function($q){
+        $tinjauanPengendalian=TinjauanPengendalian::with(['auditLapangan.auditDokumen.evaluasiDiri.instrument'])
+        ->whereHas('auditLapangan.auditDokumen.evaluasiDiri.instrument', function($q){
             $q->whereIn('status_ketercapaian', ['Tidak Tercapai']);
         })->get();
         return view('rtm.topic.form', [
             'title' => $title,
             'risalahRapat' => $risalahRapat,
             'topic' => $topic,
-            'auditLapangan' => $auditLapangan
+            'tinjauanPengendalian' => $tinjauanPengendalian
         ]);
         // $topic=Topic::where('')
     }

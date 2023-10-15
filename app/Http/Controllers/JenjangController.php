@@ -58,11 +58,12 @@ class JenjangController extends Controller
      */
     public function edit($id)
     {
-        Jenjang::find($id);
+        $jenjang=Jenjang::find($id);
         $title='Jenjang Program Studi';
 
         return view('jenjang.form',[
             'title' => $title,
+            'jenjang' => $jenjang
         ]);
     }
 

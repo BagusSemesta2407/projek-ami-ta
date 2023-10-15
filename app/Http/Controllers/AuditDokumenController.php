@@ -26,8 +26,8 @@ class AuditDokumenController extends Controller
 
         $dataInstrument = DataInstrument::with(['categoryUnit', 'auditor', 'auditor2'])
             ->where('status', 'Sudah Di Jawab Auditee')
-            ->where('auditor_id', $auditor->id)
-            ->orWhere('auditor2_id', $auditor->id)
+            ->where('auditor_id', @$auditor->id)
+            ->orWhere('auditor2_id', @$auditor->id)
             ->get();
 
         return view('auditDokumen.index', [

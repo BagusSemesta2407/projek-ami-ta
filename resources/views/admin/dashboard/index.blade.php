@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('content')
-    @role('admin')
+    @role('admin|P4MP')
         <div class="page-content">
             <section class="row">
                 <div class="col-12 col-lg-9">
@@ -148,32 +148,280 @@
                                     </div>
                                 </div>
                             @endforeach
-                            {{-- <div class="recent-message d-flex px-4 py-3">
-                            <div class="avatar avatar-lg">
-                                <img src="{{ asset('assets/images/faces/5.jpg') }}">
-                            </div>
-                            <div class="name ms-4">
-                                <h5 class="mb-1">Dean Winchester</h5>
-                                <h6 class="text-muted mb-0">@imdean</h6>
-                            </div>
-                        </div>
-                        <div class="recent-message d-flex px-4 py-3">
-                            <div class="avatar avatar-lg">
-                                <img src="{{ asset('assets/images/faces/1.jpg') }}">
-                            </div>
-                            <div class="name ms-4">
-                                <h5 class="mb-1">John Dodol</h5>
-                                <h6 class="text-muted mb-0">@dodoljohn</h6>
-                            </div>
-                        </div> --}}
-                            {{-- <div class="px-4">
-                        <button class='btn btn-block btn-xl btn-light-primary font-bold mt-3'>Start
-                            Conversation</button>
-                    </div> --}}
                         </div>
                     </div>
                 </div>
             </section>
+        </div>
+    @endrole
+    @role('auditee')
+        <div class="card">
+            <div class="card-header">
+                Data Instrument
+
+            </div>
+
+            <div class="card-body">
+                <table class="table" id="table1">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Auditee</th>
+                            <th>Akun Auditee</th>
+                            <th>Auditor 1</th>
+                            <th>Auditor 2</th>
+                            <th>Tahun</th>
+                            <th>Dokumen Standar</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (@$listDataInstrument as $item)
+                            <tr>
+                                <td>
+                                    {{ $loop->iteration }}
+                                </td>
+
+                                <td>
+                                    @if ($item->kategori_audit == 'Unit')
+                                        {{ $item->unit->name }}
+                                    @elseif ($item->kategori_audit == 'Program Studi')
+                                        {{ $item->programStudi->name }}
+                                    @else
+                                        {{ $item->jurusan->name }}
+                                    @endif
+                                </td>
+                                <td>
+                                    {{ @$item->auditee->email }}
+                                </td>
+                                <td>
+                                    {{ @$item->auditor->user->name }}
+                                </td>
+                                <td>
+                                    {{ @$item->auditor2->user->name }}
+                                </td>
+
+                                <td>
+                                    {{ \Carbon\Carbon::parse($item->tanggal_audit)->translatedFormat('d F Y') }}
+                                </td>
+
+                                <td>
+                                    {{-- @if ($item->dokumenStandar)
+                                    @foreach ($item->dokumenStandar as $items)
+                                        <a href="{{ asset('storage/public/file/dokumenStandar/' . $items) }}">
+                                            <div class="d-flex">
+                                                <i class="bi bi-filetype-docx"></i>
+                                                <option value="{{ $items }}">{{ $items }}</option>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                @endif --}}
+                                    <a href="#" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModalLong{{ $loop->index }}"><i>Klik
+                                            Disini</i></a>
+                                    <div class="modal fade" id="exampleModalLong{{ $loop->index }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Dokumen Standar
+                                                    </h5>
+                                                    <button type="button" class="close" data-bs-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <i data-feather="x"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @if ($item->dokumenStandar)
+                                                        @foreach ($item->dokumenStandar as $items)
+                                                            <a
+                                                                href="{{ asset('storage/public/file/dokumenStandar/' . $items) }}">
+                                                                <div class="d-flex">
+                                                                    <span class="badge bg-light-secondary"><i
+                                                                            class="bi bi-filetype-docx"></i></span>
+                                                                    <option value="{{ $items }}">
+                                                                        {{ $items }}</option>
+                                                                </div>
+                                                            </a>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                                        <span class="d-none d-sm-block">Close</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="badges">
+                                    @if ($item->status == 'On Progress')
+                                        <span class="badge bg-secondary">On Progress</span>
+                                    @elseif ($item->status == 'Sudah Di Jawab Auditee')
+                                        <span class="badge bg-info">Audit Dokumen</span>
+                                    @elseif ($item->status == 'Audit Dokumen')
+                                        <span class="badge bg-warning">Audit Dokumen</span>
+                                    @elseif ($item->status == 'Audit Lapangan')
+                                        <span class="badge bg-warning">Audit Lapangan</span>
+                                    @elseif ($item->status == 'Selesai')
+                                        <span class="badge bg-success">
+                                            Selesai
+                                        </span>
+                                    @elseif ($item->status == 'Menunggu Konfirmasi Kepala P4MP')
+                                        <span class="badge bg-primary">
+                                            Menunggu Konfirmasi Kepala P4MP
+                                        </span>
+                                    @else
+                                        <span class="badge bg-danger">
+                                            Data AMI Ditolak
+                                        </span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    @endrole
+    @role('auditor')
+        <div class="card">
+            <div class="card-header">
+                Data Instrument
+
+            </div>
+
+            <div class="card-body">
+                <table class="table" id="table1">
+                    <thead>
+                        <tr>
+                            <th>No</th>
+                            <th>Auditee</th>
+                            <th>Akun Auditee</th>
+                            <th>Auditor 1</th>
+                            <th>Auditor 2</th>
+                            <th>Tahun</th>
+                            <th>Dokumen Standar</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @foreach (@$listDataInstrument as $item)
+                            <tr>
+                                <td>
+                                    {{ $loop->iteration }}
+                                </td>
+
+                                <td>
+                                    @if ($item->kategori_audit == 'Unit')
+                                        {{ $item->unit->name }}
+                                    @elseif ($item->kategori_audit == 'Program Studi')
+                                        {{ $item->programStudi->name }}
+                                    @else
+                                        {{ $item->jurusan->name }}
+                                    @endif
+                                </td>
+                                <td>
+                                    {{ @$item->auditee->email }}
+                                </td>
+                                <td>
+                                    {{ @$item->auditor->user->name }}
+                                </td>
+                                <td>
+                                    {{ @$item->auditor2->user->name }}
+                                </td>
+
+                                <td>
+                                    {{ \Carbon\Carbon::parse($item->tanggal_audit)->translatedFormat('d F Y') }}
+                                </td>
+
+                                <td>
+                                    {{-- @if ($item->dokumenStandar)
+                                    @foreach ($item->dokumenStandar as $items)
+                                        <a href="{{ asset('storage/public/file/dokumenStandar/' . $items) }}">
+                                            <div class="d-flex">
+                                                <i class="bi bi-filetype-docx"></i>
+                                                <option value="{{ $items }}">{{ $items }}</option>
+                                            </div>
+                                        </a>
+                                    @endforeach
+                                @endif --}}
+                                    <a href="#" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModalLong{{ $loop->index }}"><i>Klik
+                                            Disini</i></a>
+                                    <div class="modal fade" id="exampleModalLong{{ $loop->index }}" tabindex="-1"
+                                        role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title" id="exampleModalLongTitle">Dokumen Standar
+                                                    </h5>
+                                                    <button type="button" class="close" data-bs-dismiss="modal"
+                                                        aria-label="Close">
+                                                        <i data-feather="x"></i>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    @if ($item->dokumenStandar)
+                                                        @foreach ($item->dokumenStandar as $items)
+                                                            <a
+                                                                href="{{ asset('storage/public/file/dokumenStandar/' . $items) }}">
+                                                                <div class="d-flex">
+                                                                    <span class="badge bg-light-secondary"><i
+                                                                            class="bi bi-filetype-docx"></i></span>
+                                                                    <option value="{{ $items }}">
+                                                                        {{ $items }}</option>
+                                                                </div>
+                                                            </a>
+                                                        @endforeach
+                                                    @endif
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-light-secondary"
+                                                        data-bs-dismiss="modal">
+                                                        <i class="bx bx-x d-block d-sm-none"></i>
+                                                        <span class="d-none d-sm-block">Close</span>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+
+                                <td class="badges">
+                                    @if ($item->status == 'On Progress')
+                                        <span class="badge bg-secondary">On Progress</span>
+                                    @elseif ($item->status == 'Sudah Di Jawab Auditee')
+                                        <span class="badge bg-info">Audit Dokumen</span>
+                                    @elseif ($item->status == 'Audit Dokumen')
+                                        <span class="badge bg-warning">Audit Dokumen</span>
+                                    @elseif ($item->status == 'Audit Lapangan')
+                                        <span class="badge bg-warning">Audit Lapangan</span>
+                                    @elseif ($item->status == 'Selesai')
+                                        <span class="badge bg-success">
+                                            Selesai
+                                        </span>
+                                    @elseif ($item->status == 'Menunggu Konfirmasi Kepala P4MP')
+                                        <span class="badge bg-primary">
+                                            Menunggu Konfirmasi Kepala P4MP
+                                        </span>
+                                    @else
+                                        <span class="badge bg-danger">
+                                            Data AMI Ditolak
+                                        </span>
+                                    @endif
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     @endrole
 @endsection
